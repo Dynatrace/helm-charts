@@ -1,0 +1,58 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
+  annotations:
+    kubernetes-engine.cloud.google.com/icon: data:image/png;base64,{{ .Files.Get "logo.png" | b64enc }}
+spec:
+  descriptor:
+    type: "Dynatrace OneAgent Operator"
+    version: "0.1.0"
+    maintainers:
+      - name: Dynatrace LLC
+        url: https://www.dynatrace.com/
+    keywords:
+      - "dynatrace"
+      - "operator"
+      - "oneagent"
+      - "k8s"
+      - "monitoring"
+      - "apm"
+    description: |
+      The Dynatrace OneAgent Operator allows users to easily deploy full-stack monitoring for [Kubernetes clusters](https://www.dynatrace.com/technologies/kubernetes-monitoring/). The Dynatrace OneAgent automatically monitors workloads in containers down to the code and request level.
+      
+      For deployment instructions please consult the [Operator Deploy Guide](https://www.dynatrace.com/support/help/shortlink/kubernetes-deploy).
+    links:
+      - description: Dynatrace Website
+        url: https://www.dynatrace.com/
+      - description: Operator Deploy Guide
+        url: https://www.dynatrace.com/support/help/shortlink/kubernetes-deploy
+      - description: Kubernetes Monitoring Info
+        url: https://www.dynatrace.com/technologies/kubernetes-monitoring
+
+    links:
+      - description: Dynatrace Website
+        url: https://www.dynatrace.com/
+      - description: Operator Deploy Guide
+        url: https://www.dynatrace.com/support/help/shortlink/kubernetes-deploy
+      - description: Kubernetes Monitoring Info
+        url: https://www.dynatrace.com/technologies/kubernetes-monitoring
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "{{ .Release.Name }}"
+  componentKinds:
+    - group: apps/v1
+      kind: DaemonSet
+    - group: v1
+      kind: Pod
+    - group: v1
+      kind: ConfigMap
+    - group: apps/v1
+      kind: Deployment
+    - group: v1
+      kind: Secret
+    - group: batch/v1
+      kind: Job

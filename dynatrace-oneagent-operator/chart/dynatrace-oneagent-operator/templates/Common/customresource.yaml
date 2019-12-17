@@ -1,0 +1,15 @@
+apiVersion: dynatrace.com/v1alpha1
+kind: OneAgent
+metadata:
+  name: {{ .Values.oneagent.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  apiUrl: {{ required "ApiUrl needs to be set!" .Values.oneagent.apiUrl}}
+  tokens: {{ .Values.secret.name }}
+  skipCertCheck: false
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+    operator: Exists
+  args:
+  - APP_LOG_CONTENT_ACCESS=1

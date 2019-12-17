@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+  name: {{ .Release.Name }}-job
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - command:
+        - "/bin/bash"
+        - "-ec"
+        - |
+          uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
+          sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
+          sed "s/##UID##/${uid}/g" /objects/psp-oneagent.yaml | kubectl apply -f -
+          sed "s/##UID##/${uid}/g" /objects/crd.yaml | kubectl apply -f -
+          sleep 5
+          sed "s/##UID##/${uid}/g" /objects/oneagent.yaml | kubectl apply -f -
+        image: {{ .Values.deployerHelm.image }}
+        imagePullPolicy: Always
+        name: objects-create
+        volumeMounts:
+        - name: object-configmap
+          mountPath: /objects/
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      serviceAccountName: {{ .Values.configurationServiceAccount }}
+      volumes:
+      - name: object-configmap
+        configMap:
+          name: {{ .Release.Name }}-configmap

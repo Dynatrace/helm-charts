@@ -1,0 +1,227 @@
+applicationApiVersion: v1beta1
+
+properties:
+  name:
+    type: string
+    x-google-marketplace:
+      type: NAME
+  namespace:
+    type: string
+    x-google-marketplace:
+      type: NAMESPACE
+  oneagent.apiUrl:
+    type: string
+    description: The Dynatrace api url including `/api` path at the end
+    title: API URL
+  secret.apiToken:
+    type: string
+    description: The API token from your Dynatrace environment
+    title: API Token
+    x-google-marketplace:
+      type: MASKED_FIELD
+  secret.paasToken:
+    type: string
+    description: The PaaS token from your Dynatrace environment
+    title: PaaS Token
+    x-google-marketplace:
+      type: MASKED_FIELD
+  operator.image:
+    type: string
+    title: Operator image
+    description: The image of the oneagent operator
+  oneagent.name:
+    type: string
+    default: oneagent
+    description: The name of the oneagent custom resource
+    title: Custom Resource Name
+  secret.name:
+    type: string
+    default: oneagent
+    description: The name of secret holding `apiToken` and `paasToken`
+    title: Secret Name
+  deployerHelm.image:
+    type: string
+    x-google-marketplace:
+      type: DEPLOYER_IMAGE
+  operatorServiceAccount:
+    type: string
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - "" # "" indicates the core API group
+                resources:
+                  - nodes
+                verbs:
+                  - get
+                  - list
+                  - watch
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - oneagents
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - update
+              - apiGroups:
+                  - apps
+                resources:
+                  - daemonsets
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - create
+                  - update
+                  - delete
+              - apiGroups:
+                  - "" # "" indicates the core API group
+                resources:
+                  - configmaps
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - create
+                  - update
+                  - delete
+              - apiGroups:
+                  - "" # "" indicates the core API group
+                resources:
+                  - configmaps
+                  - pods
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - delete
+              - apiGroups:
+                  - "" # "" indicates the core API group
+                resources:
+                  - secrets
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - monitoring.coreos.com
+                resources:
+                  - servicemonitors
+                verbs:
+                  - get
+                  - create
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - oneagents/finalizers
+                  - oneagents/status
+                verbs:
+                  - update
+              - apiGroups:
+                  - networking.istio.io
+                resources:
+                  - serviceentries
+                  - virtualservices
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - update
+                  - delete
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-oneagent-operator
+                verbs:
+                  - use
+  oneagentServiceAccount:
+    type: string
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-oneagent
+                verbs:
+                  - use
+  configurationServiceAccount:
+    type: string
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups: 
+                - dynatrace.com
+                resources: 
+                - oneagents
+                verbs:
+                - get
+                - list
+                - create
+                - patch
+              - apiGroups: 
+                - policy
+                resources:
+                - podsecuritypolicies
+                verbs: 
+                - get
+                - list
+                - create
+                - patch
+              - apiGroups:
+                - apiextensions.k8s.io
+                resources: 
+                - customresourcedefinitions
+                verbs: 
+                - get
+                - list
+                - create
+                - patch
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - oneagents
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - update
+                  - patch
+              - apiGroups:
+                  - app.k8s.io
+                resources:
+                  - applications
+                verbs:
+                  - get
+                  - list
+
+required:
+  - name
+  - namespace
+  - oneagent.apiUrl
+  - secret.apiToken
+  - secret.paasToken
+  - operatorServiceAccount
+  - oneagentServiceAccount
+  - configurationServiceAccount
