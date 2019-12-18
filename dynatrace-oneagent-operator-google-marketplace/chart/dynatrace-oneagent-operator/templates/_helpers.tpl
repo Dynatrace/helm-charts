@@ -62,6 +62,6 @@ Check if default image is used
 {{- if .Values.operator.image -}}
 	{{- printf "%s" .Values.operator.image -}}    
 {{- else -}}
-	{{- printf "%s:%s" "gcr.io/dynatrace-marketplace-dev/dynatrace-oneagent-operator" "snapshot" }}
+	{{- printf "%s:v%s" "gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator" "{{ .Chart.AppVersion }}" }}
 {{- end -}}
 {{- end -}}
