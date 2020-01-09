@@ -17,6 +17,7 @@ applicationApiVersion: v1beta1
 properties:
   name:
     type: string
+    default: dynatrace-oneagent-operator
     x-google-marketplace:
       type: NAME
   namespace:
