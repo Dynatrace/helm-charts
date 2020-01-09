@@ -14,7 +14,7 @@ To install the Dynatrace OneAgent Operator run this command and replace the toke
 
 ```
 mpdev /scripts/install \
---deployer=gcr.io/dynatrace-marketplace-dev/dynatrace-oneagent-operator/deployer:latest \
+--deployer=gcr.io/cloud-marketplace/dynatrace-marketplace-prod/dynatrace-oneagent-operator/deployer \
 --parameters='{ \
 "name": "dynatrace-oneagent-operator", \
 "namespace": "dynatrace", \
