@@ -14,7 +14,7 @@
 
 apiVersion: v1
 name: dynatrace-oneagent-operator
-description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Openshift
+description: The Dynatrace OneAgent Operator Helm chart for Google Kubernetes Engine
 type: application
 version: 0.5
 appVersion: 0.5
