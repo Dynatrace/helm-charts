@@ -17,4 +17,4 @@ name: dynatrace-oneagent-operator
 description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Openshift
 type: application
 version: 0.1.0
-appVersion: 0.5.3
+appVersion: 0.5.4
