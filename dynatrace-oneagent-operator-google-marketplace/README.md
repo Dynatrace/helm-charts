@@ -10,6 +10,13 @@ Generate an API and a PaaS token in your Dynatrace environment.
 
 https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-need-an-environment-id/#create-user-generated-access-tokens
 
+The Dynatrace OneAgent Operator acts on its separate namespace `dynatrace`.
+To create this namespace run the following command:
+
+```
+kubectl create namespace dynatrace
+```
+
 To install the Dynatrace OneAgent Operator run this command and replace the tokens and the apiUrl inside:
 
 ```
