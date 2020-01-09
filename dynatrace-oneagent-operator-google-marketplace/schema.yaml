@@ -43,7 +43,7 @@ properties:
     type: string
     title: Operator image
     description: The image of the oneagent operator
-    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:v0.5.3
+    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:0.5
     x-google-marketplace:
       type: IMAGE
   oneagent.name:
@@ -62,6 +62,7 @@ properties:
       type: DEPLOYER_IMAGE
   operatorServiceAccount:
     type: string
+    title: Service account used by the Dynatrace OneAgent Operator
     x-google-marketplace:
       type: SERVICE_ACCOUNT
       serviceAccount:
@@ -164,6 +165,7 @@ properties:
                   - use
   oneagentServiceAccount:
     type: string
+    title: Service account used by the Dynatrace OneAgent
     x-google-marketplace:
       type: SERVICE_ACCOUNT
       serviceAccount:
@@ -181,6 +183,7 @@ properties:
                   - use
   configurationServiceAccount:
     type: string
+    title: Service account used to configure the Dynatrace OneAgent Operator
     x-google-marketplace:
       type: SERVICE_ACCOUNT
       serviceAccount:
