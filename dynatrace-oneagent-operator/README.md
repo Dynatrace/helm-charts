@@ -15,6 +15,15 @@ From here on Dynatrace OneAgent Operator controls the lifecycle and keeps track 
 ![Overview](./overview.svg)
 
 
+## Supported platforms
+
+Depending of the version of the Dynatrace OneAgent Operator, it supports the following platforms:
+
+| Dynatrace OneAgent Operator Helm Chart version | Kubernetes | OpenShift Container Platform |
+| ---------------------------------------------- | ---------- | ---------------------------- |
+| v0.5.4                                         | 1.11+      | 3.11+                        |
+
+
 ## Quick Start
 
 The Dynatrace OneAgent Operator acts on its separate namespace `dynatrace`.
@@ -24,24 +33,52 @@ To install the Dynatrace OneAgent Operator via Helm run the following command:
 
 ### Adding Dynatrace OneAgent Helm repository
 ```
-helm repo add dynatrace https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-oneagent-operator/stable
+helm repo add dynatrace https://github.com/Dynatrace/helm-charts/repos/stable
 ```
 
 
 #### Kubernetes
 ```
 kubectl create namespace dynatrace
-helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform=kubernetes,oneagent.apiUrl=https://ENVIRONMENTID.live.dynatrace.com/api,secret.apiToken=DYNATRACE_API_TOKEN,secret.paasToken=PLATFORM_AS_A_SERVICE_TOKEN
+helm install \
+    --name=dynatrace-oneagent-operator \
+    dynatrace/dynatrace-oneagent-operator \
+    -n dynatrace \
+    --set platform=kubernetes, \
+    oneagent.apiUrl=https://ENVIRONMENTID.live.dynatrace.com/api, \
+    secret.apiToken=DYNATRACE_API_TOKEN, \
+    secret.paasToken=PLATFORM_AS_A_SERVICE_TOKEN
 ```
 
 #### OpenShift
 ```
 oc adm new-project --node-selector="" dynatrace
-helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform=openshift,oneagent.apiUrl=https://ENVIRONMENTID.live.dynatrace.com/api,secret.apiToken=DYNATRACE_API_TOKEN,secret.paasToken=PLATFORM_AS_A_SERVICE_TOKEN
+helm install \
+    --name=dynatrace-oneagent-operator \
+    dynatrace/dynatrace-oneagent-operator \
+    -n dynatrace \
+    --set platform=openshift, \
+    oneagent.apiUrl=https://ENVIRONMENTID.live.dynatrace.com/api, \
+    secret.apiToken=DYNATRACE_API_TOKEN, \
+    secret.paasToken=PLATFORM_AS_A_SERVICE_TOKEN
 ```
 
 This will automatically install the Dynatrace OneAgent Operator and create OneAgents for every of your nodes.
 
+## Update procedure
+
+To update simply update your helm repositories and check the latest version
+
+```
+helm repo update
+helm search repo dynatrace-oneagent-operator
+```
+
+To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
+
+```
+helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --reuse-values
+```
 
 ## Uninstall dynatrace-oneagent-operator
 Remove OneAgent custom resources and clean-up all remaining OneAgent Operator specific objects:
