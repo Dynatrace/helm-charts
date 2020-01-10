@@ -11,6 +11,7 @@ Dynatrace OneAgent Operator is based on [Operator SDK](https://github.com/operat
 It watches custom resources `OneAgent` and monitors the desired state constantly.
 The rollout of the Dynatrace OneAgent is managed by a DaemonSet initially.
 From here on the Dynatrace OneAgent Operator controls the lifecycle and keeps track of new versions and triggers updates if required.
+The Dynatrace OneAgent Operator's Helm Chart will also roll out the actual OneAgent automatically during installation.
 
 ![Overview](./overview.svg)
 
@@ -71,6 +72,11 @@ To update simply update your helm repositories and check the latest version
 
 ```
 $ helm repo update
+```
+
+You can then check for the latest version by searching your Helm repositories for the Dynatrace OneAgent Operator
+
+```
 $ helm search repo dynatrace-oneagent-operator
 ```
 
@@ -90,4 +96,4 @@ $ helm uninstall dynatrace-oneagent-operator -n dynatrace
 
 ## License
 
-Dynatrace OneAgent Operator is under Apache 2.0 license. See [LICENSE](../LICENSE) for details.
+Dynatrace OneAgent Operator Helm Chart is under Apache 2.0 license. See [LICENSE](../LICENSE) for details.
