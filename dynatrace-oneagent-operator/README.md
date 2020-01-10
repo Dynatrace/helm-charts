@@ -33,14 +33,14 @@ To install the Dynatrace OneAgent Operator via Helm run the following command:
 
 ### Adding Dynatrace OneAgent Helm repository
 ```
-helm repo add dynatrace https://github.com/Dynatrace/helm-charts/repos/stable
+$ helm repo add dynatrace https://github.com/Dynatrace/helm-charts/repos/stable
 ```
 
 
 #### Kubernetes
 ```
-kubectl create namespace dynatrace
-helm install \
+$ kubectl create namespace dynatrace
+$ helm install \
     --name=dynatrace-oneagent-operator \
     dynatrace/dynatrace-oneagent-operator \
     -n dynatrace \
@@ -52,8 +52,8 @@ helm install \
 
 #### OpenShift
 ```
-oc adm new-project --node-selector="" dynatrace
-helm install \
+$ oc adm new-project --node-selector="" dynatrace
+$ helm install \
     --name=dynatrace-oneagent-operator \
     dynatrace/dynatrace-oneagent-operator \
     -n dynatrace \
@@ -70,14 +70,14 @@ This will automatically install the Dynatrace OneAgent Operator and create OneAg
 To update simply update your helm repositories and check the latest version
 
 ```
-helm repo update
-helm search repo dynatrace-oneagent-operator
+$ helm repo update
+$ helm search repo dynatrace-oneagent-operator
 ```
 
 To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
 
 ```
-helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --reuse-values
+$ helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --reuse-values
 ```
 
 ## Uninstall dynatrace-oneagent-operator
@@ -85,7 +85,7 @@ Remove OneAgent custom resources and clean-up all remaining OneAgent Operator sp
 
 
 ```sh
-helm uninstall dynatrace-oneagent-operator -n dynatrace
+$ helm uninstall dynatrace-oneagent-operator -n dynatrace
 ```
 
 ## License
