@@ -41,27 +41,13 @@ $ helm repo add dynatrace https://github.com/Dynatrace/helm-charts/repos/stable
 #### Kubernetes
 ```
 $ kubectl create namespace dynatrace
-$ helm install \
-    --name=dynatrace-oneagent-operator \
-    dynatrace/dynatrace-oneagent-operator \
-    -n dynatrace \
-    --set platform=kubernetes, \
-    oneagent.apiUrl=https://ENVIRONMENTID.live.dynatrace.com/api, \
-    secret.apiToken=DYNATRACE_API_TOKEN, \
-    secret.paasToken=PLATFORM_AS_A_SERVICE_TOKEN
+$ helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform="kubernetes",oneagent.apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",secret.apiToken="DYNATRACE_API_TOKEN",secret.paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 #### OpenShift
 ```
 $ oc adm new-project --node-selector="" dynatrace
-$ helm install \
-    --name=dynatrace-oneagent-operator \
-    dynatrace/dynatrace-oneagent-operator \
-    -n dynatrace \
-    --set platform=openshift, \
-    oneagent.apiUrl=https://ENVIRONMENTID.live.dynatrace.com/api, \
-    secret.apiToken=DYNATRACE_API_TOKEN, \
-    secret.paasToken=PLATFORM_AS_A_SERVICE_TOKEN
+$ helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform="openshift",oneagent.apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",secret.apiToken="DYNATRACE_API_TOKEN",secret.paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 This will automatically install the Dynatrace OneAgent Operator and create OneAgents for every of your nodes.
