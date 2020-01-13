@@ -34,9 +34,16 @@ To install the Dynatrace OneAgent Operator via Helm run the following command:
 
 ### Adding Dynatrace OneAgent Helm repository
 ```
-$ helm repo add dynatrace https://github.com/Dynatrace/helm-charts/repos/stable
+$ helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/helm-charts/master/repos/stable
 ```
 
+### Prepare tokens
+
+Generate an API and a PaaS token in your Dynatrace environment.
+
+https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-need-an-environment-id/#create-user-generated-access-tokens
+
+To install the Dynatrace OneAgent Operator replace the APIUrl, the API token and the PaaS token in command and execute it
 
 #### Kubernetes
 ```
