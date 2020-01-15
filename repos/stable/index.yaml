@@ -6,7 +6,11 @@ entries:
     created: "2020-01-13T13:47:27.362445+01:00"
     description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Openshift
     digest: c72e5e43f4549198f9a452f5d72fcce01e0f4ec9f12823e64560a3faeab5ac15
+    icon: https://assets.dynatrace.com/global/resources/Signet_Logo_RGB_CP_512x512px.png
     name: dynatrace-oneagent-operator
+    maintainers:
+      - email: support@dynatrace.com
+        name: Dynatrace LLC
     type: application
     urls:
     - https://raw.githubusercontent.com/Dynatrace/helm-charts/master/repos/stable/dynatrace-oneagent-operator-0.5.4.tgz
