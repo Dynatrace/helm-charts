@@ -21,7 +21,7 @@ spec:
   apiUrl: {{ required "ApiUrl needs to be set!" .Values.oneagent.apiUrl}}
   tokens: {{ .Values.secret.name }}
   skipCertCheck: false
-  image: {{ .Values.oneagent.image }}
+  image: {{ include "dynatrace-oneagent.image" . }}
   tolerations:
   - effect: NoSchedule
     key: node-role.kubernetes.io/master
