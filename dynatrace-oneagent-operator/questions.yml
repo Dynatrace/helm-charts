@@ -52,7 +52,7 @@ questions:
 
 - variable: oneagent.image
   label: "Custom OneAgent image location"
-  description: "The location from where to grab the Dynatrace OneAgent image - default for Kubernetes is docker.io/dynatrace/oneagent - default for OpenShift is registry.connect.redhat.com/dynatrace/oneagent"
+  description: "The location from where to grab the Dynatrace OneAgent image - default for Kubernetes is docker.io/dynatrace/oneagent"
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
