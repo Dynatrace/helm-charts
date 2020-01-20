@@ -64,17 +64,28 @@ Check if platform is set
 {{- end -}}
 
 {{/*
-Check if default image is used    
+Check if default oneagent image is used    
+*/}}
+{{- define "dynatrace-oneagent.image" -}}
+{{- if .Values.oneagent.image -}}
+    {{- printf "%s" .Values.oneagent.image -}}    
+{{- else -}}
+    {{- if eq .Values.platform "kubernetes" -}}
+        {{- printf "docker.io/dynatrace/oneagent" }}
+    {{- end -}}
+    {{- if eq .Values.platform "openshift" -}}
+        {{- printf "registry.connect.redhat.com/dynatrace/oneagent" }}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Check if default operator image is used    
 */}}
 {{- define "dynatrace-oneagent-operator.image" -}}
 {{- if .Values.operator.image -}}
     {{- printf "%s" .Values.operator.image -}}    
 {{- else -}}
-    {{- if eq .Values.platform "kubernetes" -}}
-        {{- printf "%s:v%s" "quay.io/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
-    {{- end -}}
-    {{- if eq .Values.platform "openshift" -}}
-        {{- printf "%s:v%s" "registry.connect.redhat.com/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
-    {{- end -}}
+    {{- printf "%s:v%s" "quay.io/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
 {{- end -}}
 {{- end -}}
