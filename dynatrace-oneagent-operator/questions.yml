@@ -3,12 +3,6 @@ categories:
 - Monitoring
 questions:
 
-#################### Platform setting (hidden) ####################
-- variable: platform
-  default: "kubernetes"
-  type: string
-  show_if: false
-
 #################### Agent Configuration (REQUIRED) ####################
 - variable: oneagent.apiUrl
   label: "Dynatrace API URL"
