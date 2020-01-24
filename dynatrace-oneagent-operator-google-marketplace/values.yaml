@@ -13,19 +13,19 @@
 # limitations under the License.
 
 operator:
-  image:
-    
+  image: ""
+
 oneagent:
   name: "oneagent"
-  apiUrl:
+  apiUrl: ""
 
 secret:
   name: "oneagent"
-  apiToken:
-  paasToken:
+  apiToken: ""
+  paasToken: ""
 
 deployerHelm:
-  image:
+  image: ""
 
 operatorServiceAccount: null
 oneagentServiceAccount: null
