@@ -51,7 +51,7 @@ questions:
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
   show_if: "show_advanced_config=true"
-  
+
 - variable: oneagent.name
   label: "OneAgent CustomResource name"
   default: "oneagent"

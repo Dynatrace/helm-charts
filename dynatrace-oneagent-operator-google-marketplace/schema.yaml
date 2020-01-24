@@ -191,29 +191,29 @@ properties:
           - type: ClusterRole
             rulesType: CUSTOM
             rules:
-              - apiGroups: 
+              - apiGroups:
                 - dynatrace.com
-                resources: 
+                resources:
                 - oneagents
                 verbs:
                 - get
                 - list
                 - create
                 - patch
-              - apiGroups: 
+              - apiGroups:
                 - policy
                 resources:
                 - podsecuritypolicies
-                verbs: 
+                verbs:
                 - get
                 - list
                 - create
                 - patch
               - apiGroups:
                 - apiextensions.k8s.io
-                resources: 
+                resources:
                 - customresourcedefinitions
-                verbs: 
+                verbs:
                 - get
                 - list
                 - create

@@ -37,7 +37,7 @@ spec:
       - "apm"
     description: |
       The Dynatrace OneAgent Operator allows users to easily deploy full-stack monitoring for [Kubernetes clusters](https://www.dynatrace.com/technologies/kubernetes-monitoring/). The Dynatrace OneAgent automatically monitors workloads in containers down to the code and request level.
-      
+
       For deployment instructions please consult the [Operator Deploy Guide](https://www.dynatrace.com/support/help/shortlink/kubernetes-deploy).
     links:
       - description: Dynatrace Website
