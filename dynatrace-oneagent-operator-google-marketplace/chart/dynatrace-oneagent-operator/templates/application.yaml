@@ -21,10 +21,11 @@ metadata:
     {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
   annotations:
     kubernetes-engine.cloud.google.com/icon: data:image/png;base64,{{ .Files.Get "logo.png" | b64enc }}
+    marketplace.cloud.google.com/deploy-info: '{"partner_id": "dynatrace-marketplace-prod", "product_id": "dynatrace-oneagent-operator", "partner_name": "Dynatrace LLC"}'
 spec:
   descriptor:
     type: "Dynatrace OneAgent Operator"
-    version: "0.5.4"
+    version: "0.6.0"
     maintainers:
       - name: Dynatrace LLC
         url: https://www.dynatrace.com/

@@ -36,8 +36,6 @@ spec:
       containers:
         - name: {{ .Release.Name }}
           image: {{ include "dynatrace-oneagent-operator.image" . }}
-          command:
-            - dynatrace-oneagent-operator
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
