@@ -43,7 +43,7 @@ properties:
     type: string
     title: Operator image
     description: The image of the oneagent operator
-    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:0.5
+    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:0.6
     x-google-marketplace:
       type: IMAGE
   oneagent.name:
