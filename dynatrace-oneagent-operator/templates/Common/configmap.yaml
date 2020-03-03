@@ -1,4 +1,4 @@
-# Copyright 2019 Dynatrace LLC
+# Copyright 2020 Dynatrace LLC
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,31 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-platform: "kubernetes"
-
-operator:
-  image: ""
-
-oneagent:
-  name: "oneagent"
-  apiUrl: ""
-  image: ""
-  args:
-    - --set-app-log-content-access=true
-  env: []
-  nodeSelector: {}
-  labels: {}
-  skipCertCheck: false
-  disableAgentUpdate: false
-  enableIstio: false
-  dnsPolicy: ""
-  resources: {}
-  waitReadySeconds: null
-  priorityClassName: ""
-  serviceAccountName: ""
-  proxy: ""
-  trustedCAs: ""
-
-secret:
-  apiToken: ""
-  paasToken: ""
+{{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-oneagent-operator.platformSet" .))}}
+{{- if .Values.oneagent.trustedCAs }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.oneagent.name }}
+  namespace: {{ .Release.Namespace }}
+data:
+  certs: |
+{{ .Values.oneagent.trustedCAs | indent 4 }}
+{{- end }}
