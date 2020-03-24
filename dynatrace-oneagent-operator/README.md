@@ -16,8 +16,13 @@ The Dynatrace OneAgent Operator's Helm Chart will also roll out the actual OneAg
 ![Overview](./overview.svg)
 
 
-## Supported platforms
+## Requirements
 
+### Helm
+
+This Helm Chart requires Helm 3.
+
+### Platforms
 Depending of the version of the Dynatrace OneAgent Operator, it supports the following platforms:
 
 | Dynatrace OneAgent Operator Helm Chart version | Kubernetes | OpenShift Container Platform |
