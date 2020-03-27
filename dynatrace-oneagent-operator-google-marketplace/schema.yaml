@@ -43,7 +43,7 @@ properties:
     type: string
     title: Operator image
     description: The image of the oneagent operator
-    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:0.6
+    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:0.7
     x-google-marketplace:
       type: IMAGE
   oneagent.name:
@@ -51,11 +51,77 @@ properties:
     default: oneagent
     description: The name of the oneagent custom resource
     title: Custom Resource Name
-  secret.name:
+  oneagent.image:
     type: string
-    default: oneagent
-    description: The name of secret holding `apiToken` and `paasToken`
-    title: Secret Name
+    description: "The location from where to grab the Dynatrace OneAgent image - default for Kubernetes is docker.io/dynatrace/oneagent"
+    title: Custom OneAgent image location
+  oneagent.args:
+    type: string
+    description: "Defines additional arguments which get passed to the OneAgent installer"
+    default: "--set-app-log-content-access=true"
+    title: "Arguments to OneAgent installer"
+  oneagent.env:
+    type: string
+    description: "Defines additional environment variables which get passed to the OneAgent"
+    default: |
+      "- name: ONEAGENT_ENABLE_VOLUME_STORAGE
+         value: "true""
+    title: "Environment variables for OneAgent"
+  oneagent.nodeSelector:
+    type: string
+    description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out"
+    title: "Node selector to control the selection of nodes"
+  oneagent.labels:
+    type: string
+    description: "Defines labels for OneAgent pods to structure workloads as desired"
+    title: "Custom labels for the OneAgent pods"
+  oneagent.skipCertCheck:
+    type: boolean
+    description: "Disable certificate validation checks for installer download and API communication"
+    default: false
+    title: "Skip certificate check"
+  oneagent.disableAgentUpdate:
+    type: boolean
+    description: "Disables automatic restarts of oneagent pods in case a new version is available"
+    default: false
+    title: "Disable automatic OneAgent updates"
+  oneagent.enableIstio:
+    type: boolean
+    description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntries objects to allow access to the Dynatrace cluster from the agent."
+    default: false
+    title: "Enable istio"
+  oneagent.dnsPolicy:
+    type: string
+    description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
+    title: "Set custom DNS Policy"
+  oneagent.resources:
+    type: string
+    description: "Defines the resources the OneAgent pods can use"
+    title: "Resource definition for the OneAgent pods"
+  oneagent.tolerations:
+    type: string
+    description: "Defines custom tolerations to the OneAgent - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
+    default: |
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+    title: "Custom tolerations for the OneAgent"
+  oneagent.waitReadySeconds:
+    type: integer
+    description: "Define the time to wait until OneAgent pod is ready after update - defaults to 300s"
+    title: "Wait seconds until ready"
+  oneagent.priorityClassName:
+    type: string
+    description: "Priority class to assign to OneAgent pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
+    title: "Assign priority class to OneAgent pods"
+  oneagent.proxy:
+    type: string
+    description: "Configures a proxy for the Agent, AgentDownload and the Operator. Either provide the proxy URL directly at 'value' or create a secret with a field 'proxy' which holds your encrypted proxy URL"
+    title: "Define a proxy"
+  oneagent.trustedCAs:
+    type: string
+    description: "Adds the provided CA certficates to the Operator and the OneAgent. Provide the name of the configmap which holds your .pem in a field called 'certs'. If this is not set the default embedded certificates on the images will be used"
+    title: "Add custom CA certificates"
   deployerHelm.image:
     type: string
     x-google-marketplace:
@@ -102,6 +168,21 @@ properties:
                   - update
                   - delete
               - apiGroups:
+                  - apps
+                resources:
+                  - replicasets
+                  - deployments
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - apps
+                resources:
+                  - deployments/finalizers
+                verbs:
+                  - update
+              - apiGroups:
                   - "" # "" indicates the core API group
                 resources:
                   - configmaps
@@ -115,7 +196,6 @@ properties:
               - apiGroups:
                   - "" # "" indicates the core API group
                 resources:
-                  - configmaps
                   - pods
                 verbs:
                   - get
