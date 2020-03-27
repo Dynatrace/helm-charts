@@ -23,8 +23,11 @@ spec:
   tokens: {{ .Values.oneagent.name }}
   image: {{ include "dynatrace-oneagent.image" . }}
 
-  {{- if .Values.oneagent.args }}
+  {{- if ne (printf "%T" .Values.oneagent.args) "string" }}
   args: {{- toYaml .Values.oneagent.args | nindent 4 }}
+  {{- else }}
+  args:
+    - --set-app-log-content-access=true
   {{- end }}
 
   {{- if .Values.oneagent.env }}
@@ -44,8 +47,13 @@ spec:
     valueFrom: {{ .Values.oneagent.name }}
   {{- end }}
 
-  {{- if .Values.oneagent.tolerations }}
+  {{- if ne (printf "%T" .Values.oneagent.tolerations) "string" }}
   tolerations: {{- toYaml .Values.oneagent.tolerations | nindent 4 }}
+  {{- else }}
+  tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+      operator: Exists
   {{- end }}
 
   {{- if .Values.oneagent.resources }}
