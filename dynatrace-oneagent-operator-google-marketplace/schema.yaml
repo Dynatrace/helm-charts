@@ -12,7 +12,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-applicationApiVersion: v1beta1
+x-google-marketplace:
+  schemaVersion: v2
+  applicationApiVersion: v1beta1
+  publishedVersion: '0.7.0'
+  publishedVersionMetadata:
+    releaseNote: >-
+      v0.7.0
+
+      Breaking changes
+      This version drops support for Kubernetes 1.11, 1.12, and 1.13 (#219, #220)
+
+      Features
+      sSeparated the logic for watching the nodes into nodes_controller to handle scaling correctly (#189, #196)
+      Show operator phase in the status.phase field of the OneAgent object (#197)
+      Build ARM64 images for the Operator (#201, #211)
+      No longer change the OneAgent .spec section to set defaults (#206)
+      Added a setting to configure a proxy via the CR (#207)
+      Added a setting to add custom CA certificates via the CR - These changes are only done for the Operator image as of now and the changes in the OneAgent image are in progress (#208)
+      Added proper error handling for Dynatrace API quota limit (#216)
+
+      Bug fixes
+      Handle sporadic (and benign) race conditions where the error below would appear (#194),
+      Operation cannot be fulfilled on oneagents.dynatrace.com \"oneagent\": the object has been modified; please apply your changes to the latest version and try again
+      Proxy environment variables (e.g., http_proxy, etc.) can be ignored on Operator container when skipCertCheck is true (#204)
+      Istio objects don't have an owner object, so wouldn't get removed if the OneAgent object is deleted (#217)
+
+      Other changes
+      As part of the support for ARM (#201, #203)
+      Migrate CI/CD workflow from CircleCI to TravisCI
+      Development snapshot images are now being published to Docker Hub
+      Support deprecation of beta.kubernetes.io/arch and beta.kubernetes.io/os labels (#199)
+      Update to Operator SDK 0.15.1 (#200)
+      Initial work to ease release automation (#198)
+      Added automatic creation of CSV file for OLM (#210)
+      Now Marked for Termination events will be sent only for deleted Nodes (#213, #214, #223)
+      Use v1 instead of v1beta1 for rbac.authorization.k8s.io objects (#215)
+      Add OLM manifests for v0.7.0 release (#226)
+    releaseTypes:
+    - Feature
+    - BugFix
+    recommended: true
+
+  managedUpdates:
+    kalmSupported: true
+
+  images:
+    '':
+      properties:
+        operator.image:
+          type: FULL
 
 properties:
   name:
@@ -39,13 +88,6 @@ properties:
     title: PaaS Token
     x-google-marketplace:
       type: MASKED_FIELD
-  operator.image:
-    type: string
-    title: Operator image
-    description: The image of the oneagent operator
-    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:0.7
-    x-google-marketplace:
-      type: IMAGE
   oneagent.name:
     type: string
     default: oneagent
@@ -55,26 +97,6 @@ properties:
     type: string
     description: "The location from where to grab the Dynatrace OneAgent image - default for Kubernetes is docker.io/dynatrace/oneagent"
     title: Custom OneAgent image location
-  oneagent.args:
-    type: string
-    description: "Defines additional arguments which get passed to the OneAgent installer"
-    default: "--set-app-log-content-access=true"
-    title: "Arguments to OneAgent installer"
-  oneagent.env:
-    type: string
-    description: "Defines additional environment variables which get passed to the OneAgent"
-    default: |
-      "- name: ONEAGENT_ENABLE_VOLUME_STORAGE
-         value: "true""
-    title: "Environment variables for OneAgent"
-  oneagent.nodeSelector:
-    type: string
-    description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out"
-    title: "Node selector to control the selection of nodes"
-  oneagent.labels:
-    type: string
-    description: "Defines labels for OneAgent pods to structure workloads as desired"
-    title: "Custom labels for the OneAgent pods"
   oneagent.skipCertCheck:
     type: boolean
     description: "Disable certificate validation checks for installer download and API communication"
@@ -94,18 +116,6 @@ properties:
     type: string
     description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
     title: "Set custom DNS Policy"
-  oneagent.resources:
-    type: string
-    description: "Defines the resources the OneAgent pods can use"
-    title: "Resource definition for the OneAgent pods"
-  oneagent.tolerations:
-    type: string
-    description: "Defines custom tolerations to the OneAgent - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
-    default: |
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/master
-        operator: Exists
-    title: "Custom tolerations for the OneAgent"
   oneagent.waitReadySeconds:
     type: integer
     description: "Define the time to wait until OneAgent pod is ready after update - defaults to 300s"
