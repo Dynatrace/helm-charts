@@ -447,34 +447,20 @@ data:
       apiUrl: {{ required "ApiUrl needs to be set!" .Values.oneagent.apiUrl }}
       tokens: {{ .Values.oneagent.name }}
       image: {{ include "dynatrace-oneagent.image" . }}
-
-      {{- if .Values.oneagent.args }}
-      args: {{- toYaml .Values.oneagent.args | nindent 4 }}
-      {{- end }}
-
-      {{- if .Values.oneagent.env }}
-      env: {{- toYaml .Values.oneagent.env | nindent 4 }}
-      {{- end }}
-
-      {{- if .Values.oneagent.labels }}
-      labels: {{- toYaml .Values.oneagent.labels  | nindent 4 }}
-      {{- end }}
-
-      {{- if .Values.oneagent.nodeSelector }}
-      nodeSelector: {{- toYaml .Values.oneagent.nodeSelector | nindent 4 }}
-      {{- end }}
+      serviceAccountName: {{ .Values.oneagentServiceAccount }}
+      args:
+        - --set-app-log-content-access=true
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      env:
+      - name: ONEAGENT_ENABLE_VOLUME_STORAGE
+        value: "true"
 
       {{- if .Values.oneagent.proxy }}
       proxy:
         valueFrom: {{ .Values.oneagent.name }}
-      {{- end }}
-
-      {{- if .Values.oneagent.tolerations }}
-      tolerations: {{- toYaml .Values.oneagent.tolerations | nindent 4 }}
-      {{- end }}
-
-      {{- if .Values.oneagent.resources }}
-      resources: {{- toYaml .Values.oneagent.resources | nindent 4 }}
       {{- end }}
 
       {{- if .Values.oneagent.dnsPolicy }}
@@ -499,10 +485,6 @@ data:
 
       {{- if .Values.oneagent.priorityClassName }}
       priorityClassName: {{ .Values.oneagent.priorityClassName }}
-      {{- end }}
-
-      {{- if .Values.oneagent.serviceAccountName }}
-      serviceAccountName: {{ .Values.oneagent.serviceAccountName }}
       {{- end }}
 
       {{- if .Values.oneagent.trustedCAs }}

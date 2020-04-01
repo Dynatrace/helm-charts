@@ -47,7 +47,3 @@ secret:
 
 deployerHelm:
   image: ""
-
-operatorServiceAccount: null
-oneagentServiceAccount: null
-configurationServiceAccount: null
