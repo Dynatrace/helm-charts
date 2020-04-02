@@ -12,7 +12,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-applicationApiVersion: v1beta1
+x-google-marketplace:
+  schemaVersion: v2
+  applicationApiVersion: v1beta1
+  publishedVersion: '0.7.0'
+  publishedVersionMetadata:
+    releaseNote: >-
+      v0.7.0
+
+      Breaking changes
+      This version drops support for Kubernetes 1.11, 1.12, and 1.13 (#219, #220)
+
+      Features
+      Separated the logic for watching the nodes into nodes_controller to handle scaling correctly (#189, #196)
+      Show operator phase in the status.phase field of the OneAgent object (#197)
+      Build ARM64 images for the Operator (#201, #211)
+      No longer change the OneAgent .spec section to set defaults (#206)
+      Added a setting to configure a proxy via the CR (#207)
+      Added a setting to add custom CA certificates via the CR - These changes are only done for the Operator image as of now and the changes in the OneAgent image are in progress (#208)
+      Added proper error handling for Dynatrace API quota limit (#216)
+
+      Bug fixes
+      Handle sporadic (and benign) race conditions where the error below would appear (#194),
+      Operation cannot be fulfilled on oneagents.dynatrace.com \"oneagent\": the object has been modified; please apply your changes to the latest version and try again
+      Proxy environment variables (e.g., http_proxy, etc.) can be ignored on Operator container when skipCertCheck is true (#204)
+      Istio objects don't have an owner object, so wouldn't get removed if the OneAgent object is deleted (#217)
+
+      Other changes
+      As part of the support for ARM (#201, #203)
+      Migrate CI/CD workflow from CircleCI to TravisCI
+      Development snapshot images are now being published to Docker Hub
+      Support deprecation of beta.kubernetes.io/arch and beta.kubernetes.io/os labels (#199)
+      Update to Operator SDK 0.15.1 (#200)
+      Initial work to ease release automation (#198)
+      Added automatic creation of CSV file for OLM (#210)
+      Now Marked for Termination events will be sent only for deleted Nodes (#213, #214, #223)
+      Use v1 instead of v1beta1 for rbac.authorization.k8s.io objects (#215)
+      Add OLM manifests for v0.7.0 release (#226)
+    releaseTypes:
+    - Feature
+    - BugFix
+    recommended: true
+
+  managedUpdates:
+    kalmSupported: true
+
+  images:
+    '':
+      properties:
+        operator.image:
+          type: FULL
 
 properties:
   name:
@@ -39,23 +88,50 @@ properties:
     title: PaaS Token
     x-google-marketplace:
       type: MASKED_FIELD
-  operator.image:
-    type: string
-    title: Operator image
-    description: The image of the oneagent operator
-    default: gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator:0.6
-    x-google-marketplace:
-      type: IMAGE
   oneagent.name:
     type: string
     default: oneagent
     description: The name of the oneagent custom resource
     title: Custom Resource Name
-  secret.name:
+  oneagent.image:
     type: string
-    default: oneagent
-    description: The name of secret holding `apiToken` and `paasToken`
-    title: Secret Name
+    description: "The location from where to grab the Dynatrace OneAgent image - default for Kubernetes is docker.io/dynatrace/oneagent"
+    title: Custom OneAgent image location
+  oneagent.skipCertCheck:
+    type: boolean
+    description: "Disable certificate validation checks for installer download and API communication"
+    default: false
+    title: "Skip certificate check"
+  oneagent.disableAgentUpdate:
+    type: boolean
+    description: "Disables automatic restarts of oneagent pods in case a new version is available"
+    default: false
+    title: "Disable automatic OneAgent updates"
+  oneagent.enableIstio:
+    type: boolean
+    description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntries objects to allow access to the Dynatrace cluster from the agent."
+    default: false
+    title: "Enable istio"
+  oneagent.dnsPolicy:
+    type: string
+    description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
+    title: "Set custom DNS Policy"
+  oneagent.waitReadySeconds:
+    type: integer
+    description: "Define the time to wait until OneAgent pod is ready after update - defaults to 300s"
+    title: "Wait seconds until ready"
+  oneagent.priorityClassName:
+    type: string
+    description: "Priority class to assign to OneAgent pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
+    title: "Assign priority class to OneAgent pods"
+  oneagent.proxy:
+    type: string
+    description: "Configures a proxy for the Agent, AgentDownload and the Operator. Either provide the proxy URL directly at 'value' or create a secret with a field 'proxy' which holds your encrypted proxy URL"
+    title: "Define a proxy"
+  oneagent.trustedCAs:
+    type: string
+    description: "Adds the provided CA certficates to the Operator and the OneAgent. Provide the name of the configmap which holds your .pem in a field called 'certs'. If this is not set the default embedded certificates on the images will be used"
+    title: "Add custom CA certificates"
   deployerHelm.image:
     type: string
     x-google-marketplace:
@@ -102,6 +178,21 @@ properties:
                   - update
                   - delete
               - apiGroups:
+                  - apps
+                resources:
+                  - replicasets
+                  - deployments
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - apps
+                resources:
+                  - deployments/finalizers
+                verbs:
+                  - update
+              - apiGroups:
                   - "" # "" indicates the core API group
                 resources:
                   - configmaps
@@ -115,7 +206,6 @@ properties:
               - apiGroups:
                   - "" # "" indicates the core API group
                 resources:
-                  - configmaps
                   - pods
                 verbs:
                   - get

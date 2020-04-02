@@ -86,6 +86,6 @@ Check if default operator image is used
 {{- if .Values.operator.image -}}
     {{- printf "%s" .Values.operator.image -}}
 {{- else -}}
-    {{- printf "%s:v%s" "quay.io/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
+    {{- printf "%s:v%s" "docker.io/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
 {{- end -}}
 {{- end -}}

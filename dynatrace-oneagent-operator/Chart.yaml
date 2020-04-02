@@ -15,11 +15,11 @@
 apiVersion: v2
 name: dynatrace-oneagent-operator
 description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Openshift
-icon: file://../logo.png
+icon: https://assets.dynatrace.com/global/resources/Signet_Logo_RGB_CP_512x512px.png
 home: https://www.dynatrace.com/
 type: application
-version: 0.6.0
-appVersion: 0.6.0
+version: 0.7.0
+appVersion: 0.7.0
 maintainers:
   - name: DTMad
     email: marco.mader@dynatrace.com

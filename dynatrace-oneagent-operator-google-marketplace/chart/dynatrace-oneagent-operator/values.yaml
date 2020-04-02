@@ -18,15 +18,32 @@ operator:
 oneagent:
   name: "oneagent"
   apiUrl: ""
+  image: ""
+  args:
+    - --set-app-log-content-access=true
+  env:
+    - name: ONEAGENT_ENABLE_VOLUME_STORAGE
+      value: "true"
+  nodeSelector: {}
+  labels: {}
+  skipCertCheck: false
+  disableAgentUpdate: false
+  enableIstio: false
+  dnsPolicy: ""
+  resources: {}
+  tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+      operator: Exists
+  waitReadySeconds: null
+  priorityClassName: ""
+  serviceAccountName: ""
+  proxy: ""
+  trustedCAs: ""
 
 secret:
-  name: "oneagent"
   apiToken: ""
   paasToken: ""
 
 deployerHelm:
   image: ""
-
-operatorServiceAccount: null
-oneagentServiceAccount: null
-configurationServiceAccount: null
