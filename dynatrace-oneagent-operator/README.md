@@ -13,7 +13,7 @@ The rollout of the Dynatrace OneAgent is managed by a DaemonSet initially.
 From here on the Dynatrace OneAgent Operator controls the lifecycle and keeps track of new versions and triggers updates if required.
 The Dynatrace OneAgent Operator's Helm Chart will also roll out the actual OneAgent automatically during installation.
 
-![Overview](./overview.svg)
+![Overview](https://github.com/Dynatrace/helm-charts/blob/53189b5a740af26b8d87c0dd30ef9c653552610b/dynatrace-oneagent-operator/overview.svg)
 
 
 ## Requirements
