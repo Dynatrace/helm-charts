@@ -1,24 +1,10 @@
+# Welcome
+
+Dynatrace automatically discovers, baselines, and intelligently monitors Kubernetes clusters and workloads. Learn more about Dynatrace at [our website](https://www.dynatrace.com/platform/).
+
 # Dynatrace OneAgent Operator Helm Chart
 
-This is the home of the Dynatrace OneAgent Operator's Helm Chart which supports the rollout and lifecycle of [Dynatrace OneAgent](https://www.dynatrace.com/support/help/get-started/introduction/what-is-oneagent/) in Kubernetes and OpenShift clusters.
-Rolling out Dynatrace OneAgent via DaemonSet on a cluster is straightforward.
-Maintaining its lifecycle places a burden on the operational team.
-Dynatrace OneAgent Operator closes this gap by automating the repetitive steps involved in keeping Dynatrace OneAgent at its latest desired version.
-
-## Overview
-
-Dynatrace OneAgent Operator is based on [Operator SDK](https://github.com/operator-framework/operator-sdk) and uses its framework for interacting with Kubernetes and OpenShift environments.
-It watches custom resources `OneAgent` and monitors the desired state constantly.
-The rollout of the Dynatrace OneAgent is managed by a DaemonSet initially.
-From here on the Dynatrace OneAgent Operator controls the lifecycle and keeps track of new versions and triggers updates if required.
-The Dynatrace OneAgent Operator's Helm Chart will also roll out the actual OneAgent automatically during installation.
-
-![Overview](https://github.com/Dynatrace/helm-charts/blob/53189b5a740af26b8d87c0dd30ef9c653552610b/dynatrace-oneagent-operator/overview.svg)
-
-
-## Requirements
-
-### Helm
+The Dynatrace OneAgent Operator Helm Chart which supports the rollout and lifecycle of [Dynatrace OneAgent](https://www.dynatrace.com/support/help/get-started/introduction/what-is-oneagent/) in Kubernetes and OpenShift clusters.
 
 This Helm Chart requires Helm 3.
 
