@@ -30,6 +30,14 @@ data:
         apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
         seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
         apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
     spec:
       privileged: false
       allowPrivilegeEscalation: false
@@ -61,6 +69,14 @@ data:
       name: dynatrace-oneagent
       annotations:
         seccomp.security.alpha.kubernetes.io/allowedProfileNames: "*"
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
     spec:
       privileged: true
       allowPrivilegeEscalation: true
@@ -423,7 +439,6 @@ data:
               type: object
           required:
           - spec
-          type: object
       version: v1alpha1
       versions:
       - name: v1alpha1
