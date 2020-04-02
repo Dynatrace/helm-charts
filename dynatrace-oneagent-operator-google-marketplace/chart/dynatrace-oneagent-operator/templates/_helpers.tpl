@@ -56,11 +56,22 @@ helm.sh/chart: {{ include "dynatrace-oneagent-operator.chart" . }}
 {{- end -}}
 
 {{/*
-Check if default image is used    
+Check if default oneagent image is used
+*/}}
+{{- define "dynatrace-oneagent.image" -}}
+{{- if .Values.oneagent.image -}}
+    {{- printf "%s" .Values.oneagent.image -}}
+{{- else -}}
+    {{- printf "docker.io/dynatrace/oneagent" }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Check if default image is used
 */}}
 {{- define "dynatrace-oneagent-operator.image" -}}
 {{- if .Values.operator.image -}}
-	{{- printf "%s" .Values.operator.image -}}    
+	{{- printf "%s" .Values.operator.image -}}
 {{- else -}}
 	{{- printf "%s:%s" "gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator" "{{ .Chart.AppVersion }}" }}
 {{- end -}}
