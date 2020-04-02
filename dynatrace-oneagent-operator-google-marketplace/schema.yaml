@@ -24,7 +24,7 @@ x-google-marketplace:
       This version drops support for Kubernetes 1.11, 1.12, and 1.13 (#219, #220)
 
       Features
-      sSeparated the logic for watching the nodes into nodes_controller to handle scaling correctly (#189, #196)
+      Separated the logic for watching the nodes into nodes_controller to handle scaling correctly (#189, #196)
       Show operator phase in the status.phase field of the OneAgent object (#197)
       Build ARM64 images for the Operator (#201, #211)
       No longer change the OneAgent .spec section to set defaults (#206)
