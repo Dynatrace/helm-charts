@@ -9,6 +9,6 @@ To create the OneAgent resource follow these steps:
 https://github.com/Dynatrace/dynatrace-oneagent-operator#create-oneagent-custom-resource-for-oneagent-rollout
 
 To learn more about the release, try:
-  $ helm status {{ .Release.Name }}
-  $ helm get {{ .Release.Name }}
-  
+  $ kubectl get pods -n {{ .Release.Namespace }}
+  $ kubectl logs -f deployment/{{ .Release.Name }} -n {{ .Release.Namespace }}
+  $ kubectl get oneagent {{ .Values.oneagent.name }} -n {{ .Release.Namespace }}
