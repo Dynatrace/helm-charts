@@ -44,5 +44,6 @@ oneagent:
   trustedCAs: ""
 
 secret:
+  autoCreate: true
   apiToken: ""
   paasToken: ""
