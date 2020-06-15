@@ -26,6 +26,7 @@ rules:
       - dynatrace.com
     resources:
       - oneagents
+      - oneagentapms
     verbs:
       - get
       - list
@@ -42,6 +43,21 @@ rules:
       - create
       - update
       - delete
+  - apiGroups:
+      - apps
+    resources:
+      - replicasets
+      - deployments
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments/finalizers
+    verbs:
+      - update
   - apiGroups:
       - "" # "" indicates the core API group
     resources:
@@ -63,21 +79,6 @@ rules:
       - watch
       - delete
   - apiGroups:
-      - apps
-    resources:
-      - replicasets
-      - deployments
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - apps
-    resources:
-      - deployments/finalizers
-    verbs:
-      - update
-  - apiGroups:
       - "" # "" indicates the core API group
     resources:
       - secrets
@@ -97,6 +98,8 @@ rules:
     resources:
       - oneagents/finalizers
       - oneagents/status
+      - oneagentapms/finalizers
+      - oneagentapms/status
     verbs:
       - update
   - apiGroups:

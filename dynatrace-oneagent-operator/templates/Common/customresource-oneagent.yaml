@@ -91,3 +91,7 @@ spec:
   {{- if .Values.oneagent.trustedCAs }}
   trustedCAs: {{ .Values.oneagent.name }}
   {{- end }}
+
+  {{- if .Values.oneagent.networkZone }}
+  networkZone: {{ .Values.oneagent.networkZone }}
+  {{- end }}
