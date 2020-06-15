@@ -55,6 +55,15 @@ helm.sh/chart: {{ include "dynatrace-oneagent-operator.chart" . }}
 {{- end -}}
 
 {{/*
+Common labels webhook
+*/}}
+{{- define "dynatrace-oneagent-operator.commonlabelswebhook" -}}
+dynatrace.com/operator: oneagent
+internal.oneagent.dynatrace.com/component: webhook
+helm.sh/chart: {{ include "dynatrace-oneagent-operator.chart" . }}
+{{- end -}}
+
+{{/*
 Check if platform is set
 */}}
 {{- define "dynatrace-oneagent-operator.platformSet" -}}
@@ -87,5 +96,16 @@ Check if default operator image is used
     {{- printf "%s" .Values.operator.image -}}
 {{- else -}}
     {{- printf "%s:v%s" "docker.io/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Set API URL
+*/}}
+{{- define "dynatrace-oneagentapm.apiUrl" -}}
+{{- if .Values.oneagentapm.apiUrl -}}
+    {{- printf "%s" .Values.oneagentapm.apiUrl -}}
+{{- else -}}
+    {{- printf "%s" .Values.oneagent.apiUrl -}}
 {{- end -}}
 {{- end -}}

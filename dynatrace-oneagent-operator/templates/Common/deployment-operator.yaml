@@ -36,6 +36,8 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Name }}
+          args:
+            - operator
           image: {{ include "dynatrace-oneagent-operator.image" . }}
           imagePullPolicy: Always
           env:
