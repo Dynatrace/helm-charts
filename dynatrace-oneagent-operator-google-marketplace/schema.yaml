@@ -45,6 +45,14 @@ properties:
     type: string
     x-google-marketplace:
       type: NAMESPACE
+  mode:
+    type: string
+    description: Either fullstack for full monitoring or apm for application only monitoring
+    title: Monitoring mode
+    default: fullstack
+    enum:
+      - fullstack
+      - apm
   oneagent.apiUrl:
     type: string
     description: The Dynatrace api url including `/api` path at the end
@@ -109,6 +117,79 @@ properties:
     type: string
     x-google-marketplace:
       type: DEPLOYER_IMAGE
+  webhookServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace OneAgent Operator's Webhook
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+            - apiGroups:
+                - ""
+              resources:
+                - namespaces
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - admissionregistration.k8s.io
+              resources:
+                - mutatingwebhookconfigurations
+              verbs:
+                - list
+                - create
+                - watch
+            - apiGroups:
+                - admissionregistration.k8s.io
+              resources:
+                - mutatingwebhookconfigurations
+              resourceNames:
+                - dynatrace-oneagent-webhook
+              verbs:
+                - get
+                - update
+            - type: Role
+              rulesType: CUSTOM
+              rules:
+              - apiGroups:
+                  - ""
+                resources:
+                  - services
+                  - configmaps
+                  - secrets
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - create
+                  - update
+              - apiGroups:
+                  - ""
+                resources:
+                  - pods
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - oneagentapms
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-oneagent-webhook
+                verbs:
+                  - use
   operatorServiceAccount:
     type: string
     title: Service account used by the Dynatrace OneAgent Operator
@@ -120,112 +201,132 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - "" # "" indicates the core API group
-                resources:
-                  - nodes
-                verbs:
-                  - get
-                  - list
-                  - watch
+              - "" # "" indicates the core API group
+            resources:
+              - nodes
+              - namespaces
+            verbs:
+              - get
+              - list
+              - watch
+          - apiGroups:
+              - ""
+            resources:
+              - secrets
+            verbs:
+              - create
+          - apiGroups:
+              - ""
+            resources:
+              - secrets
+            resourceNames:
+              - dynatrace-oneagent-config
+            verbs:
+              - get
+              - update
+              - delete
           - type: Role
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - dynatrace.com
-                resources:
-                  - oneagents
-                verbs:
-                  - get
-                  - list
-                  - watch
-                  - update
-              - apiGroups:
-                  - apps
-                resources:
-                  - daemonsets
-                verbs:
-                  - get
-                  - list
-                  - watch
-                  - create
-                  - update
-                  - delete
-              - apiGroups:
-                  - apps
-                resources:
-                  - replicasets
-                  - deployments
-                verbs:
-                  - get
-                  - list
-                  - watch
-              - apiGroups:
-                  - apps
-                resources:
-                  - deployments/finalizers
-                verbs:
-                  - update
-              - apiGroups:
-                  - "" # "" indicates the core API group
-                resources:
-                  - configmaps
-                verbs:
-                  - get
-                  - list
-                  - watch
-                  - create
-                  - update
-                  - delete
-              - apiGroups:
-                  - "" # "" indicates the core API group
-                resources:
-                  - pods
-                verbs:
-                  - get
-                  - list
-                  - watch
-                  - delete
-              - apiGroups:
-                  - "" # "" indicates the core API group
-                resources:
-                  - secrets
-                verbs:
-                  - get
-                  - list
-                  - watch
-              - apiGroups:
-                  - monitoring.coreos.com
-                resources:
-                  - servicemonitors
-                verbs:
-                  - get
-                  - create
-              - apiGroups:
-                  - dynatrace.com
-                resources:
-                  - oneagents/finalizers
-                  - oneagents/status
-                verbs:
-                  - update
-              - apiGroups:
-                  - networking.istio.io
-                resources:
-                  - serviceentries
-                  - virtualservices
-                verbs:
-                  - get
-                  - list
-                  - create
-                  - update
-                  - delete
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-oneagent-operator
-                verbs:
-                  - use
+            - apiGroups:
+                - dynatrace.com
+              resources:
+                - oneagents
+                - oneagentapms
+              verbs:
+                - get
+                - list
+                - watch
+                - update
+            - apiGroups:
+                - apps
+              resources:
+                - daemonsets
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - apps
+              resources:
+                - replicasets
+                - deployments
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - apps
+              resources:
+                - deployments/finalizers
+              verbs:
+                - update
+            - apiGroups:
+                - "" # "" indicates the core API group
+              resources:
+                - configmaps
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - "" # "" indicates the core API group
+              resources:
+                - pods
+              verbs:
+                - get
+                - list
+                - watch
+                - delete
+            - apiGroups:
+                - "" # "" indicates the core API group
+              resources:
+                - secrets
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - monitoring.coreos.com
+              resources:
+                - servicemonitors
+              verbs:
+                - get
+                - create
+            - apiGroups:
+                - dynatrace.com
+              resources:
+                - oneagents/finalizers
+                - oneagents/status
+                - oneagentapms/finalizers
+                - oneagentapms/status
+              verbs:
+                - update
+            - apiGroups:
+                - networking.istio.io
+              resources:
+                - serviceentries
+                - virtualservices
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - policy
+              resources:
+                - podsecuritypolicies
+              resourceNames:
+                - dynatrace-oneagent-operator
+              verbs:
+                - use
   oneagentServiceAccount:
     type: string
     title: Service account used by the Dynatrace OneAgent

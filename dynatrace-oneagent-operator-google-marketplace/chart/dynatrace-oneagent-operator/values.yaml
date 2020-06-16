@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+mode: "fullstack"
+
 operator:
   image: ""
 
@@ -40,6 +42,15 @@ oneagent:
   serviceAccountName: ""
   proxy: ""
   trustedCAs: ""
+
+oneagentapm:
+  name: "oneagentapm"
+  apiUrl: ""
+  skipCertCheck: false
+  enableIstio: false
+  proxy:
+  trustedCAs: ""
+  networkZone: ""
 
 secret:
   apiToken: ""
