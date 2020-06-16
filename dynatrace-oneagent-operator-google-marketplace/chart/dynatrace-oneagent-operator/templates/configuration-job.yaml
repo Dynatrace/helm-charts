@@ -33,9 +33,15 @@ spec:
           uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
           sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
           sed "s/##UID##/${uid}/g" /objects/psp-oneagent.yaml | kubectl apply -f -
-          sed "s/##UID##/${uid}/g" /objects/crd.yaml | kubectl apply -f -
+          sed "s/##UID##/${uid}/g" /objects/psp-webhook.yaml | kubectl apply -f -
+          sed "s/##UID##/${uid}/g" /objects/oneagentapm_crd.yaml | kubectl apply -f -
+          sed "s/##UID##/${uid}/g" /objects/oneagent_crd.yaml | kubectl apply -f -
           sleep 5
-          sed "s/##UID##/${uid}/g" /objects/oneagent.yaml | kubectl apply -f -
+          if [[ "{{ .Values.mode }}" == "apm" ]]; then
+            sed "s/##UID##/${uid}/g" /objects/oneagentapm.yaml | kubectl apply -f -
+          else
+            sed "s/##UID##/${uid}/g" /objects/oneagent.yaml | kubectl apply -f -
+          fi
         image: {{ .Values.deployerHelm.image }}
         imagePullPolicy: Always
         name: objects-create

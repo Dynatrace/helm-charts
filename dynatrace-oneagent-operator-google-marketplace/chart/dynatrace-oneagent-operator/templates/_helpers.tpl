@@ -76,3 +76,17 @@ Check if default image is used
 	{{- printf "%s:%s" "gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator" "{{ .Chart.AppVersion }}" }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+	Check for correct oneagentapm name
+	*/}}
+	{{- define "oneagentapm.name" -}}
+	{{- if eq .Values.mode "apm" }}
+		{{- if eq .Values.oneagent.name "oneagent" -}}
+			{{- printf "oneagentapm" -}}
+		{{- else -}}
+			{{- printf "%s" .Values.oneagent.name -}}
+		{{- end -}}
+	{{- end -}}
+	{{- end -}}
+
