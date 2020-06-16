@@ -4,6 +4,16 @@ categories:
 questions:
 
 #################### Agent Configuration (REQUIRED) ####################
+- variable: mode
+  label: "Monitoring mode"
+  description: "Either fullstack for full monitoring or apm for application only monitoring"
+  default: "fullstack"
+  type: enum
+  group: "Agent Configuration (REQUIRED)"
+  options:
+    - "fullstack"
+    - "apm"
+
 - variable: oneagent.apiUrl
   label: "Dynatrace API URL"
   description: "Dynatrace API URL including `/api` path at the end"
@@ -49,7 +59,7 @@ questions:
   default: "oneagent"
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.disableAgentUpdate
   label: "Disable automatic OneAgent updates"
@@ -57,7 +67,7 @@ questions:
   default: false
   type: boolean
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.dnsPolicy
   label: "Set custom DNS Policy"
@@ -65,7 +75,7 @@ questions:
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.enableIstio
   label: "Enable istio"
@@ -81,7 +91,7 @@ questions:
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.skipCertCheck
   label: "Skip certificate check"
@@ -97,7 +107,7 @@ questions:
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.proxy
   label: "Define a proxy"
@@ -121,7 +131,7 @@ questions:
   default: ""
   type: int
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.args
   label: "Arguments to OneAgent installer"
@@ -129,35 +139,35 @@ questions:
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.env
   label: "Environment variables for OneAgent"
   description: "Defines additional environment variables which get passed to the OneAgent - Please edit as Yaml for the best experience"
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.nodeSelector
   label: "Node selector to control the selection of nodes"
   description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out - Please edit as Yaml for the best experience"
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.labels
   label: "Custom labels for the OneAgent pods"
   description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.resources
   label: "Resource definition for the OneAgent pods"
   description: "Defines the resources the OneAgent pods can use - Please edit as Yaml for the best experience"
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
 
 - variable: oneagent.tolerations
   label: "Custom tolerations for the OneAgent"
@@ -165,4 +175,4 @@ questions:
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true"
+  show_if: "show_advanced_config=true && mode=fullstack"
