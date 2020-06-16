@@ -100,12 +100,14 @@ Check if default operator image is used
 {{- end -}}
 
 {{/*
-Set API URL
+Check for correct oneagentapm name
 */}}
-{{- define "dynatrace-oneagentapm.apiUrl" -}}
-{{- if .Values.oneagentapm.apiUrl -}}
-    {{- printf "%s" .Values.oneagentapm.apiUrl -}}
-{{- else -}}
-    {{- printf "%s" .Values.oneagent.apiUrl -}}
+{{- define "oneagentapm.name" -}}
+{{- if eq .Values.mode "apm" }}
+    {{- if eq .Values.oneagent.name "oneagent" -}}
+        {{- printf "oneagentapm" -}}
+    {{- else -}}
+        {{- printf "%s" .Values.oneagent.name -}}
+    {{- end -}}
 {{- end -}}
 {{- end -}}

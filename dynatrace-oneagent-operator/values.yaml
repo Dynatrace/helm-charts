@@ -45,15 +45,6 @@ oneagent:
   trustedCAs: ""
   networkZone: ""
 
-oneagentapm:
-  name: "oneagentapm"
-  apiUrl: ""
-  skipCertCheck: false
-  enableIstio: false
-  proxy:
-  trustedCAs: ""
-  networkZone: ""
-
 secret:
   autoCreate: true
   apiToken: ""

@@ -17,30 +17,30 @@
 apiVersion: dynatrace.com/v1alpha1
 kind: OneAgentAPM
 metadata:
-  name: {{ .Values.oneagentapm.name }}
+  name: {{ include "oneagentapm.name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
-  apiUrl: {{ include "dynatrace-oneagentapm.apiUrl" . }}
+  apiUrl: {{ .Values.oneagent.apiUrl }}
   tokens: {{ .Values.oneagent.name }}
 
-  {{- if .Values.oneagentapm.skipCertCheck }}
-  skipCertCheck: {{ .Values.oneagentapm.skipCertCheck }}
+  {{- if .Values.oneagent.skipCertCheck }}
+  skipCertCheck: {{ .Values.oneagent.skipCertCheck }}
   {{- end }}
 
-  {{- if .Values.oneagentapm.enableIstio }}
-  enableIstio: {{ .Values.oneagentapm.enableIstio }}
+  {{- if .Values.oneagent.enableIstio }}
+  enableIstio: {{ .Values.oneagent.enableIstio }}
   {{- end }}
 
-  {{- if .Values.oneagentapm.proxy }}
+  {{- if .Values.oneagent.proxy }}
   proxy:
-    valueFrom: {{ .Values.oneagentapm.name }}
+    valueFrom: {{ .Values.oneagent.name }}
   {{- end }}
 
-  {{- if .Values.oneagentapm.trustedCAs }}
-  trustedCAs: {{ .Values.oneagentapm.name }}
+  {{- if .Values.oneagent.trustedCAs }}
+  trustedCAs: {{ .Values.oneagent.name }}
   {{- end }}
 
-  {{- if .Values.oneagentapm.networkZone }}
-  networkZone: {{ .Values.oneagentapm.networkZone }}
+  {{- if .Values.oneagent.networkZone }}
+  networkZone: {{ .Values.oneagent.networkZone }}
   {{- end }}
 {{ end }}
