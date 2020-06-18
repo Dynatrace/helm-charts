@@ -43,15 +43,6 @@ oneagent:
   proxy: ""
   trustedCAs: ""
 
-oneagentapm:
-  name: "oneagentapm"
-  apiUrl: ""
-  skipCertCheck: false
-  enableIstio: false
-  proxy:
-  trustedCAs: ""
-  networkZone: ""
-
 secret:
   apiToken: ""
   paasToken: ""

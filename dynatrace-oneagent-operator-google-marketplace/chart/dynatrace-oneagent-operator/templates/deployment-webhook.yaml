@@ -18,7 +18,7 @@ metadata:
   name: dynatrace-oneagent-webhook
   namespace: {{ .Release.Namespace }}
   labels:
-    dynatrace.com/operator: oneagent
+    {{- include "dynatrace-oneagent-operator.commonlabelswebhook" . | nindent 4 }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -31,7 +31,7 @@ spec:
   template:
     metadata:
       labels:
-        dynatrace.com/operator: oneagent
+        {{- include "dynatrace-oneagent-operator.commonlabelswebhook" . | nindent 8 }}
         internal.oneagent.dynatrace.com/component: webhook
         internal.oneagent.dynatrace.com/app: webhook
     spec:
@@ -118,7 +118,7 @@ spec:
           volumeMounts:
             - name: certs-volume
               mountPath: /mnt/webhook-certs
-      serviceAccountName: dynatrace-oneagent-webhook
+      serviceAccountName: {{ .Values.webhookServiceAccount }}
       volumes:
       - name: certs-volume
         emptyDir: {}
