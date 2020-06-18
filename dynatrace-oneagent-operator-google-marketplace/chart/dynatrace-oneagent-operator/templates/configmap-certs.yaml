@@ -18,6 +18,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.oneagent.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
 data:
   certs: |
 {{ .Values.oneagent.trustedCAs | indent 4 }}
