@@ -98,7 +98,203 @@ data:
         rule: "RunAsAny"
       fsGroup:
         rule: "RunAsAny"
-  crd.yaml: |
+  psp-webhook.yaml: |
+    apiVersion: policy/v1beta1
+    kind: PodSecurityPolicy
+    metadata:
+      name: dynatrace-oneagent-webhook
+      annotations:
+        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
+        apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
+        seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
+        apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+    spec:
+      privileged: false
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      requiredDropCapabilities:
+        - ALL
+      volumes:
+        - "configMap"
+        - "emptyDir"
+        - "projected"
+        - "secret"
+        - "downwardAPI"
+        - "persistentVolumeClaim"
+      hostNetwork: false
+      hostIPC: false
+      hostPID: false
+      runAsUser:
+        rule: "MustRunAsNonRoot"
+      seLinux:
+        rule: "RunAsAny"
+      supplementalGroups:
+        rule: "RunAsAny"
+      fsGroup:
+        rule: "RunAsAny"
+  oneagentapm_crd.yaml: |
+    apiVersion: apiextensions.k8s.io/v1beta1
+    kind: CustomResourceDefinition
+    metadata:
+      name: oneagentapms.dynatrace.com
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+    spec:
+      additionalPrinterColumns:
+      - JSONPath: .spec.apiUrl
+        name: ApiUrl
+        type: string
+      - JSONPath: .spec.tokens
+        name: Tokens
+        type: string
+      - JSONPath: .metadata.creationTimestamp
+        name: Age
+        type: date
+      group: dynatrace.com
+      names:
+        categories:
+        - dynatrace
+        kind: OneAgentAPM
+        listKind: OneAgentAPMList
+        plural: oneagentapms
+        singular: oneagentapm
+      scope: Namespaced
+      subresources:
+        status: {}
+      validation:
+        openAPIV3Schema:
+          description: OneAgentAPM configures the Dynatrace OneAgent for application monitoring
+          properties:
+            apiVersion:
+              description: 'APIVersion defines the versioned schema of this representation
+                of an object. Servers should convert recognized schemas to the latest
+                internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+              type: string
+            kind:
+              description: 'Kind is a string value representing the REST resource this
+                object represents. Servers may infer this from the endpoint the client
+                submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+              type: string
+            metadata:
+              type: object
+            spec:
+              description: OneAgentAPMSpec defines the desired state of OneAgentAPM
+              properties:
+                apiUrl:
+                  description: Location of the Dynatrace API to connect to, including
+                    your specific environment ID
+                  type: string
+                enableIstio:
+                  description: If enabled, Istio on the cluster will be configured automatically
+                    to allow access to the Dynatrace environment
+                  type: boolean
+                networkZone:
+                  description: 'Optional: Adds the OneAgent to the given NetworkZone'
+                  type: string
+                proxy:
+                  description: 'Optional: Set custom proxy settings either directly or
+                    from a secret with the field ''proxy'''
+                  properties:
+                    value:
+                      type: string
+                    valueFrom:
+                      type: string
+                  type: object
+                skipCertCheck:
+                  description: Disable certificate validation checks for installer download
+                    and API communication
+                  type: boolean
+                tokens:
+                  description: Credentials for the OneAgent to connect back to Dynatrace.
+                  type: string
+                trustedCAs:
+                  description: 'Optional: Adds custom RootCAs from a configmap'
+                  type: string
+              required:
+              - apiUrl
+              type: object
+            status:
+              description: OneAgentAPMStatus defines the observed state of OneAgentAPM
+              properties:
+                conditions:
+                  description: Conditions includes status about the current state of the
+                    instance
+                  items:
+                    description: "Condition represents an observation of an object's state.
+                      Conditions are an extension mechanism intended to be used when the
+                      details of an observation are not a priori known or would not apply
+                      to all instances of a given Kind. \n Conditions should be added
+                      to explicitly convey properties that users and components care about
+                      rather than requiring those properties to be inferred from other
+                      observations. Once defined, the meaning of a Condition can not be
+                      changed arbitrarily - it becomes part of the API, and has the same
+                      backwards- and forwards-compatibility concerns of any other part
+                      of the API."
+                    properties:
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                      message:
+                        type: string
+                      reason:
+                        description: ConditionReason is intended to be a one-word, CamelCase
+                          representation of the category of cause of the current status.
+                          It is intended to be used in concise output, such as one-line
+                          kubectl get output, and in summarizing occurrences of causes.
+                        type: string
+                      status:
+                        type: string
+                      type:
+                        description: "ConditionType is the type of the condition and is
+                          typically a CamelCased word or short phrase. \n Condition types
+                          should indicate state in the \"abnormal-true\" polarity. For
+                          example, if the condition indicates when a policy is invalid,
+                          the \"is valid\" case is probably the norm, so the condition
+                          should be called \"Invalid\"."
+                        type: string
+                    required:
+                    - status
+                    - type
+                    type: object
+                  type: array
+                lastAPITokenProbeTimestamp:
+                  description: LastAPITokenProbeTimestamp tracks when the last request
+                    for the API token validity was sent
+                  format: date-time
+                  type: string
+                lastPaaSTokenProbeTimestamp:
+                  description: LastPaaSTokenProbeTimestamp tracks when the last request
+                    for the PaaS token validity was sent
+                  format: date-time
+                  type: string
+                updatedTimestamp:
+                  description: UpdatedTimestamp indicates when the instance was last updated
+                  format: date-time
+                  type: string
+              type: object
+          required:
+          - spec
+          type: object
+      version: v1alpha1
+      versions:
+      - name: v1alpha1
+        served: true
+        storage: true
+  oneagent_crd.yaml: |
     apiVersion: apiextensions.k8s.io/v1beta1
     kind: CustomResourceDefinition
     metadata:
@@ -130,6 +326,8 @@ data:
         type: date
       group: dynatrace.com
       names:
+        categories:
+        - dynatrace
         kind: OneAgent
         listKind: OneAgentList
         plural: oneagents
@@ -139,7 +337,7 @@ data:
         status: {}
       validation:
         openAPIV3Schema:
-          description: Dyantrace OneAgent for full-stack monitoring
+          description: OneAgent configures the Dynatrace OneAgent for full-stack monitoring
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation
@@ -219,7 +417,8 @@ data:
                           fieldRef:
                             description: 'Selects a field of the pod: supports metadata.name,
                               metadata.namespace, metadata.labels, metadata.annotations,
-                              spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP.'
+                              spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP,
+                              status.podIPs.'
                             properties:
                               apiVersion:
                                 description: Version of the schema the FieldPath is written
@@ -277,13 +476,17 @@ data:
                   type: array
                 image:
                   description: 'Optional: the Dynatrace installer container image Defaults
-                    to docker.io/dynatrace/oneagent:latest'
+                    to docker.io/dynatrace/oneagent:latest for Kubernetes and to registry.connect.redhat.com/dynatrace/oneagent
+                    for OpenShift'
                   type: string
                 labels:
                   additionalProperties:
                     type: string
                   description: 'Optional: Adds additional labels for the OneAgent pods'
                   type: object
+                networkZone:
+                  description: 'Optional: Adds the OneAgent to the given NetworkZone'
+                  type: string
                 nodeSelector:
                   additionalProperties:
                     type: string
@@ -388,19 +591,42 @@ data:
               description: OneAgentStatus defines the observed state of OneAgent
               properties:
                 conditions:
+                  description: Conditions includes status about the current state of the
+                    instance
                   items:
+                    description: "Condition represents an observation of an object's state.
+                      Conditions are an extension mechanism intended to be used when the
+                      details of an observation are not a priori known or would not apply
+                      to all instances of a given Kind. \n Conditions should be added
+                      to explicitly convey properties that users and components care about
+                      rather than requiring those properties to be inferred from other
+                      observations. Once defined, the meaning of a Condition can not be
+                      changed arbitrarily - it becomes part of the API, and has the same
+                      backwards- and forwards-compatibility concerns of any other part
+                      of the API."
                     properties:
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
                       message:
                         type: string
                       reason:
+                        description: ConditionReason is intended to be a one-word, CamelCase
+                          representation of the category of cause of the current status.
+                          It is intended to be used in concise output, such as one-line
+                          kubectl get output, and in summarizing occurrences of causes.
                         type: string
                       status:
                         type: string
                       type:
+                        description: "ConditionType is the type of the condition and is
+                          typically a CamelCased word or short phrase. \n Condition types
+                          should indicate state in the \"abnormal-true\" polarity. For
+                          example, if the condition indicates when a policy is invalid,
+                          the \"is valid\" case is probably the norm, so the condition
+                          should be called \"Invalid\"."
                         type: string
                     required:
-                    - message
-                    - reason
                     - status
                     - type
                     type: object
@@ -418,19 +644,19 @@ data:
                   type: object
                 lastAPITokenProbeTimestamp:
                   description: LastAPITokenProbeTimestamp tracks when the last request
-                    for the API token validity was sent.
+                    for the API token validity was sent
                   format: date-time
                   type: string
                 lastPaaSTokenProbeTimestamp:
                   description: LastPaaSTokenProbeTimestamp tracks when the last request
-                    for the PaaS token validity was sent.
+                    for the PaaS token validity was sent
                   format: date-time
                   type: string
                 phase:
                   description: Defines the current state (Running, Updating, Error, ...)
                   type: string
                 updatedTimestamp:
-                  description: The timestamp when the instance was last updated
+                  description: UpdatedTimestamp indicates when the instance was last updated
                   format: date-time
                   type: string
                 version:
@@ -439,11 +665,43 @@ data:
               type: object
           required:
           - spec
+          type: object
       version: v1alpha1
       versions:
       - name: v1alpha1
         served: true
         storage: true
+  mutatingwebhookconfiguration.yaml: |
+    apiVersion: admissionregistration.k8s.io/v1beta1
+    kind: MutatingWebhookConfiguration
+    metadata:
+      name: dynatrace-oneagent-webhook
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+    webhooks:
+    - name: webhook.oneagent.dynatrace.com
+      rules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE"]
+        resources: ["pods"]
+        scope: Namespaced
+      namespaceSelector:
+        matchExpressions:
+        - key: oneagent.dynatrace.com/instance
+          operator: Exists
+      clientConfig:
+        service:
+          name: dynatrace-oneagent-webhook
+          namespace: {{ .Release.Namespace }}
+          path: /inject
+      admissionReviewVersions: ["v1beta1"]
   oneagent.yaml: |
     apiVersion: dynatrace.com/v1alpha1
     kind: OneAgent
@@ -504,4 +762,47 @@ data:
 
       {{- if .Values.oneagent.trustedCAs }}
       trustedCAs: {{ .Values.oneagent.name }}
+      {{- end }}
+
+      {{- if .Values.oneagent.networkZone }}
+      networkZone: {{ .Values.oneagent.networkZone }}
+      {{- end }}
+
+  oneagentapm.yaml: |
+    apiVersion: dynatrace.com/v1alpha1
+    kind: OneAgentAPM
+    metadata:
+      name: {{ include "oneagentapm.name" . }}
+      namespace: {{ .Release.Namespace }}
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+    spec:
+      apiUrl: {{ .Values.oneagent.apiUrl }}
+      tokens: {{ .Values.oneagent.name }}
+
+      {{- if .Values.oneagent.skipCertCheck }}
+      skipCertCheck: {{ .Values.oneagent.skipCertCheck }}
+      {{- end }}
+
+      {{- if .Values.oneagent.enableIstio }}
+      enableIstio: {{ .Values.oneagent.enableIstio }}
+      {{- end }}
+
+      {{- if .Values.oneagent.proxy }}
+      proxy:
+        valueFrom: {{ .Values.oneagent.name }}
+      {{- end }}
+
+      {{- if .Values.oneagent.trustedCAs }}
+      trustedCAs: {{ .Values.oneagent.name }}
+      {{- end }}
+
+      {{- if .Values.oneagent.networkZone }}
+      networkZone: {{ .Values.oneagent.networkZone }}
       {{- end }}
