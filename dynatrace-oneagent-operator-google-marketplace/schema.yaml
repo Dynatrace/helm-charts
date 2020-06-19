@@ -360,6 +360,14 @@ properties:
                   - create
                   - update
                   - delete
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-oneagent-operator
+                verbs:
+                  - use
   oneagentServiceAccount:
     type: string
     title: Service account used by the Dynatrace OneAgent
