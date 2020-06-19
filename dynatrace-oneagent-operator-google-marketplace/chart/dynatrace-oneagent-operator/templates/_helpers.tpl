@@ -56,6 +56,16 @@ helm.sh/chart: {{ include "dynatrace-oneagent-operator.chart" . }}
 {{- end -}}
 
 {{/*
+Common labels webhook
+*/}}
+{{- define "dynatrace-oneagent-operator.commonlabelswebhook" -}}
+app.kubernetes.io/name: "{{ .Release.Name }}"
+dynatrace.com/operator: oneagent
+internal.oneagent.dynatrace.com/component: webhook
+helm.sh/chart: {{ include "dynatrace-oneagent-operator.chart" . }}
+{{- end -}}
+
+{{/*
 Check if default oneagent image is used
 */}}
 {{- define "dynatrace-oneagent.image" -}}
@@ -76,3 +86,17 @@ Check if default image is used
 	{{- printf "%s:%s" "gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator" "{{ .Chart.AppVersion }}" }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+	Check for correct oneagentapm name
+	*/}}
+	{{- define "oneagentapm.name" -}}
+	{{- if eq .Values.mode "apm" }}
+		{{- if eq .Values.oneagent.name "oneagent" -}}
+			{{- printf "oneagentapm" -}}
+		{{- else -}}
+			{{- printf "%s" .Values.oneagent.name -}}
+		{{- end -}}
+	{{- end -}}
+	{{- end -}}
+

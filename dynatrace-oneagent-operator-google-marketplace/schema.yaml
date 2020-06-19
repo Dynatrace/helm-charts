@@ -15,23 +15,63 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: '0.7.1'
+  publishedVersion: "0.8.0"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.7.1
+      v0.8.0
+
+      New: Kubernetes Webhook for OneAgent injection on application-only mode
+      This automates the deployment of Dynatrace's application-only injection at container runtime, including a new init container, and other required configuration.
+
+      For this feature, we've also added a new Custom Resource Definition, OneAgentAPM, where you can configure the tenant and credentials to use for the injection.
+
+      The feature can be enabled by creating an OneAgentAPM object, and then adding a label oneagent.dynatrace.com/instance: <OneAgentAPM object name> to each namespace you want to monitor. All Pods created from now on that belong to those namespaces will now be processed by Operator webhook.
+
+      The Operator will:
+
+      Add an initContainer to each Pod to be monitored, in charge of downloading the OneAgent app-only package.
+      Configure the required environment variables and volumes on each container for them to have injection.
+      Replicate the credentials to monitored namespaces, so that they are available for the initContainer.
+
+
+      Changelog
+
+      Features
+      Implement webhook to inject the OneAgent in App-only mode (#234, #237, #239, #250)
+      This feature can be enabled by setting the label oneagent.dynatrace.com/instance: <oneagentapm-object-name> on the namespaces to monitor.
+      CA and server certificates are generated for the webhook by the Operator, and renewed automatically after 365 and 7 days, respectively (#244)
+      OneAgent app-only package and logs will be stored on /opt/dynatrace/oneagent-paas inside the containers by default. It can be configured with the oneagent.dynatrace.com/install-path annotation on Pods (#251)
+      OneAgent app-only package will be downloaded from the provided tenant by default. It can be configured with the oneagent.dynatrace.com/installer-url annotation on Pods (#258, #264)
+      Certificates location can be configured on the webhook server with the --certs-dir, --cert, and --cert-key command line arguments (#261)
+      Added a setting to configure a NetworkZone via the CR (#270)
+
+      Bug fixes
+      Phase now gets set to 'Deploying' while the OneAgent gets updated (#267)
 
       Other changes
-      Adjusted psp name
-      Reworked NOTES.txt
+      Removed kubernetes.yaml and openshift.yaml from master and generate them with kustomize instead
+      Updated the Go version from 1.13 to 1.14
+      Updated the Operator SDK version from 0.15.0 to 0.17.0
+      The different operator and webhook modes are encapsulated in a single binary
+      Webhook's init container only downloads 64bits package
+      Include Service and MutatingWebhookConfiguration objects in manifests
+      Upgrade base image to ubi-minimal:8.2
+      Include Operator version as a custom property for hosts
+      Ignore hosts that haven't been seen in the last 30 minutes when looking for hosts
+      Adjust permissions for the webhook
+      Refactor workflow from OneAgent controller
+      Automatically update conditions if migrating from earlier Operator versions
+      Remove unused metadata from webhook-injected Pods
+      Changes in preparation for v0.8.0 release
     releaseTypes:
-    - Feature
+      - Feature
     recommended: true
 
   managedUpdates:
     kalmSupported: true
 
   images:
-    '':
+    "":
       properties:
         operator.image:
           type: FULL
@@ -45,6 +85,14 @@ properties:
     type: string
     x-google-marketplace:
       type: NAMESPACE
+  mode:
+    type: string
+    description: Either fullstack for full monitoring or apm for application only monitoring
+    title: Monitoring mode
+    default: fullstack
+    enum:
+      - fullstack
+      - apm
   oneagent.apiUrl:
     type: string
     description: The Dynatrace api url including `/api` path at the end
@@ -109,6 +157,80 @@ properties:
     type: string
     x-google-marketplace:
       type: DEPLOYER_IMAGE
+  webhookServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace OneAgent Operator's Webhook
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - ""
+                resources:
+                  - namespaces
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                verbs:
+                  - list
+                  - create
+                  - watch
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                resourceNames:
+                  - dynatrace-oneagent-webhook
+                verbs:
+                  - get
+                  - update
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - ""
+                resources:
+                  - services
+                  - configmaps
+                  - secrets
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - create
+                  - update
+              - apiGroups:
+                  - ""
+                resources:
+                  - pods
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - oneagentapms
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-oneagent-webhook
+                verbs:
+                  - use
   operatorServiceAccount:
     type: string
     title: Service account used by the Dynatrace OneAgent Operator
@@ -123,10 +245,27 @@ properties:
                   - "" # "" indicates the core API group
                 resources:
                   - nodes
+                  - namespaces
                 verbs:
                   - get
                   - list
                   - watch
+              - apiGroups:
+                  - ""
+                resources:
+                  - secrets
+                verbs:
+                  - create
+              - apiGroups:
+                  - ""
+                resources:
+                  - secrets
+                resourceNames:
+                  - dynatrace-oneagent-config
+                verbs:
+                  - get
+                  - update
+                  - delete
           - type: Role
             rulesType: CUSTOM
             rules:
@@ -134,6 +273,7 @@ properties:
                   - dynatrace.com
                 resources:
                   - oneagents
+                  - oneagentapms
                 verbs:
                   - get
                   - list
@@ -205,6 +345,8 @@ properties:
                 resources:
                   - oneagents/finalizers
                   - oneagents/status
+                  - oneagentapms/finalizers
+                  - oneagentapms/status
                 verbs:
                   - update
               - apiGroups:
@@ -255,36 +397,38 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                - dynatrace.com
+                  - dynatrace.com
                 resources:
-                - oneagents
+                  - oneagents
+                  - oneagentapms
                 verbs:
-                - get
-                - list
-                - create
-                - patch
+                  - get
+                  - list
+                  - create
+                  - patch
               - apiGroups:
-                - policy
+                  - policy
                 resources:
-                - podsecuritypolicies
+                  - podsecuritypolicies
                 verbs:
-                - get
-                - list
-                - create
-                - patch
+                  - get
+                  - list
+                  - create
+                  - patch
               - apiGroups:
-                - apiextensions.k8s.io
+                  - apiextensions.k8s.io
                 resources:
-                - customresourcedefinitions
+                  - customresourcedefinitions
                 verbs:
-                - get
-                - list
-                - create
-                - patch
+                  - get
+                  - list
+                  - create
+                  - patch
               - apiGroups:
                   - dynatrace.com
                 resources:
                   - oneagents
+                  - oneagentapms
                 verbs:
                   - get
                   - list
@@ -298,7 +442,6 @@ properties:
                 verbs:
                   - get
                   - list
-
 required:
   - name
   - namespace
@@ -308,3 +451,4 @@ required:
   - operatorServiceAccount
   - oneagentServiceAccount
   - configurationServiceAccount
+  - webhookServiceAccount
