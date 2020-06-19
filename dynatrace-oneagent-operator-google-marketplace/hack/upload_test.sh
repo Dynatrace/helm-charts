@@ -12,5 +12,9 @@ docker build --tag $REGISTRY/$APP_NAME/deployer:$VERSION ./.. --no-cache
 docker push $REGISTRY/$APP_NAME/deployer:$VERSION
 
 kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketplace-k8s-app-tools/master/crd/app-crd.yaml"
-kubectl delete application dynatrace-oneagent-operator -n dynatrace
+
+if kubectl get Application/dynatrace-oneagent-operator -n dynatrace &> /dev/null; then
+    kubectl delete application dynatrace-oneagent-operator -n dynatrace
+fi
+
 mpdev /scripts/install --deployer=$REGISTRY/$APP_NAME/deployer:$VERSION --parameters='{ "name": "dynatrace-oneagent-operator","namespace": "dynatrace","oneagent.apiUrl": "'"${APIURL}"'","secret.apiToken": "'"${APITOKEN}"'","secret.paasToken": "'"${PAASTOKEN}"'"}'
