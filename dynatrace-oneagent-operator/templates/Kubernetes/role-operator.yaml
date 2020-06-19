@@ -26,6 +26,7 @@ rules:
       - dynatrace.com
     resources:
       - oneagents
+      - oneagentapms
     verbs:
       - get
       - list
@@ -97,6 +98,8 @@ rules:
     resources:
       - oneagents/finalizers
       - oneagents/status
+      - oneagentapms/finalizers
+      - oneagentapms/status
     verbs:
       - update
   - apiGroups:

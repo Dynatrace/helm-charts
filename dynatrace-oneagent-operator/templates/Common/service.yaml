@@ -1,3 +1,4 @@
+
 # Copyright 2019 Dynatrace LLC
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v2
-name: dynatrace-oneagent-operator
-description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Openshift
-icon: https://assets.dynatrace.com/global/resources/Signet_Logo_RGB_CP_512x512px.png
-home: https://www.dynatrace.com/
-type: application
-version: 0.8.0
-appVersion: 0.8.0
-maintainers:
-  - name: DTMad
-    email: marco.mader@dynatrace.com
-  - name: lrgar
-    email: luis.garcia@dynatrace.com
-  - name: mmayr-at
-    email: michael.mayr@dynatrace.com
-sources:
-  - https://github.com/Dynatrace/helm-charts
+{{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-oneagent-operator.platformSet" .))}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynatrace-oneagent-webhook
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dynatrace-oneagent-operator.commonlabelswebhook" . | nindent 4 }}
+spec:
+  selector:
+    internal.oneagent.dynatrace.com/app: webhook
+    internal.oneagent.dynatrace.com/component: webhook
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: server-port
