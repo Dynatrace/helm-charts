@@ -14,6 +14,7 @@
 
 platform: "kubernetes"
 mode: "fullstack"
+createPsp: false
 
 operator:
   image: ""
