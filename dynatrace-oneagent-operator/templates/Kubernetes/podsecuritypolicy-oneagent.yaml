@@ -13,7 +13,7 @@
 # limitations under the License.
 
 {{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-oneagent-operator.platformSet" .))}}
-{{- if and (eq .Values.platform "kubernetes") (not .Values.createPsp)}}
+{{- if and (eq .Values.platform "kubernetes") (.Values.createPsp)}}
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
