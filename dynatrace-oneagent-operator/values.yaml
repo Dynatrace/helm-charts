@@ -49,3 +49,7 @@ secret:
   autoCreate: true
   apiToken: ""
   paasToken: ""
+
+# Enable kubernetes cluster monitoring
+monitor:
+  enable: false
