@@ -24,23 +24,24 @@ spec:
   tokens: {{ .Values.oneagent.name }}
   image: {{ include "dynatrace-oneagent.image" . }}
 
-  {{- if ne (printf "%T" .Values.oneagent.args) "string" }}
-  args: {{- toYaml .Values.oneagent.args | nindent 4 }}
-  {{- else }}
+  {{- if .Values.oneagent.args }}
   args:
-    - --set-app-log-content-access=true
+{{- .Values.oneagent.args | toYaml | nindent 4 }}
   {{- end }}
 
   {{- if .Values.oneagent.env }}
-  env: {{- toYaml .Values.oneagent.env | nindent 4 }}
+  env:
+{{- .Values.oneagent.env | toYaml | nindent 4 }}
   {{- end }}
 
-  {{- if .Values.oneagent.labels }}
-  labels: {{- toYaml .Values.oneagent.labels  | nindent 4 }}
+  {{- with .Values.oneagent.labels }}
+  labels:
+{{- . | toYaml | nindent 4 }}
   {{- end }}
 
-  {{- if .Values.oneagent.nodeSelector }}
-  nodeSelector: {{- toYaml .Values.oneagent.nodeSelector | nindent 4 }}
+  {{- with .Values.oneagent.nodeSelector }}
+  nodeSelector:
+{{- . | toYaml | nindent 4 }}
   {{- end }}
 
   {{- if .Values.oneagent.proxy }}
@@ -48,17 +49,14 @@ spec:
     valueFrom: {{ .Values.oneagent.name }}
   {{- end }}
 
-  {{- if ne (printf "%T" .Values.oneagent.tolerations) "string" }}
-  tolerations: {{- toYaml .Values.oneagent.tolerations | nindent 4 }}
-  {{- else }}
+  {{- if .Values.oneagent.tolerations }}
   tolerations:
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/master
-      operator: Exists
+{{- .Values.oneagent.tolerations | toYaml | nindent 4 }}
   {{- end }}
 
-  {{- if .Values.oneagent.resources }}
-  resources: {{- toYaml .Values.oneagent.resources | nindent 4 }}
+  {{- with .Values.oneagent.resources }}
+  resources:
+{{- . | toYaml | nindent 4 }}
   {{- end }}
 
   {{- if .Values.oneagent.dnsPolicy }}

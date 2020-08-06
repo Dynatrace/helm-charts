@@ -22,22 +22,20 @@ oneagent:
   name: "oneagent"
   apiUrl: ""
   image: ""
-  # The expected format is YAML and not a string
-  args: ""
-  # The expected format is YAML and not a string
-  env: ""
-  # The expected format is YAML and not a string
-  nodeSelector: ""
-  # The expected format is YAML and not a string
-  labels: ""
+  args:
+    - --set-app-log-content-access=true
+  env: []
+  nodeSelector: {}
+  labels: {}
   skipCertCheck: false
   disableAgentUpdate: false
   enableIstio: false
   dnsPolicy: ""
-  # The expected format is YAML and not a string
-  resources: ""
-  # The expected format is YAML and not a string
-  tolerations: ""
+  resources: {}
+  tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+      operator: Exists
   waitReadySeconds: null
   priorityClassName: ""
   serviceAccountName: ""
