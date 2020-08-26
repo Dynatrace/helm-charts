@@ -27,7 +27,7 @@ questions:
   description: "Your Dynatrace API token - You can generate this token in your Dynatrace environment"
   default: ""
   type: string
-  required: true
+  required: false
   group: "Agent Configuration (REQUIRED)"
 
 - variable: secret.paasToken
