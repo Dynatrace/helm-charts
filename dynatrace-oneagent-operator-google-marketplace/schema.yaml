@@ -125,6 +125,8 @@ properties:
     x-google-marketplace:
       type: SERVICE_ACCOUNT
       serviceAccount:
+        description: >
+          Service account used by the Dynatrace OneAgent Operator's Webhook
         roles:
           - type: ClusterRole
             rulesType: CUSTOM
@@ -199,6 +201,8 @@ properties:
     x-google-marketplace:
       type: SERVICE_ACCOUNT
       serviceAccount:
+        description: >
+          Service account used by the Dynatrace OneAgent Operator
         roles:
           - type: ClusterRole
             rulesType: CUSTOM
@@ -336,6 +340,8 @@ properties:
     x-google-marketplace:
       type: SERVICE_ACCOUNT
       serviceAccount:
+        description: >
+          Service account used by the Dynatrace OneAgent
         roles:
           - type: Role
             rulesType: CUSTOM
@@ -354,6 +360,8 @@ properties:
     x-google-marketplace:
       type: SERVICE_ACCOUNT
       serviceAccount:
+        description: >
+          Service account used to configure the Dynatrace OneAgent Operator
         roles:
           - type: ClusterRole
             rulesType: CUSTOM
