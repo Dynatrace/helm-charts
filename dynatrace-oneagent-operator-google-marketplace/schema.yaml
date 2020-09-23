@@ -15,16 +15,13 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.8.1"
+  publishedVersion: "0.8.2"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.8.1
+      v0.8.2
 
       Bug fixes
-      * Update status of OneAgentAPM if token is missing.
-      * Marked for termination events are now sent when a node is deleted, or when it's cordoned, and then periodically after each hour while in that state.
-      * Operator was updating the DaemonSet even if there were no changes.
-      * Certificates secret not updated on renewal, causing renewals every 5 minutes.
+      * Reworked update mechanism to prevent downgrades (#320)
     releaseTypes:
       - Feature
     recommended: true
