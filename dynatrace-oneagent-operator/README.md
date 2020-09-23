@@ -13,7 +13,7 @@ Depending of the version of the Dynatrace OneAgent Operator, it supports the fol
 
 | Dynatrace OneAgent Operator Helm Chart version | Kubernetes | OpenShift Container Platform |
 | ---------------------------------------------- | ---------- | ---------------------------- |
-| v0.8.1                                         | 1.14+      | 3.11.188+, 4.1+              |
+| v0.8.2                                         | 1.14+      | 3.11.188+, 4.1+              |
 | v0.7.1                                         | 1.14+      | 3.11.188+, 4.1+              |
 | v0.6.0                                         | 1.11+      | 3.11+                        |
 | v0.5.4                                         | 1.11+      | 3.11+                        |
