@@ -1,0 +1,14 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.activegate.serviceAccountName }}
+  namespace: {{ .Release.Namespace }}
+rules:
+  - apiGroups:
+      - policy
+    resources:
+      - podsecuritypolicies
+    resourceNames:
+      - dynatrace-activegate
+    verbs:
+      - use

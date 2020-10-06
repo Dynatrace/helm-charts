@@ -1,0 +1,91 @@
+categories:
+  - APM
+  - Monitoring
+questions:
+
+  #################### ActiveGate Configuration ####################
+
+  - variable: activegate.apiUrl
+    label: "Dynatrace API URL"
+    description: "Dynatrace API URL including `/api` path at the end"
+    default: "https://ENVIRONMENTID.live.dynatrace.com/api"
+    type: string
+    required: true
+    group: "ActiveGate Configuration"
+
+  - variable: secret.apiToken
+    label: "Dynatrace API token"
+    description: "Your Dynatrace API token - You can generate this token in your Dynatrace environment"
+    default: ""
+    type: string
+    required: false
+    group: "ActiveGate Configuration"
+
+  - variable: secret.paasToken
+    label: "Dynatrace PaaS token"
+    description: "Your Dynatrace Platform as a Service token - You can generate this token in your Dynatrace environment"
+    default: ""
+    type: string
+    required: true
+    group: "ActiveGate Configuration"
+
+  #################### Advanced ActiveGate Configuration (OPTIONAL) ####################
+  - variable: show_advanced_config
+    label: "Show advanced configuration"
+    description: "Show advanced configuration options for the Dynatrace ActiveGate Operator"
+    default: false
+    type: boolean
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+
+  - variable: operator.image
+    label: "Custom Operator image location"
+    description: "The location from where to grab the Dynatrace ActiveGate operator image - default is quay.io/dynatrace/dynatrace-oneagent-operator"
+    default: ""
+    type: string
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true"
+
+  - variable: activegate.name
+    label: "ActiveGate CustomResource name"
+    default: "activegate"
+    type: string
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && mode=fullstack"
+
+  - variable: activegate.disableActivegateUpdate
+    label: "Disable automatic ActiveGate updates"
+    description: "Disables automatic restarts of activegate pod in case a new version is available"
+    default: false
+    type: boolean
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && mode=fullstack"
+
+  - variable: activegate.image
+    label: "Custom ActiveGate image location"
+    description: "The location from where to grab the Dynatrace ActiveGate image - default for Kubernetes is ENVIRONMENTID.live.dynatrace.com/linux/activegate"
+    default: ""
+    type: string
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && mode=fullstack"
+
+  - variable: activegate.labels
+    label: "Custom labels for the ActiveGate pod"
+    description: "Defines labels for ActiveGate pod to structure workloads as desired - Please edit as Yaml for the best experience"
+    type: string
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && mode=fullstack"
+
+  - variable: activegate.resources
+    label: "Resource definition for the ActiveGate pod"
+    description: "Defines the resources the ActiveGate pod can use - Please edit as Yaml for the best experience"
+    type: string
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && mode=fullstack"
+
+  - variable: activegate.tolerations
+    label: "Custom tolerations for the ActiveGate"
+    description: "Defines custom tolerations to the ActiveGate - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
+    default: ""
+    type: string
+    group: "Advanced ActiveGate Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && mode=fullstack"

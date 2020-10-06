@@ -1,0 +1,270 @@
+# Copyright 2019 Dynatrace LLC
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+x-google-marketplace:
+  schemaVersion: v2
+  applicationApiVersion: v1beta1
+  publishedVersion: "0.1.0"
+  publishedVersionMetadata:
+    releaseNote: >-
+      v0.1.0
+
+      Features
+      * Initial release of the Dynatrace ActiveGate Operator
+    releaseTypes:
+      - Feature
+    recommended: true
+
+  managedUpdates:
+    kalmSupported: true
+
+  images:
+    "":
+      properties:
+        operator.image:
+          type: FULL
+
+properties:
+  name:
+    type: string
+    x-google-marketplace:
+      type: NAME
+  namespace:
+    type: string
+    x-google-marketplace:
+      type: NAMESPACE
+  activegate.apiUrl:
+    type: string
+    description: The Dynatrace api url including `/api` path at the end
+    title: API URL
+  secret.apiToken:
+    type: string
+    description: The API token from your Dynatrace environment
+    title: API Token
+    x-google-marketplace:
+      type: MASKED_FIELD
+  secret.paasToken:
+    type: string
+    description: The PaaS token from your Dynatrace environment
+    title: PaaS Token
+    x-google-marketplace:
+      type: MASKED_FIELD
+  activegate.name:
+    type: string
+    default: activegate
+    description: The name of the activegate custom resource
+    title: Custom Resource Name
+  activegate.image:
+    type: string
+    description: "The location from where to grab the Dynatrace ActiveGate image - default for Kubernetes is ToDo"
+    title: Custom ActiveGate image location
+  activegate.disableActivegateUpdate:
+    type: boolean
+    description: "Disables automatic restarts of activegate pods in case a new version is available"
+    default: false
+    title: "Disable automatic ActiveGate updates"
+  deployerHelm.image:
+    type: string
+    x-google-marketplace:
+      type: DEPLOYER_IMAGE
+  operatorServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace ActiveGate Operator
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace ActiveGate Operator
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - dynatrace.com
+                  resources:
+                    - activegates
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                    - update
+                    - create
+                - apiGroups:
+                    - dynatrace.com
+                  resources:
+                    - activegates/finalizers
+                    - activegates/status
+                  verbs:
+                    - update
+                - apiGroups:
+                    - apps
+                  resources:
+                    - replicasets
+                    - deployments
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - apps
+                  resources:
+                    - deployments/finalizers
+                  verbs:
+                    - update
+                - apiGroups:
+                    - ""
+                  resources:
+                    - configmaps
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                    - create
+                    - update
+                    - delete
+                - apiGroups:
+                    - ""
+                  resources:
+                    - pods
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                    - delete
+                    - create
+                - apiGroups:
+                    - ""
+                  resources:
+                    - secrets
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - monitoring.coreos.com
+                  resources:
+                    - servicemonitors
+                  verbs:
+                    - get
+                    - create
+                - apiGroups:
+                    - ""
+                  resources:
+                    - services
+                  verbs:
+                    - create
+  activegateServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace ActiveGate
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace ActiveGate
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                - ""
+                - batch
+                - apps
+                - apps.openshift.io
+                resources:
+                  - nodes
+                  - pods
+                  - namespaces
+                  - deployments
+                  - replicasets
+                  - deploymentconfigs
+                  - replicationcontrollers
+                  - jobs
+                  - cronjobs
+                  - statefulsets
+                  - daemonsets
+                  - events
+                  - resourcequotas
+                  - pods/proxy
+                verbs:
+                  - list
+                  - watch
+                  - get
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-activegate
+                verbs:
+                  - use
+  configurationServiceAccount:
+    type: string
+    title: Service account used to configure the Dynatrace ActiveGate Operator
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used to configure the Dynatrace ActiveGate Operator
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - activegates
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - patch
+                  - update
+                  - watch
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - patch
+              - apiGroups:
+                  - apiextensions.k8s.io
+                resources:
+                  - customresourcedefinitions
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - patch
+              - apiGroups:
+                  - app.k8s.io
+                resources:
+                  - applications
+                verbs:
+                  - get
+                  - list
+required:
+  - name
+  - namespace
+  - activegate.apiUrl
+  - secret.apiToken
+  - secret.paasToken
+  - operatorServiceAccount
+  - activegateServiceAccount
+  - configurationServiceAccount
