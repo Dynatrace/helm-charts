@@ -39,7 +39,7 @@ questions:
 
   - variable: operator.image
     label: "Custom Operator image location"
-    description: "The location from where to grab the Dynatrace ActiveGate operator image - default is quay.io/dynatrace/dynatrace-oneagent-operator"
+    description: "The location from where to grab the Dynatrace ActiveGate operator image - default is quay.io/dynatrace/dynatrace-activegate-operator"
     default: ""
     type: string
     group: "Advanced ActiveGate Configuration (OPTIONAL)"
@@ -50,7 +50,7 @@ questions:
     default: "activegate"
     type: string
     group: "Advanced ActiveGate Configuration (OPTIONAL)"
-    show_if: "show_advanced_config=true && mode=fullstack"
+    show_if: "show_advanced_config=true"
 
   - variable: activegate.disableActivegateUpdate
     label: "Disable automatic ActiveGate updates"
@@ -58,7 +58,7 @@ questions:
     default: false
     type: boolean
     group: "Advanced ActiveGate Configuration (OPTIONAL)"
-    show_if: "show_advanced_config=true && mode=fullstack"
+    show_if: "show_advanced_config=true"
 
   - variable: activegate.image
     label: "Custom ActiveGate image location"
@@ -66,21 +66,21 @@ questions:
     default: ""
     type: string
     group: "Advanced ActiveGate Configuration (OPTIONAL)"
-    show_if: "show_advanced_config=true && mode=fullstack"
+    show_if: "show_advanced_config=true"
 
   - variable: activegate.labels
     label: "Custom labels for the ActiveGate pod"
     description: "Defines labels for ActiveGate pod to structure workloads as desired - Please edit as Yaml for the best experience"
     type: string
     group: "Advanced ActiveGate Configuration (OPTIONAL)"
-    show_if: "show_advanced_config=true && mode=fullstack"
+    show_if: "show_advanced_config=true"
 
   - variable: activegate.resources
     label: "Resource definition for the ActiveGate pod"
     description: "Defines the resources the ActiveGate pod can use - Please edit as Yaml for the best experience"
     type: string
     group: "Advanced ActiveGate Configuration (OPTIONAL)"
-    show_if: "show_advanced_config=true && mode=fullstack"
+    show_if: "show_advanced_config=true"
 
   - variable: activegate.tolerations
     label: "Custom tolerations for the ActiveGate"
@@ -88,4 +88,4 @@ questions:
     default: ""
     type: string
     group: "Advanced ActiveGate Configuration (OPTIONAL)"
-    show_if: "show_advanced_config=true && mode=fullstack"
+    show_if: "show_advanced_config=true"
