@@ -1,0 +1,67 @@
+# Copyright 2020 Dynatrace LLC
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+{{- if and (.Values.apiUrl) (.Values.apiToken) (.Values.paasToken) }}
+apiVersion: dynatrace.com/v1alpha1
+kind: DynaKube
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  apiUrl: {{ required "ApiUrl needs to be set!" .Values.apiUrl }}
+  tokens: {{ .Values.name }}
+
+  {{- if .Values.skipCertCheck }}
+  skipCertCheck: {{ .Values.skipCertCheck }}
+  {{- end }}
+
+  {{- if .Values.proxy }}
+  proxy:
+    valueFrom: {{ .Values.name }}
+  {{- end }}
+
+  {{- if .Values.trustedCAs }}
+  trustedCAs: {{ .Values.name }}
+  {{- end }}
+
+  {{- if .Values.networkZone }}
+  networkZone: {{ .Values.networkZone }}
+  {{- end }}
+
+  aktiveGate:
+    {{- if .Values.activeGate.image }}
+    image: {{ .Values.activeGate.image }}
+    {{- end }}
+
+    {{- if .Values.activeGate.disableActiveGateUpdate }}
+    disableActivegateUpdate: {{ .Values.activeGate.disableActiveGateUpdate }}
+    {{- end }}
+
+  kubernetesMonitoring:
+    {{- if .Values.kubernetesMonitoring.enabled }}
+    enable: {{ .Values.kubernetesMonitoring.enabled }}
+    {{- end }}
+
+    {{- if .Values.kubernetesMonitoring.replicas }}
+    replicas: {{ .Values.kubernetesMonitoring.replicas }}
+    {{- end }}
+
+    {{- if .Values.kubernetesMonitoring.resources }}
+    resources: {{- toYaml .Values.kubernetesMonitoring.resources | nindent 4 }}
+    {{- end }}
+
+    {{- if .Values.kubernetesMonitoring.labels }}
+    labels: {{- toYaml .Values.kubernetesMonitoring.labels  | nindent 4 }}
+    {{- end }}
+  {{- end }}

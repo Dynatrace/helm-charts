@@ -131,7 +131,7 @@ properties:
     title: "Define a proxy"
   oneagent.trustedCAs:
     type: string
-    description: "Adds the provided CA certficates to the Operator and the OneAgent. Provide the name of the configmap which holds your .pem in a field called 'certs'. If this is not set the default embedded certificates on the images will be used"
+    description: "Adds the provided CA certificates to the Operator and the OneAgent. Provide the name of the configmap which holds your .pem in a field called 'certs'. If this is not set the default embedded certificates on the images will be used"
     title: "Add custom CA certificates"
   oneagent.networkZone:
     type: string
