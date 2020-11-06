@@ -44,6 +44,8 @@ oneagent:
   proxy: ""
   trustedCAs: ""
   networkZone: ""
+  useUnprivilegedMode: false
+  useImmutableImage: false
 
 secret:
   autoCreate: true

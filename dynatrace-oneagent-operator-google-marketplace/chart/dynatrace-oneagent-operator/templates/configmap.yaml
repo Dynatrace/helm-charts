@@ -140,11 +140,14 @@ data:
         rule: "RunAsAny"
       fsGroup:
         rule: "RunAsAny"
-  oneagentapm_crd.yaml: |
-    apiVersion: apiextensions.k8s.io/v1beta1
-    kind: CustomResourceDefinition
+  psp-oneagent-unprivileged.yaml: |
+    apiVersion: policy/v1beta1
+    kind: PodSecurityPolicy
     metadata:
-      name: oneagentapms.dynatrace.com
+      name: dynatrace-oneagent-unprivileged
+      annotations:
+        apparmor.security.beta.kubernetes.io/allowedProfileNames: "unconfined"
+        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "*"
       labels:
         {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
       ownerReferences:
@@ -154,11 +157,53 @@ data:
         name: {{ .Release.Name }}
         uid: ##UID##
     spec:
+      privileged: false
+      allowPrivilegeEscalation: true
+      allowedCapabilities:
+        - CHOWN
+        - DAC_OVERRIDE
+        - DAC_READ_SEARCH
+        - FOWNER
+        - FSETID
+        - KILL
+        - NET_ADMIN
+        - NET_RAW
+        - SETFCAP
+        - SETGID
+        - SETUID
+        - SYS_ADMIN
+        - SYS_CHROOT
+        - SYS_PTRACE
+        - SYS_RESOURCE
+      requiredDropCapabilities:
+        - ALL
+      volumes:
+        - "*"
+      hostNetwork: true
+      hostIPC: true
+      hostPID: true
+      hostPorts:
+        - min: 0
+          max: 65535
+      runAsUser:
+        rule: "RunAsAny"
+      seLinux:
+        rule: "RunAsAny"
+      supplementalGroups:
+        rule: "RunAsAny"
+      fsGroup:
+        rule: "RunAsAny"
+  oneagentapm_crd.yaml: |
+    apiVersion: apiextensions.k8s.io/v1beta1
+    kind: CustomResourceDefinition
+    metadata:
+      name: oneagentapms.dynatrace.com
+    spec:
       additionalPrinterColumns:
       - JSONPath: .spec.apiUrl
         name: ApiUrl
         type: string
-      - JSONPath: .spec.tokens
+      - JSONPath: .status.tokens
         name: Tokens
         type: string
       - JSONPath: .metadata.creationTimestamp
@@ -177,7 +222,8 @@ data:
         status: {}
       validation:
         openAPIV3Schema:
-          description: OneAgentAPM configures the Dynatrace OneAgent for application monitoring
+          description: For application-only monitoring used in lieu of full-stack OneAgent
+            if node access is limited.
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation
@@ -194,6 +240,10 @@ data:
             spec:
               description: OneAgentAPMSpec defines the desired state of OneAgentAPM
               properties:
+                agentVersion:
+                  description: 'Optional: The version of the oneagent to be used Default
+                    (if nothing set): latest'
+                  type: string
                 apiUrl:
                   description: Location of the Dynatrace API to connect to, including
                     your specific environment ID
@@ -202,6 +252,11 @@ data:
                   description: If enabled, Istio on the cluster will be configured automatically
                     to allow access to the Dynatrace environment
                   type: boolean
+                image:
+                  description: 'Optional: Custom code modules OneAgent docker image In
+                    case you have the docker image for the oneagent in a custom docker
+                    registry you need to provide it here'
+                  type: string
                 networkZone:
                   description: 'Optional: Adds the OneAgent to the given NetworkZone'
                   type: string
@@ -214,6 +269,25 @@ data:
                     valueFrom:
                       type: string
                   type: object
+                resources:
+                  description: 'Optional: define resources requests and limits for the
+                    initContainer'
+                  properties:
+                    limits:
+                      additionalProperties:
+                        type: string
+                      description: 'Limits describes the maximum amount of compute resources
+                        allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                      type: object
+                    requests:
+                      additionalProperties:
+                        type: string
+                      description: 'Requests describes the minimum amount of compute resources
+                        required. If Requests is omitted for a container, it defaults
+                        to Limits if that is explicitly specified, otherwise to an implementation-defined
+                        value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                      type: object
+                  type: object
                 skipCertCheck:
                   description: Disable certificate validation checks for installer download
                     and API communication
@@ -224,6 +298,9 @@ data:
                 trustedCAs:
                   description: 'Optional: Adds custom RootCAs from a configmap'
                   type: string
+                useImmutableImage:
+                  description: Defines if you want to use the immutable image or the installer
+                  type: boolean
               required:
               - apiUrl
               type: object
@@ -271,9 +348,18 @@ data:
                     - type
                     type: object
                   type: array
+                environmentID:
+                  description: EnvironmentID contains the environment ID corresponding
+                    to the API URL
+                  type: string
                 lastAPITokenProbeTimestamp:
                   description: LastAPITokenProbeTimestamp tracks when the last request
                     for the API token validity was sent
+                  format: date-time
+                  type: string
+                lastClusterVersionProbeTimestamp:
+                  description: LastClusterVersionProbeTimestamp indicates when the cluster's
+                    version was last checked
                   format: date-time
                   type: string
                 lastPaaSTokenProbeTimestamp:
@@ -281,10 +367,17 @@ data:
                     for the PaaS token validity was sent
                   format: date-time
                   type: string
+                tokens:
+                  description: Credentials used for the OneAgent to connect back to Dynatrace.
+                  type: string
                 updatedTimestamp:
                   description: UpdatedTimestamp indicates when the instance was last updated
                   format: date-time
                   type: string
+                useImmutableImage:
+                  description: UseImmutableImage is set when an immutable image is currently
+                    in use
+                  type: boolean
               type: object
           required:
           - spec
@@ -299,20 +392,12 @@ data:
     kind: CustomResourceDefinition
     metadata:
       name: oneagents.dynatrace.com
-      labels:
-        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
     spec:
       additionalPrinterColumns:
       - JSONPath: .spec.apiUrl
         name: ApiUrl
         type: string
-      - JSONPath: .spec.tokens
+      - JSONPath: .status.tokens
         name: Tokens
         type: string
       - JSONPath: .status.version
@@ -337,7 +422,8 @@ data:
         status: {}
       validation:
         openAPIV3Schema:
-          description: OneAgent configures the Dynatrace OneAgent for full-stack monitoring
+          description: For full-stack monitoring, including complete APM and infrastructure
+            layer observability.
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation
@@ -354,6 +440,10 @@ data:
             spec:
               description: OneAgentSpec defines the desired state of OneAgent
               properties:
+                agentVersion:
+                  description: 'Optional: If specified, indicates the OneAgent version
+                    to use Defaults to latest Example: {major.minor.release} - 1.200.0'
+                  type: string
                 apiUrl:
                   description: Location of the Dynatrace API to connect to, including
                     your specific environment ID
@@ -363,6 +453,9 @@ data:
                   items:
                     type: string
                   type: array
+                customPullSecret:
+                  description: 'Optional: Pull secret for your private registry'
+                  type: string
                 disableAgentUpdate:
                   description: Disable automatic restarts of OneAgent pods in case a new
                     version is available
@@ -579,11 +672,22 @@ data:
                 trustedCAs:
                   description: 'Optional: Adds custom RootCAs from a configmap'
                   type: string
+                useImmutableImage:
+                  description: Defines if you want to use the immutable image or the installer
+                  type: boolean
+                useUnprivilegedMode:
+                  description: 'Optional: Runs the OneAgent Pods as unprivileged (Early
+                    Adopter)'
+                  type: boolean
                 waitReadySeconds:
                   description: 'Optional: Defines the time to wait until OneAgent pod
                     is ready after update - default 300 sec'
                   minimum: 0
                   type: integer
+                webhookInjection:
+                  description: Work in progress Disables automatic injection into applications
+                    OneAgentAPM together with the webhook will then do the injection
+                  type: boolean
               required:
               - apiUrl
               type: object
@@ -631,6 +735,10 @@ data:
                     - type
                     type: object
                   type: array
+                environmentID:
+                  description: EnvironmentID contains the environment ID corresponding
+                    to the API URL
+                  type: string
                 instances:
                   additionalProperties:
                     properties:
@@ -647,6 +755,11 @@ data:
                     for the API token validity was sent
                   format: date-time
                   type: string
+                lastClusterVersionProbeTimestamp:
+                  description: LastClusterVersionProbeTimestamp indicates when the cluster's
+                    version was last checked
+                  format: date-time
+                  type: string
                 lastPaaSTokenProbeTimestamp:
                   description: LastPaaSTokenProbeTimestamp tracks when the last request
                     for the PaaS token validity was sent
@@ -655,10 +768,17 @@ data:
                 phase:
                   description: Defines the current state (Running, Updating, Error, ...)
                   type: string
+                tokens:
+                  description: Credentials used for the OneAgent to connect back to Dynatrace.
+                  type: string
                 updatedTimestamp:
                   description: UpdatedTimestamp indicates when the instance was last updated
                   format: date-time
                   type: string
+                useImmutableImage:
+                  description: UseImmutableImage is set when an immutable image is currently
+                    in use
+                  type: boolean
                 version:
                   description: Dynatrace version being used.
                   type: string
@@ -719,8 +839,13 @@ data:
     spec:
       apiUrl: {{ required "ApiUrl needs to be set!" .Values.oneagent.apiUrl }}
       tokens: {{ .Values.oneagent.name }}
-      image: {{ include "dynatrace-oneagent.image" . }}
+      image: {{ include "dynatrace-oneagent.image" . | quote }}
+      {{- if eq .Values.oneagent.useUnprivilegedMode true }}
+      serviceAccountName: {{ .Values.oneagentUnprivilegedServiceAccount }}
+      {{- else }}
       serviceAccountName: {{ .Values.oneagentServiceAccount }}
+      {{- end }}
+
       args:
         - --set-app-log-content-access=true
       tolerations:
@@ -768,6 +893,14 @@ data:
       networkZone: {{ .Values.oneagent.networkZone }}
       {{- end }}
 
+      {{- if .Values.oneagent.useUnprivilegedMode }}
+      useUnprivilegedMode: {{ .Values.oneagent.useUnprivilegedMode }}
+      {{- end }}
+
+      {{- if .Values.oneagent.useImmutableImage }}
+      useImmutableImage: {{ .Values.oneagent.useImmutableImage }}
+      {{- end }}
+
   oneagentapm.yaml: |
     apiVersion: dynatrace.com/v1alpha1
     kind: OneAgentAPM
@@ -805,4 +938,8 @@ data:
 
       {{- if .Values.oneagent.networkZone }}
       networkZone: {{ .Values.oneagent.networkZone }}
+      {{- end }}
+
+      {{- if .Values.oneagent.useImmutableImage }}
+      useImmutableImage: {{ .Values.oneagent.useImmutableImage }}
       {{- end }}
