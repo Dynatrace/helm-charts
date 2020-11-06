@@ -43,4 +43,8 @@ spec:
   {{- if .Values.oneagent.networkZone }}
   networkZone: {{ .Values.oneagent.networkZone }}
   {{- end }}
+
+  {{- if .Values.oneagent.useImmutableImage }}
+  useImmutableImage: {{ .Values.oneagent.useImmutableImage }}
+  {{- end }}
 {{ end }}

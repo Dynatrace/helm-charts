@@ -40,8 +40,12 @@ oneagent:
   waitReadySeconds: null
   priorityClassName: ""
   serviceAccountName: ""
+  unprivilegedServiceAccountName: ""
   proxy: ""
   trustedCAs: ""
+  networkZone: ""
+  useUnprivilegedMode: false
+  useImmutableImage: false
 
 secret:
   apiToken: ""
