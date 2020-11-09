@@ -39,13 +39,13 @@ spec:
   networkZone: {{ .Values.networkZone }}
   {{- end }}
 
-  aktiveGate:
+  activeGate:
     {{- if .Values.activeGate.image }}
     image: {{ .Values.activeGate.image }}
     {{- end }}
 
     {{- if .Values.activeGate.disableActiveGateUpdate }}
-    disableActivegateUpdate: {{ .Values.activeGate.disableActiveGateUpdate }}
+    disableActiveGateUpdate: {{ .Values.activeGate.disableActiveGateUpdate }}
     {{- end }}
 
   kubernetesMonitoring:
@@ -58,10 +58,10 @@ spec:
     {{- end }}
 
     {{- if .Values.kubernetesMonitoring.resources }}
-    resources: {{- toYaml .Values.kubernetesMonitoring.resources | nindent 4 }}
+    resources: {{- toYaml .Values.kubernetesMonitoring.resources | nindent 8 }}
     {{- end }}
 
     {{- if .Values.kubernetesMonitoring.labels }}
-    labels: {{- toYaml .Values.kubernetesMonitoring.labels  | nindent 4 }}
+    labels: {{- toYaml .Values.kubernetesMonitoring.labels  | nindent 8 }}
     {{- end }}
   {{- end }}

@@ -25,7 +25,7 @@ mpdev /scripts/install \
 --parameters='{ \
 "name": "dynatrace-operator", \
 "namespace": "dynatrace", \
-"oneagent.apiUrl": "https://ENVIRONMENTID.live.dynatrace.com/api", \
-"secret.apiToken": "DYNATRACE_API_TOKEN", \
-"secret.paasToken": "PLATFORM_AS_A_SERVICE_TOKEN" }'
+"apiUrl": "https://ENVIRONMENTID.live.dynatrace.com/api", \
+"apiToken": "DYNATRACE_API_TOKEN", \
+"paasToken": "PLATFORM_AS_A_SERVICE_TOKEN" }'
 ```

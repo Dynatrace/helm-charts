@@ -1,4 +1,4 @@
-# Copyright 2019 Dynatrace LLC
+# Copyright 2020 Dynatrace LLC
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if and (.Values.apiToken) (.Values.paasToken) }}
-apiVersion: v1
-kind: Secret
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
-  name: {{ .Values.name }}
-  namespace: {{ .Release.Namespace }}
-data:
-  apiToken: {{ .Values.apiToken | b64enc }}
-  paasToken: {{ .Values.paasToken | b64enc }}
-type: Opaque
-{{- end }}
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "dynatrace-operator.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Name }}
+  apiGroup: rbac.authorization.k8s.io

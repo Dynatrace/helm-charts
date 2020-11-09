@@ -12,17 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: {{ .Release.Name }}
-  labels:
-  {{- include "dynatrace-operator.labels" . | nindent 4 }}
-subjects:
-  - kind: ServiceAccount
-    name: {{ .Release.Name }}
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: ClusterRole
-  name: {{ .Release.Name }}
-  apiGroup: rbac.authorization.k8s.io
+FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm/onbuild

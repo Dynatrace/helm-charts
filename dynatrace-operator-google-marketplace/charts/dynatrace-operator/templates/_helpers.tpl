@@ -76,15 +76,6 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Check if platform is set
-*/}}
-{{- define "dynatrace-operator.platformSet" -}}
-{{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") -}}
-    {{ default "set" }}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Check if default operator image is used
 */}}
 {{- define "dynatrace-operator.image" -}}

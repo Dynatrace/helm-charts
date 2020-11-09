@@ -58,7 +58,7 @@ spec:
                   description: 'Optional: If specified, indicates the ActiveGate version
                     to use Defaults to latest Example: {major.minor.release} - 1.200.0'
                   type: string
-                disableActivegateUpdate:
+                disableActiveGateUpdate:
                   description: Disable automatic restarts of Activegate pods in case
                     a new version is available
                   type: boolean
