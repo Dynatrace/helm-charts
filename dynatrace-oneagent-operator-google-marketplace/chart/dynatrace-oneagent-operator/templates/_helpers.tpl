@@ -72,10 +72,10 @@ Check if default oneagent image is used
 {{- if .Values.oneagent.image -}}
     {{- printf "%s" .Values.oneagent.image -}}
 {{- else -}}
-	    {{- if eq .Values.oneagent.useImmutableImage false -}}
-    		{{- printf "docker.io/dynatrace/oneagent" }}
-			{{- else -}}
-				{{- printf "" -}}
+    {{- if eq .Values.oneagent.useImmutableImage false -}}
+        {{- printf "docker.io/dynatrace/oneagent" }}
+        {{- else -}}
+            {{- printf "" -}}
 	{{- end -}}
 {{- end -}}
 {{- end -}}

@@ -198,6 +198,14 @@ data:
     kind: CustomResourceDefinition
     metadata:
       name: oneagentapms.dynatrace.com
+    labels:
+      {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+    ownerReferences:
+    - apiVersion: v1beta1
+      blockOwnerDeletion: true
+      kind: Application
+      name: {{ .Release.Name }}
+      uid: ##UID##
     spec:
       additionalPrinterColumns:
       - JSONPath: .spec.apiUrl
@@ -392,6 +400,14 @@ data:
     kind: CustomResourceDefinition
     metadata:
       name: oneagents.dynatrace.com
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
     spec:
       additionalPrinterColumns:
       - JSONPath: .spec.apiUrl
@@ -901,6 +917,14 @@ data:
       useImmutableImage: {{ .Values.oneagent.useImmutableImage }}
       {{- end }}
 
+      {{- if .Values.oneagent.agentVersion }}
+        agentVersion: {{ .Values.oneagent.agentVersion }}
+      {{- end }}
+
+      {{- if .Values.oneagent.customPullSecret }}
+        customPullSecret: {{ .Values.oneagent.customPullSecret }}
+      {{- end }}
+
   oneagentapm.yaml: |
     apiVersion: dynatrace.com/v1alpha1
     kind: OneAgentAPM
@@ -942,4 +966,12 @@ data:
 
       {{- if .Values.oneagent.useImmutableImage }}
       useImmutableImage: {{ .Values.oneagent.useImmutableImage }}
+      {{- end }}
+
+      {{- if .Values.oneagent.agentVersion }}
+          agentVersion: {{ .Values.oneagent.agentVersion }}
+      {{- end }}
+
+      {{- if .Values.oneagent.resources }}
+      resources: {{- toYaml .Values.oneagent.resources | nindent 4 }}
       {{- end }}
