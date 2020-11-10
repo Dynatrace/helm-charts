@@ -104,4 +104,12 @@ spec:
   {{- if .Values.oneagent.useImmutableImage }}
   useImmutableImage: {{ .Values.oneagent.useImmutableImage }}
   {{- end }}
+
+  {{- if .Values.oneagent.agentVersion }}
+  agentVersion: {{ .Values.oneagent.agentVersion }}
+  {{- end }}
+
+  {{- if .Values.oneagent.customPullSecret }}
+  customPullSecret: {{ .Values.oneagent.customPullSecret }}
+  {{- end }}
 {{ end }}

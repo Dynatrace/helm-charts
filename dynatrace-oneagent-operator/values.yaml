@@ -46,6 +46,8 @@ oneagent:
   networkZone: ""
   useUnprivilegedMode: false
   useImmutableImage: false
+  agentVersion: ""
+  customPullSecret: ""
 
 secret:
   autoCreate: true
