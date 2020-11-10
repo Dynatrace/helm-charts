@@ -17,7 +17,7 @@ To create this namespace run the following command:
 kubectl create namespace dynatrace
 ```
 
-To install the Dynatrace Operator run this command and replace the tokens and the apiUrl inside:
+To install the Dynatrace Operator run this command after replacing apiToken, passToken and apiUrl:
 
 ```
 mpdev /scripts/install \
