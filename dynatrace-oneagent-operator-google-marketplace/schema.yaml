@@ -15,13 +15,34 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.8.2"
+  publishedVersion: "0.9.0"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.8.2
+      v0.9.0
 
+      Features
+        * Provide Prometheus metrics for the Operator pod on port 8080, and Webhook Pod on ports 8383 and 8484 (#305)
+        * Control whether the init container crashes in case of download failures through the oneagent.dynatrace.com/failure-policy: fail Pod annotation, off by default (#288)
+        * Regardless of the annotation, if the unzip operation fails, a file package.zip will be included on the target directory for debugging purposes.
+        * Resource limits and requests for the OneAgentAPM initContainer are configurable on the .spec.resources field (#332)
+        * Early Adopter: support full-stack OneAgent running on unprivileged mode (#324, #333)
       Bug fixes
-      * Reworked update mechanism to prevent downgrades (#320)
+        * Logged errors when API token is missing on OneAgentAPM's secret (#298)
+        * Fixed printing the name of the used token secret for OneAgent instances (311)
+        * Fixed setting instances metadata when auto-update is disabled (#313)
+        * Fixed logging problem - incorrect stackdriver severity on GCP (#318)
+      Other changes
+        * Added support for immutable OneAgent images - waiting for support on Dynatrace cluster (#300, #286, #290, #301)
+        * Added check if cluster and agent versions are compatible with immutable images (#314, #334)
+        * Immutable image mode is disabled when a custom installer URL annotation is set, or .spec.useImmutableImage is false (#306)
+        * Pod and node metadata added for the OneAgent (#294, #295, #308, #325, #326)
+        * Code cleanup to remove unused functions, variables and beautify the code (#302)
+        * Sped up TravisCI duration (#310, #312)
+        * Upgrade to Go 1.15 (#310)
+        * Add linter to TravisCI pipeline (#316)
+        * App-only init container will log an warning when the full-stack OneAgent has been injected on it (#323)
+        * Improve error message when OneAgentAPM is missing (#327)
+        * Improve descriptions on cr.yaml example (#328)
     releaseTypes:
       - Feature
     recommended: true
@@ -112,6 +133,20 @@ properties:
     type: string
     description: "Adds the provided CA certficates to the Operator and the OneAgent. Provide the name of the configmap which holds your .pem in a field called 'certs'. If this is not set the default embedded certificates on the images will be used"
     title: "Add custom CA certificates"
+  oneagent.networkZone:
+    type: string
+    description: "Configures a network zone for your OneAgents"
+    title: "Network zone"
+  oneagent.useUnprivilegedMode:
+    type: boolean
+    description: "Early Adopter: support full-stack OneAgent running on unprivileged mode"
+    title: "Early Adopter: run unprivileged"
+    default: false
+  oneagent.useImmutableImage:
+    type: boolean
+    description: "If set (and onagent.image is empty) the immutable OneAgent image will be used"
+    title: "Use immutable OneAgent image"
+    default: false
   deployerHelm.image:
     type: string
     x-google-marketplace:
@@ -225,6 +260,7 @@ properties:
                   - secrets
                 resourceNames:
                   - dynatrace-oneagent-config
+                  - dynatrace-oneagent-pull-secret
                 verbs:
                   - get
                   - update
@@ -351,6 +387,26 @@ properties:
                   - dynatrace-oneagent
                 verbs:
                   - use
+  oneagentUnprivilegedServiceAccount:
+    type: string
+    title: Service account used by the unprivileged Dynatrace OneAgent
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the unprivileged Dynatrace OneAgent
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-oneagent-unprivileged
+                verbs:
+                  - use
   configurationServiceAccount:
     type: string
     title: Service account used to configure the Dynatrace OneAgent Operator
@@ -419,3 +475,4 @@ required:
   - oneagentServiceAccount
   - configurationServiceAccount
   - webhookServiceAccount
+  - oneagentUnprivilegedServiceAccount

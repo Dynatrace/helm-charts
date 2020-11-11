@@ -72,7 +72,11 @@ Check if default oneagent image is used
 {{- if .Values.oneagent.image -}}
     {{- printf "%s" .Values.oneagent.image -}}
 {{- else -}}
-    {{- printf "docker.io/dynatrace/oneagent" }}
+    {{- if eq .Values.oneagent.useImmutableImage false -}}
+        {{- printf "docker.io/dynatrace/oneagent" }}
+        {{- else -}}
+            {{- printf "" -}}
+	{{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -88,15 +92,14 @@ Check if default image is used
 {{- end -}}
 
 {{/*
-	Check for correct oneagentapm name
-	*/}}
-	{{- define "oneagentapm.name" -}}
-	{{- if eq .Values.mode "apm" }}
-		{{- if eq .Values.oneagent.name "oneagent" -}}
-			{{- printf "oneagentapm" -}}
-		{{- else -}}
-			{{- printf "%s" .Values.oneagent.name -}}
-		{{- end -}}
+Check for correct oneagentapm name
+*/}}
+{{- define "oneagentapm.name" -}}
+{{- if eq .Values.mode "apm" }}
+	{{- if eq .Values.oneagent.name "oneagent" -}}
+		{{- printf "oneagentapm" -}}
+	{{- else -}}
+		{{- printf "%s" .Values.oneagent.name -}}
 	{{- end -}}
-	{{- end -}}
-
+{{- end -}}
+{{- end -}}
