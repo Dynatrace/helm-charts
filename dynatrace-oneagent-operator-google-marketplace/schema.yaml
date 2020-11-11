@@ -147,6 +147,14 @@ properties:
     description: "If set (and onagent.image is empty) the immutable OneAgent image will be used"
     title: "Use immutable OneAgent image"
     default: false
+  oneagent.agentVersion:
+    type: string
+    description: "Defines the agent version used when immutable image is used - defaults to latest"
+    title: "Agent version for immutable image"
+  oneagent.customPullSecret:
+    type: string
+    description: "Defines a custom pull secret for the immutable image in case you have your own registry"
+    title: "Custom PullSecret for the immutable image"
   deployerHelm.image:
     type: string
     x-google-marketplace:

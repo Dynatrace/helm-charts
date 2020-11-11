@@ -176,3 +176,43 @@ questions:
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
   show_if: "show_advanced_config=true && mode=fullstack"
+
+- variable: oneagent.networkZone
+  label: "Network zone"
+  description: "Configures a network zone for your OneAgents"
+  default: ""
+  type: string
+  group: "Advanced Agent Configuration (OPTIONAL)"
+  show_if: "show_advanced_config=true && mode=fullstack"
+
+- variable: oneagent.useUnprivilegedMode
+  label: "Early Adopter: run unprivileged"
+  description: "Early Adopter: support full-stack OneAgent running on unprivileged mode"
+  default: false
+  type: boolean
+  group: "Advanced Agent Configuration (OPTIONAL)"
+  show_if: "show_advanced_config=true && mode=fullstack"
+
+- variable: oneagent.useImmutableImage
+  label: "Use immutable OneAgent image"
+  description: "If set (and onagent.image is empty) the immutable OneAgent image will be used"
+  default: false
+  type: boolean
+  group: "Advanced Agent Configuration (OPTIONAL)"
+  show_if: "show_advanced_config=true && mode=fullstack"
+
+- variable: oneagent.agentVersion
+  label: "Agent version for immutable image"
+  description: "Defines the agent version used when immutable image is used - defaults to latest"
+  default: ""
+  type: string
+  group: "Advanced Agent Configuration (OPTIONAL)"
+  show_if: "show_advanced_config=true && mode=fullstack"
+
+- variable: oneagent.customPullSecret
+  label: "Custom PullSecret for the immutable image"
+  description: "Defines a custom pull secret for the immutable image in case you have your own registry"
+  default: ""
+  type: string
+  group: "Advanced Agent Configuration (OPTIONAL)"
+  show_if: "show_advanced_config=true && mode=fullstack"
