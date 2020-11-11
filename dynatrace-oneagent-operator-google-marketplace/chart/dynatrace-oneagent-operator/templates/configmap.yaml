@@ -198,14 +198,14 @@ data:
     kind: CustomResourceDefinition
     metadata:
       name: oneagentapms.dynatrace.com
-    labels:
-      {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
-    ownerReferences:
-    - apiVersion: v1beta1
-      blockOwnerDeletion: true
-      kind: Application
-      name: {{ .Release.Name }}
-      uid: ##UID##
+      labels:
+        {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
     spec:
       additionalPrinterColumns:
       - JSONPath: .spec.apiUrl
