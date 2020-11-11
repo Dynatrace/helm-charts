@@ -195,7 +195,7 @@ questions:
 
 - variable: oneagent.useImmutableImage
   label: "Use immutable OneAgent image"
-  description: "If set (and onagent.image is empty) the immutable OneAgent image will be used"
+  description: "If set the immutable OneAgent image will be used"
   default: false
   type: boolean
   group: "Advanced Agent Configuration (OPTIONAL)"
