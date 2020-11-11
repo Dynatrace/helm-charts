@@ -183,7 +183,7 @@ questions:
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true && mode=fullstack"
+  show_if: "show_advanced_config=true"
 
 - variable: oneagent.useUnprivilegedMode
   label: "Early Adopter: run unprivileged"
@@ -199,7 +199,7 @@ questions:
   default: false
   type: boolean
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true && mode=fullstack"
+  show_if: "show_advanced_config=true"
 
 - variable: oneagent.agentVersion
   label: "Agent version for immutable image"
@@ -207,7 +207,7 @@ questions:
   default: ""
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true && mode=fullstack"
+  show_if: "show_advanced_config=true"
 
 - variable: oneagent.customPullSecret
   label: "Custom PullSecret for the immutable image"
