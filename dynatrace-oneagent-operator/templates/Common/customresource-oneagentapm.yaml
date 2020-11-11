@@ -43,4 +43,16 @@ spec:
   {{- if .Values.oneagent.networkZone }}
   networkZone: {{ .Values.oneagent.networkZone }}
   {{- end }}
+
+  {{- if .Values.oneagent.useImmutableImage }}
+  useImmutableImage: {{ .Values.oneagent.useImmutableImage }}
+  {{- end }}
+
+  {{- if .Values.oneagent.agentVersion }}
+  agentVersion: {{ .Values.oneagent.agentVersion }}
+  {{- end }}
+
+  {{- if .Values.oneagent.resources }}
+  resources: {{- toYaml .Values.oneagent.resources | nindent 4 }}
+  {{- end }}
 {{ end }}
