@@ -39,29 +39,31 @@ spec:
   networkZone: {{ .Values.networkZone }}
   {{- end }}
 
-  activeGate:
+  activeGate: {
     {{- if .Values.activeGate.image }}
-    image: {{ .Values.activeGate.image }}
+    image: {{ .Values.activeGate.image }},
     {{- end }}
 
     {{- if .Values.activeGate.disableActiveGateUpdate }}
-    disableActiveGateUpdate: {{ .Values.activeGate.disableActiveGateUpdate }}
+    disableActiveGateUpdate: {{ .Values.activeGate.disableActiveGateUpdate }},
     {{- end }}
+  }
 
-  kubernetesMonitoring:
+  kubernetesMonitoring: {
     {{- if .Values.kubernetesMonitoring.enabled }}
-    enable: {{ .Values.kubernetesMonitoring.enabled }}
+    enabled: {{ .Values.kubernetesMonitoring.enabled }},
     {{- end }}
 
     {{- if .Values.kubernetesMonitoring.replicas }}
-    replicas: {{ .Values.kubernetesMonitoring.replicas }}
+    replicas: {{ .Values.kubernetesMonitoring.replicas }},
     {{- end }}
 
     {{- if .Values.kubernetesMonitoring.resources }}
-    resources: {{- toYaml .Values.kubernetesMonitoring.resources | nindent 8 }}
+    resources: {{- toJson .Values.kubernetesMonitoring.resources | nindent 8 }},
     {{- end }}
 
     {{- if .Values.kubernetesMonitoring.labels }}
-    labels: {{- toYaml .Values.kubernetesMonitoring.labels  | nindent 8 }}
+    labels: {{- toJson .Values.kubernetesMonitoring.labels  | nindent 8 }},
     {{- end }}
-  {{- end }}
+  }
+{{- end }}
