@@ -1,0 +1,118 @@
+categories:
+  - APM
+  - Monitoring
+questions:
+
+  #################### Global Configuration ####################
+
+  - variable: apiUrl
+    label: "Dynatrace API URL"
+    description: "Dynatrace API URL including `/api` path at the end"
+    default: "https://ENVIRONMENTID.live.dynatrace.com/api"
+    type: string
+    required: true
+    group: "Global Configuration"
+
+  - variable: apiToken
+    label: "Dynatrace API token"
+    description: "Your Dynatrace API token - You can generate this token in your Dynatrace environment"
+    default: ""
+    type: string
+    required: false
+    group: "Global Configuration"
+
+  - variable: paasToken
+    label: "Dynatrace PaaS token"
+    description: "Your Dynatrace Platform as a Service token - You can generate this token in your Dynatrace environment"
+    default: ""
+    type: string
+    required: true
+    group: "Global Configuration"
+
+  - variable: skipCertCheck
+    label: "Skip certificate check"
+    description: "Disable certificate validation checks for installer download and API communication"
+    default: false
+    type: boolean
+    group: "Global Configuration"
+
+  - variable: proxy
+    label: "Define a proxy"
+    description: "Configures a proxy for the Agent, AgentDownload and the Operator. Provide the proxy here"
+    default: ""
+    type: string
+    group: "Global Configuration"
+
+  - variable: trustedCAs
+    label: "Add custom CA certificates"
+    description: "Adds the provided CA certificates to the Operator and the OneAgent. Provide your custom certificates here. If this is not set the default embedded certificates on the images will be used"
+    default: ""
+    type: multiline
+    group: "Global Configuration"
+
+  - variable: networkZone
+    label: "Define a network zone"
+    description: "Optional: sets a NetworkZone for the Dynatrace Operator."
+    default: ""
+    type: string
+    group: "Global Configuration"
+
+  - variable: kubernetesMonitoring.enable
+    label: "Enable Kubernetes monitoring"
+    description: "Enables Kubernetes monitoring for your cluster"
+    default: true
+    type: boolean
+    group: "Global Configuration"
+
+  #################### Advanced Configuration (OPTIONAL) ####################
+  - variable: show_advanced_config
+    label: "Show advanced configuration"
+    description: "Show advanced configuration options for the Dynatrace Operator"
+    default: false
+    type: boolean
+    group: "Advanced Configuration (OPTIONAL)"
+
+  - variable: operator.image
+    label: "Custom Operator image location"
+    description: "The location from where to grab the Dynatrace operator image - default is quay.io/dynatrace/dynatrace-operator"
+    default: ""
+    type: string
+    group: "Advanced Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true"
+
+  - variable: activeGate.image
+    label: "Custom ActiveGate image location"
+    description: "The location from where to grab the ActiveGate image - default for Kubernetes is ENVIRONMENTID.live.dynatrace.com/linux/activegate"
+    default: ""
+    type: string
+    group: "Advanced Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"
+
+  - variable: activeGate.disableActivegateUpdate
+    label: "Disable automatic updates"
+    description: "Disables automatic restarts of ActiveGate pods in case a new version is available"
+    default: false
+    type: boolean
+    group: "Advanced Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"
+
+  - variable: kubernetesMonitoring.replicas
+    label: "Amount of replicas for kubernetesMonitoring"
+    default: 1
+    type: int
+    group: "Advanced Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"
+
+  - variable: kubernetesMonitoring.resources
+    label: "Resource definition for the kubernetesMonitoring pod"
+    description: "Defines the resources the kubernetesMonitoring pod can use - Please edit as Yaml for the best experience"
+    type: string
+    group: "Advanced Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"
+
+  - variable: kubernetesMonitoring.labels
+    label: "Custom labels for the kubernetesMonitoring"
+    description: "Defines labels for kubernetesMonitoring pod to structure workloads as desired - Please edit as Yaml for the best experience"
+    type: string
+    group: "Advanced Configuration (OPTIONAL)"
+    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"

@@ -119,7 +119,7 @@ questions:
 
 - variable: oneagent.trustedCAs
   label: "Add custom CA certificates"
-  description: "Adds the provided CA certficates to the Operator and the OneAgent. Provide your custom certificates here. If this is not set the default embedded certificates on the images will be used"
+  description: "Adds the provided CA certificates to the Operator and the OneAgent. Provide your custom certificates here. If this is not set the default embedded certificates on the images will be used"
   default: ""
   type: multiline
   group: "Advanced Agent Configuration (OPTIONAL)"
