@@ -9,11 +9,11 @@ The Dynatrace OneAgent Operator Helm Chart which supports the rollout and lifecy
 This Helm Chart requires Helm 3.
 
 ### Platforms
-Depending of the version of the Dynatrace OneAgent Operator, it supports the following platforms:
+Depending on the version of the Dynatrace OneAgent Operator, it supports the following platforms:
 
 | Dynatrace OneAgent Operator Helm Chart version | Kubernetes | OpenShift Container Platform |
 | ---------------------------------------------- | ---------- | ---------------------------- |
-| v0.9.0                                         | 1.15+      | 3.11.188+, 4.3+                   |
+| v0.9.2                                         | 1.15+      | 3.11.188+, 4.3+              |
 | v0.8.2                                         | 1.14+      | 3.11.188+, 4.1+              |
 | v0.7.1                                         | 1.14+      | 3.11.188+, 4.1+              |
 | v0.6.0                                         | 1.11+      | 3.11+                        |

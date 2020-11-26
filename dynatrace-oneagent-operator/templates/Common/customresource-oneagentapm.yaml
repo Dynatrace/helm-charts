@@ -55,4 +55,8 @@ spec:
   {{- if .Values.oneagent.resources }}
   resources: {{- toYaml .Values.oneagent.resources | nindent 4 }}
   {{- end }}
+
+  {{- if .Values.oneagent.flavor }}
+  flavor: {{ .Values.oneagent.flavor }}
+  {{- end }}
 {{ end }}

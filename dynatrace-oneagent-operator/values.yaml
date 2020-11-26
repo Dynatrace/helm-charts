@@ -55,6 +55,7 @@ oneagent:
   useImmutableImage: false
   agentVersion: ""
   customPullSecret: ""
+  flavor: ""
 
 secret:
   autoCreate: true

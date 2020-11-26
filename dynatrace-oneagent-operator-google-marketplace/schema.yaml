@@ -15,34 +15,17 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.9.0"
+  publishedVersion: "0.9.2"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.9.0
+      v0.9.2
 
       Features
-        * Provide Prometheus metrics for the Operator pod on port 8080, and Webhook Pod on ports 8383 and 8484 (#305)
-        * Control whether the init container crashes in case of download failures through the oneagent.dynatrace.com/failure-policy: fail Pod annotation, off by default (#288)
-        * Regardless of the annotation, if the unzip operation fails, a file package.zip will be included on the target directory for debugging purposes.
-        * Resource limits and requests for the OneAgentAPM initContainer are configurable on the .spec.resources field (#332)
-        * Early Adopter: support full-stack OneAgent running on unprivileged mode (#324, #333)
+        * Added property to change default C standard library
       Bug fixes
-        * Logged errors when API token is missing on OneAgentAPM's secret (#298)
-        * Fixed printing the name of the used token secret for OneAgent instances (311)
-        * Fixed setting instances metadata when auto-update is disabled (#313)
-        * Fixed logging problem - incorrect stackdriver severity on GCP (#318)
+        * Don't restart OneAgent Pods if OneAgent version has been downgraded and those Pods were already restarted
       Other changes
-        * Added support for immutable OneAgent images - waiting for support on Dynatrace cluster (#300, #286, #290, #301)
-        * Added check if cluster and agent versions are compatible with immutable images (#314, #334)
-        * Immutable image mode is disabled when a custom installer URL annotation is set, or .spec.useImmutableImage is false (#306)
-        * Pod and node metadata added for the OneAgent (#294, #295, #308, #325, #326)
-        * Code cleanup to remove unused functions, variables and beautify the code (#302)
-        * Sped up TravisCI duration (#310, #312)
-        * Upgrade to Go 1.15 (#310)
-        * Add linter to TravisCI pipeline (#316)
-        * App-only init container will log an warning when the full-stack OneAgent has been injected on it (#323)
-        * Improve error message when OneAgentAPM is missing (#327)
-        * Improve descriptions on cr.yaml example (#328)
+        * Updated the UBI-minimal base image from version 8.2 to 8.3
     releaseTypes:
       - Feature
     recommended: true
