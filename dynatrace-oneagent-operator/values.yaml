@@ -17,6 +17,10 @@ mode: "fullstack"
 
 operator:
   image: ""
+  # The expected format is YAML and not a string
+  nodeSelector: ""
+  # The expected format is YAML and not a string
+  tolerations: ""
 
 oneagent:
   name: "oneagent"

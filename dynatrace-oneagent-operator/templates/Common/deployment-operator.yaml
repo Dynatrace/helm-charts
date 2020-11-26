@@ -84,3 +84,9 @@ spec:
                     values:
                       - linux
       serviceAccountName: {{ .Release.Name }}
+      {{- if .Values.operator.nodeSelector }}
+      nodeSelector: {{- toYaml .Values.operator.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.operator.tolerations }}
+      tolerations: {{- toYaml .Values.operator.tolerations | nindent 8 }}
+      {{- end -}}
