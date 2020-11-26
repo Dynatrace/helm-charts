@@ -208,19 +208,19 @@ data:
         uid: ##UID##
     spec:
       additionalPrinterColumns:
-      - JSONPath: .spec.apiUrl
-        name: ApiUrl
-        type: string
-      - JSONPath: .status.tokens
-        name: Tokens
-        type: string
-      - JSONPath: .metadata.creationTimestamp
-        name: Age
-        type: date
+        - JSONPath: .spec.apiUrl
+          name: ApiUrl
+          type: string
+        - JSONPath: .status.tokens
+          name: Tokens
+          type: string
+        - JSONPath: .metadata.creationTimestamp
+          name: Age
+          type: date
       group: dynatrace.com
       names:
         categories:
-        - dynatrace
+          - dynatrace
         kind: OneAgentAPM
         listKind: OneAgentAPMList
         plural: oneagentapms
@@ -260,6 +260,12 @@ data:
                   description: If enabled, Istio on the cluster will be configured automatically
                     to allow access to the Dynatrace environment
                   type: boolean
+                flavor:
+                  description: 'Optional: defines the C standard library used Can be set
+                    to "musl" to use musl instead of glibc If set to anything else but
+                    "musl", glibc is used If a pod is annotated with the "oneagent.dynatrace.com/flavor"
+                    annotation, the value from the annotation will be used'
+                  type: string
                 image:
                   description: 'Optional: Custom code modules OneAgent docker image In
                     case you have the docker image for the oneagent in a custom docker
@@ -310,7 +316,7 @@ data:
                   description: Defines if you want to use the immutable image or the installer
                   type: boolean
               required:
-              - apiUrl
+                - apiUrl
               type: object
             status:
               description: OneAgentAPMStatus defines the observed state of OneAgentAPM
@@ -352,8 +358,8 @@ data:
                           should be called \"Invalid\"."
                         type: string
                     required:
-                    - status
-                    - type
+                      - status
+                      - type
                     type: object
                   type: array
                 environmentID:
@@ -388,13 +394,13 @@ data:
                   type: boolean
               type: object
           required:
-          - spec
+            - spec
           type: object
       version: v1alpha1
       versions:
-      - name: v1alpha1
-        served: true
-        storage: true
+        - name: v1alpha1
+          served: true
+          storage: true
   oneagent_crd.yaml: |
     apiVersion: apiextensions.k8s.io/v1beta1
     kind: CustomResourceDefinition
@@ -974,4 +980,8 @@ data:
 
       {{- if .Values.oneagent.resources }}
       resources: {{- toYaml .Values.oneagent.resources | nindent 4 }}
+      {{- end }}
+
+      {{- if .Values.oneagent.flavor }}
+      flavor: {{ .Values.oneagent.flavor }}
       {{- end }}
