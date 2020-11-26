@@ -48,6 +48,7 @@ oneagent:
   useImmutableImage: false
   agentVersion: ""
   customPullSecret: ""
+  flavor: ""
 
 secret:
   apiToken: ""
