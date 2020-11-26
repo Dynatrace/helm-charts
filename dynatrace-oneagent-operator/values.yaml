@@ -16,7 +16,7 @@ platform: "kubernetes"
 mode: "fullstack"
 
 # In case you don't want PSP to be created by this chart
-createPsp: false
+createPodSecurityPolicies: true
 
 operator:
   image: ""
