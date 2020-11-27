@@ -3,9 +3,9 @@ entries:
   dynatrace-oneagent-operator:
   - apiVersion: v2
     appVersion: 0.9.2
-    created: "2020-11-26T14:55:27.794909+01:00"
+    created: "2020-11-27T08:09:55.582302+01:00"
     description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Openshift
-    digest: 1d7f94862f4e20bdc6e84884e44ecb9fe8509e1534116790acf75a163e6a29e8
+    digest: 194ec6003ea20e94ec5182540e8c5c3e0b39ac721b86864112104bba1434f11b
     home: https://www.dynatrace.com/
     icon: https://assets.dynatrace.com/global/resources/Signet_Logo_RGB_CP_512x512px.png
     maintainers:
@@ -176,4 +176,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/Dynatrace/helm-charts/master/repos/stable/dynatrace-oneagent-operator-0.5.4.tgz
     version: 0.5.4
-generated: "2020-11-26T14:55:27.773997+01:00"
+generated: "2020-11-27T08:09:55.529859+01:00"
