@@ -11,7 +11,7 @@ for file in "$(pwd)"/*/; do
       exit 10
     fi
 
-    if ! helm template --debug --set oneagent.apiUrl="test-url" . | yamllint --strict -; then
+    if ! helm template --debug --set oneagent.apiUrl="test-url" . | yamllint -d "{extends: default, rules: {line-length: disable}}" --strict -; then
        echo "linter returned with error. check yaml formatting in files of directory '$file'." && exit 15
     fi
   else
