@@ -11,6 +11,6 @@ install:
 jobs:
   include:
     - stage: test
-      script: exit 1
+      script: exit 0
     - stage: lint
       script: cd dynatrace-oneagent-operator && helm template --debug . | yamllint -
