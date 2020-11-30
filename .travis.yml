@@ -11,8 +11,7 @@ install:
 jobs:
   include:
     - stage: test
-      script: helm template --debug .
       # placeholder for unit tests
-    - script: exit 0
+      script: exit 0
     - stage: lint
-      script: cd dynatrace-oneagent-operator && helm template --debug . | yamllint -
+      script: cd dynatrace-oneagent-operator && helm template --debug . && helm template --debug . | yamllint -
