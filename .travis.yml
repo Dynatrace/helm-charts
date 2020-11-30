@@ -5,14 +5,16 @@ install:
   - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
   - chmod 700 get_helm.sh
   - ./get_helm.sh
+  # install unittest plugin for helm
+  - helm plugin install https://github.com/quintush/helm-unittest
   # install yamllint
   - sudo pip install yamllint
 
 jobs:
   include:
-#    - stage: test
+    - stage: test
       # placeholder for unit tests
-#      script: exit 0
+      script: ./testing/test.sh
     - stage: lint
       script: ./testing/lint.sh
       #cd dynatrace-oneagent-operator && helm template --debug . && helm template --debug . | yamllint -
