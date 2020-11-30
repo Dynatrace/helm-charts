@@ -12,7 +12,7 @@ install:
 
 jobs:
   include:
-    - stage: test
+    - name: Testing
       script: ./testing/test.sh
-    - stage: lint
+    - name: Linting
       script: ./testing/lint.sh
