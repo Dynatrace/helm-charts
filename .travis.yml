@@ -14,4 +14,5 @@ jobs:
       # placeholder for unit tests
       script: exit 0
     - stage: lint
-      script: cd dynatrace-oneagent-operator && helm template --debug . && helm template --debug . | yamllint -
+      script: ./testing/lint.sh
+      #cd dynatrace-oneagent-operator && helm template --debug . && helm template --debug . | yamllint -
