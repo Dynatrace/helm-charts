@@ -35,12 +35,31 @@ questions:
     type: boolean
     group: "Global Configuration"
 
-  - variable: proxy
-    label: "Define a proxy"
+  - variable: showProxyValueSource
+    label: "Select source of your proxy"
+    description: "Value to provide your proxy as a string, ValueFrom to provide it as a reference to a secret"
+    default: "Value"
+    type: enum
+    group: "Global Configuration"
+    options:
+      - "Value"
+      - "ValueFrom"
+
+  - variable: proxy.value
+    label: "Define a proxy by it's value"
     description: "Configures a proxy for the ActiveGate and Operator. Provide the proxy here"
     default: ""
     type: string
     group: "Global Configuration"
+    show_if: "showProxyValueSource=Value"
+
+  - variable: proxy.valueFrom
+    label: "Define a proxy by it's secret"
+    description: "Configures a proxy for the ActiveGate and Operator. Provide the name of the secret that stores your proxy"
+    default: ""
+    type: string
+    group: "Global Configuration"
+    show_if: "showProxyValueSource=ValueFrom"
 
   - variable: trustedCAs
     label: "Add custom CA certificates"
@@ -56,9 +75,23 @@ questions:
     type: string
     group: "Global Configuration"
 
+  - variable: operator.image
+    label: "Set a custom image for operator"
+    description: "Optional: Set a custom image for operator. Defaults to docker.io/dynatrace/dynatrace-operator"
+    default: ""
+    type: string
+    group: "Global Configuration"
+
+  - variable: activegate.image
+    label: "Set custom image for the ActiveGate"
+    description: "Optional: Set a custom image for the ActiveGate. Defaults to ENVIRONMENTID.live.dynatrace.com/linux/activegate"
+    default: ""
+    type: string
+    group: "Global Configuration"
+
   #################### Kubernetes Monitoring (OPTIONAL) ####################
 
-  - variable: kubernetesMonitoring.enable
+  - variable: kubernetesMonitoring.enabled
     label: "Enable Kubernetes monitoring"
     description: "Enables Kubernetes monitoring for your cluster"
     default: false
@@ -66,110 +99,68 @@ questions:
     group: "Kubernetes Monitoring"
     show_subquestion_if: true
     subquestions:
-    - variable: kubernetesMonitoring.image
-      label: "Custom ActiveGate image location"
-      description: "Optional: The location from where to grab the Dynatrace operator image - default points to the tenant specific registry"
-      default: ""
-      type: string
-#        group: "Kubernetes Monitoring"
-#        show_if: "kubernetesMonitoring.enable=true"
-    - variable: kubernetesMonitoring.disableActivegateUpdate
-      label: "Enable / Disable automatic updates"
-      description: "Optional: Disables automatic restarts of ActiveGate pods in case a new version is available."
-      default: false
-      type: boolean
-#        group: "Kubernetes Monitoring"
-#        show_if: "kubernetesMonitoring.enable=true"
-    - variable: kubernetesMonitoring.replicas
-      label: "Amount of replicas of ActiveGate pods"
-      description: "Sets the amount of replicas of ActiveGate pods are made"
-      default: 1
-      type: int
-#        group: "Kubernetes Monitoring"
-#        show_if: "kubernetesMonitoring.enable=true"
-    - variable: kubernetesMonitoring.serviceAccountName
-      label: "Name of the service-account for ActiveGate-pods"
-      description: "Optional: The name of the ServiceAccount to assign to the ActiveGate Pods."
-      default: "dynatrace-kubernetes-monitoring"
-      type: string
-#        group: "Kubernetes Monitoring"
-#        show_if: "kubernetesMonitoring.enable=true"
-    - variable: kubernetesMonitoring.tolerations
-      label: "Custom tolerations for the ActiveGate pods"
-      description: "Defines custom tolerations for the ActiveGate pods - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
-      default: ""
-      type: multiline
-    - variable: kubernetesMonitoring.nodeSelector
-      label: "Node selector to control the selection of nodes"
-      description: "Defines a NodeSelector to customize to which nodes the ActiveGate will be rolled out on - Please edit as Yaml for the best experience"
-      default: ""
-      type: multiline
-    - variable: kubernetesMonitoring.dnsPolicy
-      label: "Set custom DNS Policy"
-      description: "DNS Policy for ActiveGate pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
-      default: ""
-      type: string
-    - variable: kubernetesMonitoring.priorityClassName
-      label: "Assign priority class to ActiveGate pods"
-      description: "Priority class to assign to ActiveGate pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
-      default: ""
-      type: string
-    - variable: kubernetesMonitoring.resources
-      label: "Resource definition for the ActiveGate pods"
-      description: "Defines the resources the ActiveGate pods can use - Please edit as Yaml for the best experience"
-      default: ""
-      type: multiline
-    - variable: kubernetesMonitoring.labels
-      label: "Custom labels for the ActiveGate pods"
-      description: "Defines labels for ActiveGate pods to structure workloads as desired - Please edit as Yaml for the best experience"
-      default: ""
-      type: multiline
-    - variable: kubernetesMonitoring.args
-      label: "Arguments for the ActiveGate installer"
-      description: "Defines additional arguments which get passed to the ActiveGate installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
-      default: ""
-      type: multiline
-    - variable: kubernetesMonitoring.env
-      label: "Environment variables for the ActiveGate"
-      description: "Defines additional environment variables which get passed to the ActiveGate - Please edit as Yaml for the best experience"
-      default: ""
-      type: multiline
-    - variable: kubernetesMonitoring.group
-      label: "Activation group"
-      description: "Optional: Set activation group for ActiveGate"
-      default: ""
-      type: string
-    - variable: kubernetesMonitoring.customProperties
-      label: "Custom properties for the ActiveGate"
-      description: "Optional: Add a custom properties - Please edit as Yaml for the best experience - more at https://www.dynatrace.com/support/help/setup-and-configuration/dynatrace-activegate/configuration/configure-activegate/"
-      default: ""
-      type: multiline
-
-#  #################### Advanced Configuration (OPTIONAL) ####################
-#  - variable: show_advanced_config
-#    label: "Show advanced configuration"
-#    description: "Show advanced configuration options for the Dynatrace Operator"
-#    default: false
-#    type: boolean
-#    group: "Advanced Configuration (OPTIONAL)"
-#
-#  - variable: kubernetesMonitoring.replicas
-#    label: "Amount of replicas for kubernetesMonitoring"
-#    default: 1
-#    type: int
-#    group: "Advanced Configuration (OPTIONAL)"
-#    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"
-#
-#  - variable: kubernetesMonitoring.resources
-#    label: "Resource definition for the kubernetesMonitoring pod"
-#    description: "Defines the resources the kubernetesMonitoring pod can use - Please edit as Yaml for the best experience"
-#    type: string
-#    group: "Advanced Configuration (OPTIONAL)"
-#    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"
-#
-#  - variable: kubernetesMonitoring.labels
-#    label: "Custom labels for the kubernetesMonitoring"
-#    description: "Defines labels for kubernetesMonitoring pod to structure workloads as desired - Please edit as Yaml for the best experience"
-#    type: string
-#    group: "Advanced Configuration (OPTIONAL)"
-#    show_if: "show_advanced_config=true && kubernetesMonitoring.enable=true"
+      - variable: kubernetesMonitoring.replicas
+        label: "Amount of replicas of ActiveGate pods"
+        description: "Sets the amount of replicas of ActiveGate pods are made"
+        default: 1
+        type: int
+      - variable: kubernetesMonitoring.serviceAccountName
+        label: "Name of the service-account for ActiveGate-pods"
+        description: "Optional: The name of the ServiceAccount to assign to the ActiveGate Pods."
+        default: "dynatrace-kubernetes-monitoring"
+        type: string
+      - variable: kubernetesMonitoring.tolerations
+        label: "Custom tolerations for the ActiveGate pods"
+        description: "Defines custom tolerations for the ActiveGate pods - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
+        default: ""
+        type: multiline
+      - variable: kubernetesMonitoring.nodeSelector
+        label: "Node selector to control the selection of nodes"
+        description: "Defines a NodeSelector to customize to which nodes the ActiveGate will be rolled out on - Please edit as Yaml for the best experience"
+        default: ""
+        type: multiline
+      - variable: kubernetesMonitoring.resources
+        label: "Resource definition for the ActiveGate pods"
+        description: "Defines the resources the ActiveGate pods can use - Please edit as Yaml for the best experience"
+        default: ""
+        type: multiline
+      - variable: kubernetesMonitoring.labels
+        label: "Custom labels for the ActiveGate pods"
+        description: "Defines labels for ActiveGate pods to structure workloads as desired - Please edit as Yaml for the best experience"
+        default: ""
+        type: multiline
+      - variable: kubernetesMonitoring.args
+        label: "Arguments for the ActiveGate installer"
+        description: "Defines additional arguments which get passed to the ActiveGate installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
+        default: ""
+        type: multiline
+      - variable: kubernetesMonitoring.env
+        label: "Environment variables for the ActiveGate"
+        description: "Defines additional environment variables which get passed to the ActiveGate - Please edit as Yaml for the best experience"
+        default: ""
+        type: multiline
+      - variable: kubernetesMonitoring.group
+        label: "Activation group"
+        description: "Optional: Set activation group for ActiveGate"
+        default: ""
+        type: string
+      - variable: showKubernetesMonitoringCustomPropertiesSource
+        label: "Select custom properties source"
+        description: "Select from where your custom properties are coming from. Value if you want to enter it directly. ValueFrom if you want to reference a secret."
+        default: "Value"
+        type: enum
+        options:
+          - "Value"
+          - "ValueFrom"
+      - variable: kubernetesMonitoring.customProperties.value
+        label: "Custom properties for the ActiveGate as value"
+        description: "Optional: Add custom properties - Please edit as Yaml for the best experience - more at https://www.dynatrace.com/support/help/setup-and-configuration/dynatrace-activegate/configuration/configure-activegate/"
+        default: ""
+        type: multiline
+        show_if: "showKubernetesMonitoringCustomPropertiesSource=Value"
+      - variable: kubernetesMonitoring.customProperties.valueFrom
+        label: "Custom properties for the ActiveGate as reference"
+        description: "Optional: Set the name of the secret that stores your custom properties"
+        default: ""
+        type: string
+        show_if: "showKubernetesMonitoringCustomPropertiesSource=ValueFrom"
