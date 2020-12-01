@@ -26,6 +26,6 @@ spec:
     internal.oneagent.dynatrace.com/app: webhook
     internal.oneagent.dynatrace.com/component: webhook
   ports:
-  - port: 443
-    protocol: TCP
-    targetPort: server-port
+    - port: 443
+      protocol: TCP
+      targetPort: server-port

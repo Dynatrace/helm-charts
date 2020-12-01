@@ -21,7 +21,7 @@ metadata:
     {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
 rules:
   - apiGroups:
-      - "" # "" indicates the core API group
+      - ""  # "" indicates the core API group
     resources:
       - nodes
       - namespaces
