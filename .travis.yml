@@ -1,0 +1,18 @@
+---
+language: python
+install:
+  # install helm
+  - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+  - chmod 700 get_helm.sh
+  - ./get_helm.sh
+  # install unittest plugin for helm
+  - helm plugin install https://github.com/quintush/helm-unittest
+  # install yamllint
+  - sudo pip install yamllint
+
+jobs:
+  include:
+    - name: Testing
+      script: ./testing/test.sh
+    - name: Linting
+      script: ./testing/lint.sh

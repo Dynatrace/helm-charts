@@ -36,7 +36,7 @@ spec:
           # Replace this with the built image name
           image: {{- include "dynatrace-operator.image" . | nindent 12 }}
           command:
-          - dynatrace-operator
+            - dynatrace-operator
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
