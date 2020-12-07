@@ -16,20 +16,29 @@ name: "dynakube"
 apiUrl: ""
 apiToken: ""
 paasToken: ""
+proxy:
+  value: ""
+  valueFrom: ""
 skipCertCheck: false
-proxy: ""
 trustedCAs: ""
 networkZone: ""
-
 operator:
   image: ""
-
-activeGate:
+activegate:
   image: ""
-  disableActiveGateUpdate: false
 
 kubernetesMonitoring:
-  enabled: true
+  enabled: false
   replicas: 1
-  resources: {}
-  labels: {}
+  serviceAccountName: ""
+  tolerations: [ ]
+  nodeSelector: { }
+  resources: { }
+  labels: { }
+  args: { }
+  env: { }
+  group: ""
+  customProperties:
+    value: ""
+    valueFrom: ""
+
