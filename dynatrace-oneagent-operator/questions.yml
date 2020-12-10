@@ -68,7 +68,7 @@ questions:
   group: "Use custom resource settings"
   show_if: "mode=fullstack && use_custom_resource_settings=true"
 
-- variable: oneagent.resources.limits.cpu
+- variable: oneagent.resources.limits.memory
   label: "Memory resource limits"
   description: "Defines the maximum provided memory for the OneAgent"
   type: string
