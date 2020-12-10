@@ -58,8 +58,26 @@ spec:
   {{- end }}
 
   {{- if .Values.oneagent.resources }}
-  resources: {{- toYaml .Values.oneagent.resources | nindent 4 }}
-  {{- end }}
+  resources:
+    {{ if or (.Values.oneagent.resources.requests.cpu) (.Values.oneagent.resources.requests.memory) }}
+    requests:
+      {{ if .Values.oneagent.resources.requests.cpu }}
+      cpu: {{ .Values.oneagent.resources.requests.cpu }}
+      {{ end }}
+      {{ if .Values.oneagent.resources.requests.memory }}
+      memory: {{ .Values.oneagent.resources.requests.memory }}
+      {{ end }}
+    {{ end }}
+    {{ if or (.Values.oneagent.resources.limits.cpu) (.Values.oneagent.resources.limits.memory) }}
+    limits:
+      {{ if .Values.oneagent.resources.limits.cpu }}
+      cpu: {{ .Values.oneagent.resources.limits.cpu }}
+      {{ end }}
+      {{ if .Values.oneagent.resources.limits.memory }}
+      memory: {{ .Values.oneagent.resources.limits.memory }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
 
   {{- if .Values.oneagent.dnsPolicy }}
   dnsPolicy: {{ .Values.oneagent.dnsPolicy }}

@@ -165,7 +165,7 @@ questions:
 - variable: oneagent.resources
   label: "Resource definition for the OneAgent pods"
   description: "Defines the resources the OneAgent pods can use - Please edit as Yaml for the best experience"
-  type: string
+  type: multiline
   group: "Advanced Agent Configuration (OPTIONAL)"
   show_if: "show_advanced_config=true && mode=fullstack"
 

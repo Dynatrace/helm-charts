@@ -42,7 +42,13 @@ oneagent:
   enableIstio: false
   dnsPolicy: ""
   # The expected format is YAML and not a string
-  resources: ""
+  resources:
+    requests:
+      cpu:
+      memory:
+    limits:
+      cpu:
+      memory:
   # The expected format is YAML and not a string
   tolerations: ""
   waitReadySeconds: null
