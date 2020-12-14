@@ -42,7 +42,7 @@ questions:
 
 - variable: use_custom_resource_settings
   label: "Use custom resource settings"
-  description: "Use custom resource settings the Dynatrace OneAgent"
+  description: "Use custom resource limits for the Dynatrace OneAgent"
   default: false
   type: boolean
   group: "Use custom resource settings"
