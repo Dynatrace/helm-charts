@@ -32,7 +32,13 @@ oneagent:
   disableAgentUpdate: false
   enableIstio: false
   dnsPolicy: ""
-  resources: {}
+  resources:
+    requests:
+      cpu:
+      memory:
+    limits:
+      cpu:
+      memory:
   tolerations:
     - effect: NoSchedule
       key: node-role.kubernetes.io/master
