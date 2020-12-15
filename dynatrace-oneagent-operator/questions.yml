@@ -38,6 +38,43 @@ questions:
   required: true
   group: "Agent Configuration (REQUIRED)"
 
+  #################### Use custom limits settings ###################
+
+- variable: use_custom_limits_settings
+  label: "Use custom limits settings"
+  description: "Use custom resource limits for the Dynatrace OneAgent"
+  default: false
+  type: boolean
+  group: "Use custom limits settings"
+
+- variable: oneagent.resources.requests.cpu
+  label: "CPU resource request"
+  description: "Defines the minimum requested CPU by the OneAgent"
+  type: string
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
+
+- variable: oneagent.resources.requests.memory
+  label: "Memory resource request"
+  description: "Defines the minimum requested memory by the OneAgent"
+  type: string
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
+
+- variable: oneagent.resources.limits.cpu
+  label: "CPU resource limits"
+  description: "Defines the maximum provided CPU for the OneAgent"
+  type: string
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
+
+- variable: oneagent.resources.limits.memory
+  label: "Memory resource limits"
+  description: "Defines the maximum provided memory for the OneAgent"
+  type: string
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
+
 #################### Advanced Agent Configuration (OPTIONAL) ####################
 - variable: show_advanced_config
   label: "Show advanced configuration"
@@ -158,13 +195,6 @@ questions:
 - variable: oneagent.labels
   label: "Custom labels for the OneAgent pods"
   description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
-  type: string
-  group: "Advanced Agent Configuration (OPTIONAL)"
-  show_if: "show_advanced_config=true && mode=fullstack"
-
-- variable: oneagent.resources
-  label: "Resource definition for the OneAgent pods"
-  description: "Defines the resources the OneAgent pods can use - Please edit as Yaml for the best experience"
   type: string
   group: "Advanced Agent Configuration (OPTIONAL)"
   show_if: "show_advanced_config=true && mode=fullstack"
