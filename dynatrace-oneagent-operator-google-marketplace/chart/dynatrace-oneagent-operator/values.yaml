@@ -32,13 +32,13 @@ oneagent:
   disableAgentUpdate: false
   enableIstio: false
   dnsPolicy: ""
-  resources:
-    requests:
-      cpu:
-      memory:
-    limits:
-      cpu:
-      memory:
+  # resources:
+  #   requests:
+  #     cpu: 100m
+  #     memory: 512Mi
+  #   limits:
+  #     cpu: 300m
+  #     memory: 1.5Gi
   tolerations:
     - effect: NoSchedule
       key: node-role.kubernetes.io/master
