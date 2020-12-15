@@ -45,35 +45,35 @@ questions:
   description: "Use custom resource limits for the Dynatrace OneAgent"
   default: false
   type: boolean
-  group: "Use custom resource settings"
+  group: "Use custom limits settings"
 
 - variable: oneagent.resources.requests.cpu
   label: "CPU resource request"
   description: "Defines the minimum requested CPU by the OneAgent"
   type: string
-  group: "Use custom resource settings"
-  show_if: "mode=fullstack && use_custom_limits_settings=true"
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
 
 - variable: oneagent.resources.requests.memory
   label: "Memory resource request"
   description: "Defines the minimum requested memory by the OneAgent"
   type: string
-  group: "Use custom resource settings"
-  show_if: "mode=fullstack && use_custom_limits_settings=true"
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
 
 - variable: oneagent.resources.limits.cpu
   label: "CPU resource limits"
   description: "Defines the maximum provided CPU for the OneAgent"
   type: string
-  group: "Use custom resource settings"
-  show_if: "mode=fullstack && use_custom_limits_settings=true"
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
 
 - variable: oneagent.resources.limits.memory
   label: "Memory resource limits"
   description: "Defines the maximum provided memory for the OneAgent"
   type: string
-  group: "Use custom resource settings"
-  show_if: "mode=fullstack && use_custom_limits_settings=true"
+  group: "Use custom limits settings"
+  show_if: "use_custom_limits_settings=true"
 
 #################### Advanced Agent Configuration (OPTIONAL) ####################
 - variable: show_advanced_config
