@@ -60,7 +60,7 @@ properties:
     title: PaaS Token
     x-google-marketplace:
       type: MASKED_FIELD
-  skipCertCheck: false
+  skipCertCheck:
     type: boolean
     description: "Disable certificate validation checks for installer download and API communication"
     default: false
@@ -109,139 +109,6 @@ properties:
         description: >
           Service account used by the Dynatrace Operator
         roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-              - apiGroups:
-                  - dynatrace.com
-                  resources:
-                    - dynakubes
-                  verbs:
-                    - get
-                    - list
-                    - watch
-                    - update
-                    - create
-                - apiGroups:
-                    - dynatrace.com
-                  resources:
-                    - dynakubes/finalizers
-                    - dynakubes/status
-                  verbs:
-                    - update
-                - apiGroups:
-                    - apps
-                  resources:
-                    - replicasets
-                    - deployments
-                  verbs:
-                    - get
-                    - list
-                    - watch
-                - apiGroups:
-                    - apps
-                  resources:
-                    - deployments/finalizers
-                  verbs:
-                    - update
-                - apiGroups:
-                    - ""
-                  resources:
-                    - configmaps
-                  verbs:
-                    - get
-                    - list
-                    - watch
-                    - create
-                    - update
-                    - delete
-                - apiGroups:
-                    - ""
-                  resources:
-                    - pods
-                  verbs:
-                    - get
-                    - list
-                    - watch
-                    - delete
-                    - create
-                - apiGroups:
-                    - ""
-                  resources:
-                    - secrets
-                  verbs:
-                    - get
-                    - list
-                    - watch
-                - apiGroups:
-                    - monitoring.coreos.com
-                  resources:
-                    - servicemonitors
-                  verbs:
-                    - get
-                    - create
-                - apiGroups:
-                    - ""
-                  resources:
-                    - services
-                  verbs:
-                    - create
-  kubernetesMonitoringServiceAccount:
-    type: string
-    title: Service account used by the Dynatrace Kubernetes Monitoring
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the Dynatrace Kubernetes Monitoring
-        roles:
-          - type: ClusterRole
-            rulesType: CUSTOM
-            rules:
-              - apiGroups:
-                - ""
-                - batch
-                - apps
-                - apps.openshift.io
-                resources:
-                  - nodes
-                  - pods
-                  - namespaces
-                  - deployments
-                  - replicasets
-                  - deploymentconfigs
-                  - replicationcontrollers
-                  - jobs
-                  - cronjobs
-                  - statefulsets
-                  - daemonsets
-                  - events
-                  - resourcequotas
-                  - pods/proxy
-                verbs:
-                  - list
-                  - watch
-                  - get
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-kubernetes-monitoring
-                verbs:
-                  - use
-  configurationServiceAccount:
-    type: string
-    title: Service account used to configure the Dynatrace Operator
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used to configure the Dynatrace Operator
-        roles:
           - type: ClusterRole
             rulesType: CUSTOM
             rules:
@@ -255,6 +122,9 @@ properties:
                   - get
                   - list
                   - watch
+          - type: Role
+            rulesType: CUSTOM
+            rules:
               - apiGroups:
                   - dynatrace.com
                 resources:
@@ -330,17 +200,18 @@ properties:
                   - create
                   - update
               - apiGroups:
-                  - monitoring.coreos.com
-                resources:
-                  - servicemonitors
-                verbs:
-                  - get
-                  - create
-              - apiGroups:
                   - ""
                 resources:
                   - services
                 verbs:
+                  - create
+                  - get
+              - apiGroups:
+                  - ""
+                resources:
+                  - events
+                verbs:
+                  - list
                   - create
               - apiGroups:
                   - policy
@@ -350,7 +221,116 @@ properties:
                   - dynatrace-operator
                 verbs:
                   - use
-
+              - apiGroups:
+                  - monitoring.coreos.com
+                resources:
+                  - servicemonitors
+                verbs:
+                  - get
+                  - create
+  kubernetesMonitoringServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace Kubernetes Monitoring
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace Kubernetes Monitoring
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                - ""
+                - batch
+                - apps
+                - apps.openshift.io
+                resources:
+                  - nodes
+                  - pods
+                  - namespaces
+                  - deployments
+                  - replicasets
+                  - deploymentconfigs
+                  - replicationcontrollers
+                  - jobs
+                  - cronjobs
+                  - statefulsets
+                  - daemonsets
+                  - events
+                  - resourcequotas
+                  - pods/proxy
+                verbs:
+                  - list
+                  - watch
+                  - get
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-kubernetes-monitoring
+                verbs:
+                  - use
+  configurationServiceAccount:
+    type: string
+    title: Service account used to configure the Dynatrace Operator
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used to configure the Dynatrace Operator
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - dynakubes
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - patch
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - patch
+              - apiGroups:
+                  - apiextensions.k8s.io
+                resources:
+                  - customresourcedefinitions
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - patch
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - dynakubes
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - update
+                  - patch
+              - apiGroups:
+                  - app.k8s.io
+                resources:
+                  - applications
+                verbs:
+                  - get
+                  - list
 required:
   - name
   - namespace

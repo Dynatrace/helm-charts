@@ -13,9 +13,19 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: {{ .Values.kubernetesMonitoring.serviceAccountName }}
-  namespace: {{ .Release.Namespace }}
-  labels:
-    {{- include "dynatrace-operator.labels" . | nindent 4 }}
+name: dynatrace-operator
+description: The Dynatrace Operator Helm chart for Kubernetes and OpenShift
+icon: https://assets.dynatrace.com/global/resources/Signet_Logo_RGB_CP_512x512px.png
+home: https://www.dynatrace.com/
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+maintainers:
+  - name: DTMad
+    email: marco.mader@dynatrace.com
+  - name: lrgar
+    email: luis.garcia@dynatrace.com
+  - name: mmayr-at
+    email: michael.mayr@dynatrace.com
+sources:
+  - https://github.com/Dynatrace/helm-charts

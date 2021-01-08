@@ -12,17 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: {{ .Values.kubernetesMonitoring.serviceAccountName }}
-  namespace: {{ .Release.Namespace }}
-rules:
-  - apiGroups:
-      - policy
-    resources:
-      - podsecuritypolicies
-    resourceNames:
-      - {{ .Values.kubernetesMonitoring.serviceAccountName }}
-    verbs:
-      - use
+name: "dynakube"
+apiUrl: ""
+apiToken: ""
+paasToken: ""
+skipCertCheck: false
+proxy: ""
+trustedCAs: ""
+networkZone: ""
+
+operator:
+  image: ""
+
+activeGate:
+  image: ""
+  disableActiveGateUpdate: false
+
+kubernetesMonitoring:
+  enabled: true
+  replicas: 1
+  resources: {}
+  labels: {}
+  serviceAccountName: "dynatrace-kubernetes-monitoring"
+
+deployerHelm:
+  image: ""

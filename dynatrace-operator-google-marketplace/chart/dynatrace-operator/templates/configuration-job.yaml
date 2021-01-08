@@ -1,0 +1,51 @@
+# Copyright 2020 Dynatrace LLC
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+  name: {{ .Release.Name }}-job
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- include "dynatrace-operator.labels" . | nindent 4 }}
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+        - command:
+            - "/bin/bash"
+            - "-ec"
+            - |
+              uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
+              sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/psp-kubernetes-monitoring.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/dynakube_crd.yaml | kubectl apply -f -
+              sleep 5
+              sed "s/##UID##/${uid}/g" /objects/dynakube.yaml | kubectl apply -f -
+          image: {{ .Values.deployerHelm.image }}
+          imagePullPolicy: Always
+          name: objects-create
+          volumeMounts:
+            - name: object-configmap
+              mountPath: /objects/
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      serviceAccountName: {{ .Values.configurationServiceAccount }}
+      volumes:
+        - name: object-configmap
+          configMap:
+            name: {{ .Release.Name }}-configmap
