@@ -25,7 +25,7 @@ metadata:
 spec:
   descriptor:
     type: "Dynatrace OneAgent Operator"
-    version: "0.9.2"
+    version: "0.9.4"
     maintainers:
       - name: Dynatrace LLC
         url: https://www.dynatrace.com/
