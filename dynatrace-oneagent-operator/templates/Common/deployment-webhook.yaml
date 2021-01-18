@@ -19,7 +19,7 @@ metadata:
   name: dynatrace-oneagent-webhook
   namespace: {{ .Release.Namespace }}
   labels:
-    dynatrace.com/operator: oneagent
+    {{- include "dynatrace-oneagent-operator.commonlabelswebhook" . | nindent 4 }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -32,9 +32,7 @@ spec:
   template:
     metadata:
       labels:
-        dynatrace.com/operator: oneagent
-        internal.oneagent.dynatrace.com/component: webhook
-        internal.oneagent.dynatrace.com/app: webhook
+        {{- include "dynatrace-oneagent-operator.commonlabelswebhook" . | nindent 8 }}
     spec:
       affinity:
         nodeAffinity:
