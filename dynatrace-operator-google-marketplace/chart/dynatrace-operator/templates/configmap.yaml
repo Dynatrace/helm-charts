@@ -108,6 +108,12 @@ data:
         controller-gen.kubebuilder.io/version: v0.3.0
       creationTimestamp: null
       name: dynakubes.dynatrace.com
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
     spec:
       additionalPrinterColumns:
         - JSONPath: .spec.apiUrl
@@ -437,57 +443,84 @@ data:
     metadata:
       name: {{ .Values.name }}
       namespace: {{ .Release.Namespace }}
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
     spec:
       apiUrl: {{ required "ApiUrl needs to be set!" .Values.apiUrl }}
+
       tokens: {{ .Values.name }}
 
       {{- if .Values.skipCertCheck }}
       skipCertCheck: {{ .Values.skipCertCheck }}
       {{- end }}
 
-      {{- if .Values.proxy }}
+      {{- if .Values.proxy.value }}
       proxy:
-        valueFrom: {{ .Values.name }}
+        value: {{ .Values.proxy.value }}
+      {{- else if .Values.proxy.valueFrom }}
+      proxy:
+        valueFrom: {{ .Values.proxy.valueFrom }}
       {{- end }}
 
       {{- if .Values.trustedCAs }}
-      trustedCAs: {{ .Values.name }}
+      trustedCAs: {{ .Values.trustedCAs }}
       {{- end }}
 
       {{- if .Values.networkZone }}
       networkZone: {{ .Values.networkZone }}
       {{- end }}
 
-      activeGate: {
-        {{- if .Values.activeGate.image }}
-        image: {{ .Values.activeGate.image }},
-        {{- end }}
+      {{- if .Values.activegate.image }}
+      activegate:
+        image: {{ .Values.activegate.image }}
+      {{- end }}
 
-        {{- if .Values.activeGate.disableActiveGateUpdate }}
-        disableActiveGateUpdate: {{ .Values.activeGate.disableActiveGateUpdate }},
-        {{- end }}
-      }
-
-      kubernetesMonitoring: {
-        {{- if .Values.kubernetesMonitoring.enabled }}
-        enabled: {{ .Values.kubernetesMonitoring.enabled }},
-        {{- end }}
+      {{- if .Values.kubernetesMonitoring.enabled }}
+      kubernetesMonitoring:
+        enabled: {{ .Values.kubernetesMonitoring.enabled }}
 
         {{- if .Values.kubernetesMonitoring.replicas }}
-        replicas: {{ .Values.kubernetesMonitoring.replicas }},
+        replicas: {{ .Values.kubernetesMonitoring.replicas }}
+        {{- end }}
+
+        {{- if .Values.kubernetesMonitoring.serviceAccountName}}
+        serviceAccountName: {{ .Values.kubernetesMonitoring.serviceAccountName }}
+        {{- end }}
+
+        {{- if .Values.kubernetesMonitoring.tolerations }}
+        tolerations: {{ .Values.kubernetesMonitoring.tolerations | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.kubernetesMonitoring.nodeSelector }}
+        nodeSelector: {{ .Values.kubernetesMonitoring.nodeSelector | toYaml | nindent 8 }}
         {{- end }}
 
         {{- if .Values.kubernetesMonitoring.resources }}
-        resources: {{- toJson .Values.kubernetesMonitoring.resources | nindent 8 }},
+        resources: {{ .Values.kubernetesMonitoring.resources | toYaml | nindent 8}}
         {{- end }}
 
         {{- if .Values.kubernetesMonitoring.labels }}
-        labels: {{- toJson .Values.kubernetesMonitoring.labels  | nindent 8 }},
+        labels: {{ .Values.kubernetesMonitoring.labels | toYaml | nindent 8 }}
         {{- end }}
-      }
+
+        {{- if and (.Values.kubernetesMonitoring.args) (ge (len .Values.kubernetesMonitoring.args) (1))}}
+        args: {{ .Values.kubernetesMonitoring.args | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if and (.Values.kubernetesMonitoring.env) (ge (len .Values.kubernetesMonitoring.env) (1))}}
+        env: {{ .Values.kubernetesMonitoring.env | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.kubernetesMonitoring.group }}
+        group: {{ .Values.kubernetesMonitoring.group }}
+        {{- end }}
+
+        {{- if .Values.kubernetesMonitoring.customProperties }}
+        {{- if .Values.kubernetesMonitoring.customProperties.value }}
+        customProperties:
+          value: {{ .Values.kubernetesMonitoring.customProperties.value }}
+        {{- else if .Values.kubernetesMonitoring.customProperties.valueFrom }}
+        customProperties:
+          valueFrom: {{ .Values.kubernetesMonitoring.customProperties.valueFrom }}
+        {{- end }}
+      {{- end }}
+
+      {{- end }}
