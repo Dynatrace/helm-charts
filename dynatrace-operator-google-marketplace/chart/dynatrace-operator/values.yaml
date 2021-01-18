@@ -12,28 +12,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+platform: "kubernetes"
+
 name: "dynakube"
 apiUrl: ""
 apiToken: ""
 paasToken: ""
 skipCertCheck: false
-proxy: ""
+proxy:
+  value: ""
+  valueFrom: ""
 trustedCAs: ""
 networkZone: ""
-
 operator:
   image: ""
-
 activeGate:
   image: ""
-  disableActiveGateUpdate: false
 
 kubernetesMonitoring:
   enabled: true
   replicas: 1
-  resources: {}
-  labels: {}
   serviceAccountName: "dynatrace-kubernetes-monitoring"
+  tolerations: [ ]
+  nodeSelector: { }
+  resources: { }
+  labels: { }
+  args: { }
+  env: { }
+  group: ""
+  customProperties:
+    value: ""
+    valueFrom: ""
 
 deployerHelm:
   image: ""

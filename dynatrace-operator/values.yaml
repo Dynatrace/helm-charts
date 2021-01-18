@@ -12,23 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+platform: "kubernetes"
+
 name: "dynakube"
 apiUrl: ""
 apiToken: ""
 paasToken: ""
+skipCertCheck: false
 proxy:
   value: ""
   valueFrom: ""
-skipCertCheck: false
 trustedCAs: ""
 networkZone: ""
 operator:
   image: ""
-activegate:
+activeGate:
   image: ""
 
 kubernetesMonitoring:
-  enabled: false
+  enabled: true
   replicas: 1
   serviceAccountName: ""
   tolerations: [ ]
