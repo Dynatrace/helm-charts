@@ -43,9 +43,9 @@ spec:
   networkZone: {{ .Values.networkZone }}
   {{- end }}
 
-  {{- if .Values.activegate.image }}
-  activegate:
-    image: {{ .Values.activegate.image }}
+  {{- if .Values.activeGate.image }}
+  activeGate:
+    image: {{ .Values.activeGate.image }}
   {{- end }}
 
   {{- if .Values.kubernetesMonitoring.enabled }}
