@@ -108,6 +108,12 @@ data:
         controller-gen.kubebuilder.io/version: v0.3.0
       creationTimestamp: null
       name: dynakubes.dynatrace.com
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
     spec:
       additionalPrinterColumns:
         - JSONPath: .spec.apiUrl
@@ -437,12 +443,6 @@ data:
     metadata:
       name: {{ .Values.name }}
       namespace: {{ .Release.Namespace }}
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
     spec:
       apiUrl: {{ required "ApiUrl needs to be set!" .Values.apiUrl }}
 
