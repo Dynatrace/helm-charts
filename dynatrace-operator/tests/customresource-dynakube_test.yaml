@@ -43,31 +43,12 @@ tests:
           path: spec.skipCertCheck
           value: true
 
-  - it: should add proxy if value is set
-    set:
-      apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
-      proxy:
-        value: test-proxy
-    asserts:
-      - isNotNull:
-          path: spec.proxy
-      - isNull:
-          path: spec.proxy.valueFrom
-      - isNotNull:
-          path: spec.proxy.value
-      - equal:
-          path: spec.proxy.value
-          value: test-proxy
-
   - it: should add proxy if valueFrom is set
     set:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      proxy:
-        valueFrom: test-proxy
+      proxy: dynakube
     asserts:
       - isNotNull:
           path: spec.proxy
@@ -77,7 +58,7 @@ tests:
           path: spec.proxy.valueFrom
       - equal:
           path: spec.proxy.valueFrom
-          value: test-proxy
+          value: dynakube
 
   - it: should add trustedCAs if set
     set:
