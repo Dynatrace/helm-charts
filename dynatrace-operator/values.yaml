@@ -19,9 +19,7 @@ apiUrl: ""
 apiToken: ""
 paasToken: ""
 skipCertCheck: false
-proxy:
-  value: ""
-  valueFrom: ""
+proxy: ""
 trustedCAs: ""
 networkZone: ""
 operator:
