@@ -458,12 +458,9 @@ data:
       skipCertCheck: {{ .Values.skipCertCheck }}
       {{- end }}
 
-      {{- if .Values.proxy.value }}
+      {{- if .Values.proxy }}
       proxy:
-        value: {{ .Values.proxy.value }}
-      {{- else if .Values.proxy.valueFrom }}
-      proxy:
-        valueFrom: {{ .Values.proxy.valueFrom }}
+        valueFrom: {{ .Values.name }}
       {{- end }}
 
       {{- if .Values.trustedCAs }}
