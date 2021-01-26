@@ -30,7 +30,7 @@ activeGate:
 kubernetesMonitoring:
   enabled: true
   replicas: 1
-  serviceAccountName: "dynatrace-kubernetes-monitoring"
+  serviceAccountName: ""
   tolerations: [ ]
   nodeSelector: { }
   resources: { }
