@@ -64,7 +64,7 @@ data:
     apiVersion: policy/v1beta1
     kind: PodSecurityPolicy
     metadata:
-      name: {{ .Values.kubernetesMonitoring.serviceAccountName }}
+      name: dynatrace-kubernetes-monitoring
       annotations:
         seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
         apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
@@ -484,8 +484,8 @@ data:
         replicas: {{ .Values.kubernetesMonitoring.replicas }}
         {{- end }}
 
-        {{- if .Values.kubernetesMonitoring.serviceAccountName}}
-        serviceAccountName: {{ .Values.kubernetesMonitoring.serviceAccountName }}
+        {{- if .Values.kubernetesMonitoringServiceAccount }}
+        serviceAccountName: {{ .Values.kubernetesMonitoringServiceAccount }}
         {{- end }}
 
         {{- if .Values.kubernetesMonitoring.tolerations }}
