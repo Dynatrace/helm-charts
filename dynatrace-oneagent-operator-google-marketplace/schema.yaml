@@ -15,16 +15,13 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.9.4"
+  publishedVersion: "0.9.5"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.9.4
+      v0.9.5
 
       Bug fixes
-        * Temporary files for the injection via webhook now get placed on an emptyDir to support readonlyFileSystems
-        * ImagePullPolicy for install-oneagent container used by OneAgentAPM got changed to `Always` to allow updates
-        * Nodes in a non-working state will not get added as empty entries to the init.sh script anymore
-        * Querying for the Dynatrace cluster version will just be done per OneAgent resource when using the immutable image
+        * Adapted the update interval to only do the request very 15 minutes
     releaseTypes:
       - BugFix
     recommended: true
