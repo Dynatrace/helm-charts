@@ -63,6 +63,7 @@ oneagent:
   flavor: ""
 
 secret:
-  autoCreate: true
+  autoCreate: false
   apiToken: ""
   paasToken: ""
+  
