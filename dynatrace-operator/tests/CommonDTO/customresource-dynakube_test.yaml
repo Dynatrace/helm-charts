@@ -1,6 +1,6 @@
 suite: test dynakube customresource
 templates:
-  - customresource-dynakube.yaml
+  - CommonDTO/customresource-dynakube.yaml
 tests:
   - it: is created if apiUrl, apiToken and paasToken are set
     set:

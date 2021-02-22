@@ -14,31 +14,95 @@
 
 platform: "kubernetes"
 
+### base properties
+
 name: "dynakube"
 apiUrl: ""
 apiToken: ""
 paasToken: ""
+customPullSecret: ""
 skipCertCheck: false
 proxy: ""
 trustedCAs: ""
 networkZone: ""
+enableIstio: false
+
 operator:
   image: ""
+
+### module properties
+
 activeGate:
   image: ""
+  autoUpdate: false
 
-kubernetesMonitoring:
-  enabled: true
-  replicas: 1
+oneAgent:
+  version: ""
+  image: ""
+  autoUpdate: false
+
+codeModules:
+  enabled: false
+  resources: {}
+
+infraMonitoring:
+  enabled: false
+  nodeSelector: {}
+  tolerations: []
+  waitReadySeconds: 300
+  resources: {}
+  args: {}
+  env: {}
+  priorityClassName: ""
+  dnsPolicy: ""
   serviceAccountName: ""
-  tolerations: [ ]
+  labels: {}
+  useUnprivilegedMode: false
+  useImmutableImage: false
+
+classicFullStack:
+  enabled: false
   nodeSelector: { }
+  tolerations: [ ]
+  waitReadySeconds: 300
   resources: { }
-  labels: { }
   args: { }
   env: { }
+  priorityClassName: ""
+  dnsPolicy: ""
+  serviceAccountName: ""
+  labels: { }
+  useUnprivilegedMode: false
+  useImmutableImage: false
+
+routing:
+  enabled: false
+  replicas: 1
   group: ""
   customProperties:
     value: ""
     valueFrom: ""
+  resources: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  labels: { }
+  args: { }
+  env: { }
+  serviceAccountName: ""
+
+kubernetesMonitoring:
+  enabled: false
+  replicas: 1
+  group: ""
+  customProperties:
+    value: ""
+    valueFrom: ""
+  resources: { }
+  nodeSelector: {}
+  tolerations: []
+  labels: {}
+  args: {}
+  env: {}
+  serviceAccountName: ""
+
 

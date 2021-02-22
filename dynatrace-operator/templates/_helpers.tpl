@@ -74,3 +74,12 @@ Check if default operator image is used
     {{- printf "%s:v%s" "docker.io/dynatrace/dynatrace-operator" .Chart.AppVersion }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Check if platform is set
+*/}}
+{{- define "dynatrace-operator.platformSet" -}}
+{{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") -}}
+    {{ default "set" }}
+{{- end -}}
+{{- end -}}

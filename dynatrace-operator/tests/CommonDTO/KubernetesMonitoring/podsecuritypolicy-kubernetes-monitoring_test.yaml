@@ -1,0 +1,44 @@
+suite: test pod security policy for kubernetes monitoring
+templates:
+  - CommonDTO/KubernetesMonitoring/podsecuritypolicy-kubernetes-monitoring.yaml
+tests:
+  - it: should exist
+    asserts:
+      - isKind:
+          of: PodSecurityPolicy
+      - equal:
+          path: metadata.name
+          value: dynatrace-kubernetes-monitoring
+      - equal:
+          path: metadata.annotations
+          value:
+            seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
+            apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
+            seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
+            apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
+      - equal:
+          path: spec
+          value:
+            privileged: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            requiredDropCapabilities:
+              - ALL
+            volumes:
+              - "configMap"
+              - "emptyDir"
+              - "projected"
+              - "secret"
+              - "downwardAPI"
+              - "persistentVolumeClaim"
+            hostNetwork: false
+            hostIPC: false
+            hostPID: false
+            runAsUser:
+              rule: "MustRunAsNonRoot"
+            seLinux:
+              rule: "RunAsAny"
+            supplementalGroups:
+              rule: "RunAsAny"
+            fsGroup:
+              rule: "RunAsAny"
