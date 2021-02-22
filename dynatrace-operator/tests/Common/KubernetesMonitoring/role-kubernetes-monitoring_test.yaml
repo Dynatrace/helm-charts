@@ -1,6 +1,6 @@
 suite: test role for kubernetes monitoring
 templates:
-  - CommonDTO/KubernetesMonitoring/role-kubernetes-monitoring.yaml
+  - Common/KubernetesMonitoring/role-kubernetes-monitoring.yaml
 tests:
   - it: should exist
     asserts:

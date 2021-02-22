@@ -1,6 +1,6 @@
 suite: test rolebinding for dynatrace-operator
 templates:
-  - CommonDTO/rolebinding-operator.yaml
+  - Common/rolebinding-operator.yaml
 tests:
   - it: should exist
     asserts:

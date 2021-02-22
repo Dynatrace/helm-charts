@@ -1,6 +1,6 @@
 suite: test role for dynatrace operator
 templates:
-  - CommonDTO/role-operator.yaml
+  - Common/role-operator.yaml
 tests:
   - it: should exist
     asserts:

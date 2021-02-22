@@ -1,6 +1,6 @@
 suite: test dynakube customresource with kubemon
 templates:
-  - CommonDTO/customresource-dynakube.yaml
+  - Common/customresource-dynakube.yaml
 tests:
   - it: should add kubernetesMonitoring if set
     set:

@@ -1,6 +1,6 @@
 suite: test deployment for dynatrace operator
 templates:
-  - CommonDTO/deployment-operator.yaml
+  - Common/deployment-operator.yaml
 tests:
   - it: should exist
     set:

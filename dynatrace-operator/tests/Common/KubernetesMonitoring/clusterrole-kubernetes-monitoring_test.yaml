@@ -1,6 +1,6 @@
 suite: test clusterrole for kubernetes monitoring
 templates:
-  - CommonDTO/KubernetesMonitoring/clusterrole-kubernetes-monitoring.yaml
+  - Common/KubernetesMonitoring/clusterrole-kubernetes-monitoring.yaml
 tests:
   - it: should exist
     asserts:

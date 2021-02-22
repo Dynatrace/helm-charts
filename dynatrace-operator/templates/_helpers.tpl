@@ -49,6 +49,8 @@ Common labels
 */}}
 {{- define "dynatrace-operator.labels" -}}
 helm.sh/chart: {{ include "dynatrace-operator.chart" . }}
+dynatrace: operator
+operator: dynakube
 {{ include "dynatrace-operator.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -82,4 +84,13 @@ Check if platform is set
 {{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") -}}
     {{ default "set" }}
 {{- end -}}
+{{- end -}}
+
+{{/*
+Common labels webhook
+*/}}
+{{- define "dynatrace-operator.commonlabelswebhook" -}}
+dynatrace.com/operator: dynakube
+internal.oneagent.dynatrace.com/component: webhook
+helm.sh/chart: {{ include "dynatrace-operator.chart" . }}
 {{- end -}}

@@ -1,21 +1,22 @@
-suite: test clusterrole-binding for kubernetes monitoring
+suite: test role-binding for kubernetes monitoring
 templates:
-  - CommonDTO/KubernetesMonitoring/clusterrolebinding-kubernetes-monitoring.yaml
+  - Common/KubernetesMonitoring/rolebinding-kubernetes-monitoring.yaml
 tests:
   - it: should exist
     asserts:
       - isKind:
-          of: ClusterRoleBinding
+          of: RoleBinding
       - equal:
           path: metadata.name
           value: dynatrace-kubernetes-monitoring
-      - isNotEmpty:
-          path: metadata.labels
+      - equal:
+          path: metadata.namespace
+          value: NAMESPACE
       - equal:
           path: roleRef
           value:
             apiGroup: rbac.authorization.k8s.io
-            kind: ClusterRole
+            kind: Role
             name: dynatrace-kubernetes-monitoring
       - contains:
           path: subjects
