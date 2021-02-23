@@ -17,24 +17,30 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: dynatrace-dynakube-oneagent
+  name: dynatrace-kubernetes-monitoring
   annotations:
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: "*"
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
+    apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
+    seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
+    apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
 spec:
-  privileged: true
-  allowPrivilegeEscalation: true
-  allowedCapabilities:
-    - "*"
+  privileged: false
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  requiredDropCapabilities:
+    - ALL
   volumes:
-    - "*"
-  hostNetwork: true
-  hostIPC: true
-  hostPID: true
-  hostPorts:
-    - min: 0
-      max: 65535
+    - "configMap"
+    - "emptyDir"
+    - "projected"
+    - "secret"
+    - "downwardAPI"
+    - "persistentVolumeClaim"
+  hostNetwork: false
+  hostIPC: false
+  hostPID: false
   runAsUser:
-    rule: "RunAsAny"
+    rule: "MustRunAsNonRoot"
   seLinux:
     rule: "RunAsAny"
   supplementalGroups:

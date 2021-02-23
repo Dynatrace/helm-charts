@@ -24,6 +24,7 @@ proxy: ""
 trustedCAs: ""
 networkZone: ""
 enableIstio: false
+createPodSecurityPolicies: true
 
 secret:
   autoCreate: true
