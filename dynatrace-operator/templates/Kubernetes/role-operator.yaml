@@ -80,7 +80,7 @@ rules:
       - update
 
   - apiGroups:
-      - "" # "" indicates the core API group
+      - ""
     resources:
       - configmaps
     verbs:
@@ -91,7 +91,7 @@ rules:
       - update
       - delete
   - apiGroups:
-      - "" # "" indicates the core API group
+      - ""
     resources:
       - pods
     verbs:
@@ -101,7 +101,7 @@ rules:
       - delete
       - create
   - apiGroups:
-      - "" # "" indicates the core API group
+      - ""
     resources:
       - secrets
     verbs:
