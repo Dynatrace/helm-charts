@@ -4,6 +4,7 @@ templates:
 tests:
   - it: should exist
     set:
+      platform: kubernetes
       operator.image: image-name
     asserts:
       - isKind:
@@ -27,15 +28,21 @@ tests:
       - isNotEmpty:
           path: spec.template.metadata.labels
       - equal:
+          path: spec.strategy
+          value:
+            type: Recreate
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 1
+      - equal:
           path: spec.template.spec
           value:
-            serviceAccountName: RELEASE-NAME
             containers:
               - name: RELEASE-NAME
+                args:
+                  - operator
                 # Replace this with the built image name
                 image: image-name
-                command:
-                  - dynatrace-operator
                 imagePullPolicy: Always
                 env:
                   - name: POD_NAMESPACE
@@ -46,6 +53,11 @@ tests:
                     valueFrom:
                       fieldRef:
                         fieldPath: metadata.name
+                ports:
+                  - containerPort: 8080
+                    name: metrics
+                  - containerPort: 10080
+                    name: server-port
                 resources:
                   requests:
                     cpu: 50m
@@ -53,3 +65,69 @@ tests:
                   limits:
                     cpu: 100m
                     memory: 256Mi
+                readinessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: server-port
+                    scheme: HTTP
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: server-port
+                    scheme: HTTP
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: beta.kubernetes.io/arch
+                          operator: In
+                          values:
+                            - amd64
+                            - arm64
+                        - key: beta.kubernetes.io/os
+                          operator: In
+                          values:
+                            - linux
+                    - matchExpressions:
+                        - key: kubernetes.io/arch
+                          operator: In
+                          values:
+                            - amd64
+                            - arm64
+                        - key: kubernetes.io/os
+                          operator: In
+                          values:
+                            - linux
+            serviceAccountName: RELEASE-NAME
+      - isNull:
+          path: spec.template.spec.tolerations
+      - isNull:
+          path: spec.template.spec.nodeSelector
+
+
+  - it: should have tolerations if set
+    set:
+      platform: kubernetes
+      operator.tolerations:
+        test-key: test-value
+    asserts:
+      - equal:
+          path: spec.template.spec.tolerations
+          value:
+            test-key: test-value
+
+  - it: should have nodeSelectors if set
+    set:
+      platform: kubernetes
+      operator.nodeSelector:
+        test-key: test-value
+    asserts:
+      - equal:
+          path: spec.template.spec.nodeSelector
+          value:
+            test-key: test-value

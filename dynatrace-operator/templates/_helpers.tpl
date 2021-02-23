@@ -91,6 +91,6 @@ Common labels webhook
 */}}
 {{- define "dynatrace-operator.commonlabelswebhook" -}}
 dynatrace.com/operator: dynakube
-internal.oneagent.dynatrace.com/component: webhook
+internal.dynatrace.com/component: webhook
 helm.sh/chart: {{ include "dynatrace-operator.chart" . }}
 {{- end -}}

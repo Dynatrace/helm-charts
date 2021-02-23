@@ -18,8 +18,6 @@ platform: "kubernetes"
 
 name: "dynakube"
 apiUrl: ""
-apiToken: ""
-paasToken: ""
 customPullSecret: ""
 skipCertCheck: false
 proxy: ""
@@ -27,8 +25,15 @@ trustedCAs: ""
 networkZone: ""
 enableIstio: false
 
+secret:
+  autoCreate: true
+  apiToken: ""
+  paasToken: ""
+
 operator:
   image: ""
+  nodeSelector: {}
+  tolerations: {}
 
 ### module properties
 
