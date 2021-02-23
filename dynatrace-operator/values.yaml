@@ -40,12 +40,12 @@ operator:
 
 activeGate:
   image: ""
-  autoUpdate: false
+  autoUpdate: ""
 
 oneAgent:
   version: ""
   image: ""
-  autoUpdate: false
+  autoUpdate: ""
 
 codeModules:
   enabled: false

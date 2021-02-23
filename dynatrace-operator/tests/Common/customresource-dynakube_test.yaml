@@ -5,8 +5,8 @@ tests:
   - it: is created if apiUrl, apiToken and paasToken are set
     set:
       apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
+      secret.apiToken: test-api-token
+      secret.paasToken: test-paas-token
     asserts:
       - isKind:
           of: DynaKube
@@ -33,8 +33,8 @@ tests:
   - it: should add skipCertCheck if enabled
     set:
       apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
+      secret.apiToken: test-api-token
+      secret.paasToken: test-paas-token
       skipCertCheck: true
     asserts:
       - isNotNull:
@@ -46,8 +46,8 @@ tests:
   - it: should add proxy if valueFrom is set
     set:
       apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
+      secret.apiToken: test-api-token
+      secret.paasToken: test-paas-token
       proxy: dynakube
     asserts:
       - isNotNull:
@@ -63,8 +63,8 @@ tests:
   - it: should add trustedCAs if set
     set:
       apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
+      secret.apiToken: test-api-token
+      secret.paasToken: test-paas-token
       trustedCAs: test-ca
     asserts:
       - isNotNull:
@@ -76,8 +76,8 @@ tests:
   - it: should add networkZone if set
     set:
       apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
+      secret.apiToken: test-api-token
+      secret.paasToken: test-paas-token
       networkZone: test-network-zone
     asserts:
       - isNotNull:
@@ -89,10 +89,11 @@ tests:
   - it: should add ActiveGate image if set
     set:
       apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
+      secret.apiToken: test-api-token
+      secret.paasToken: test-paas-token
       activeGate:
         image: test-image
+        autoUpdate: true
     asserts:
       - isNotNull:
           path: spec.activeGate
@@ -101,3 +102,19 @@ tests:
       - equal:
           path: spec.activeGate.image
           value: test-image
+      - equal:
+          path: spec.activeGate.autoUpdate
+          value: true
+
+  - it: should set activeGate.autoUpdate
+    set:
+      apiUrl: test-api-url
+      secret.apiToken: test-api-token
+      secret.paasToken: test-paas-token
+      activeGate:
+        image: test-image
+        autoUpdate: false
+    asserts:
+      - equal:
+          path: spec.activeGate.autoUpdate
+          value: false

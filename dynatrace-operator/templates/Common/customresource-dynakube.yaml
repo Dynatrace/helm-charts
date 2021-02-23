@@ -13,7 +13,7 @@
 # limitations under the License.
 
 {{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-operator.platformSet" .))}}
-{{- if and (.Values.apiUrl) (.Values.apiToken) (.Values.paasToken) }}
+{{- if and (.Values.apiUrl) (.Values.secret.apiToken) (.Values.secret.paasToken) }}
 apiVersion: dynatrace.com/v1alpha1
 kind: DynaKube
 metadata:
@@ -41,9 +41,125 @@ spec:
   networkZone: {{ .Values.networkZone }}
   {{- end }}
 
-  {{- if .Values.activeGate.image }}
   activeGate:
+    {{- if .Values.activeGate.image}}
     image: {{ .Values.activeGate.image }}
+    {{- end}}
+    autoUpdate: {{ .Values.activeGate.autoUpdate }}
+
+  oneAgent:
+    {{- if .Values.oneAgent.image }}
+    image: {{ .Values.oneAgent.image }}
+    {{- end }}
+    autoUpdate: {{ .Values.oneAgent.autoUpdate }}
+    {{- if .Values.oneAgent.version }}
+    version: {{ .Values.oneAgent.version }}
+    {{- end }}
+
+  {{- if .Values.codeModules.enabled }}
+  codeModules:
+    enabled: true
+    {{- if .Values.codeModules.resources }}
+    resources: {{ .Values.codeModules.resources | toYaml | nindent 8}}
+    {{- end }}
+  {{- end }}
+
+  {{- if .Values.infraMonitoring.enabled }}
+  infraMonitoring:
+    enabled: true
+
+    {{- if .Values.infraMonitoring.nodeSelector }}
+    nodeSelector: {{ .Values.infraMonitoring.nodeSelector | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.tolerations }}
+    tolerations: {{ .Values.infraMonitoring.tolerations | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.waitReadySeconds }}
+    waitReadySeconds: {{ .Values.infraMonitoring.waitReadySeconds }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.resources }}
+    resources: {{ .Values.infraMonitoring.resources | toYaml | nindent 8}}
+    {{- end }}
+
+    {{- if and (.Values.infraMonitoring.args) (ge (len .Values.infraMonitoring.args) (1))}}
+    args: {{ .Values.infraMonitoring.args | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if and (.Values.infraMonitoring.env) (ge (len .Values.infraMonitoring.env) (1))}}
+    env: {{ .Values.infraMonitoring.env | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.priorityClassName }}
+    priorityClassName: {{ .Values.infraMonitoring.priorityClassName }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.dnsPolicy }}
+    dnsPolicy: {{ .Values.infraMonitoring.dnsPolicy }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.serviceAccountName }}
+    serviceAccountName: {{ .Values.infraMonitoring.serviceAccountName }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.labels }}
+    labels: {{ .Values.infraMonitoring.labels | toYaml | nindent 8 }}
+    {{- end }}
+
+    useUnprivilegedMode: {{ .Values.infraMonitoring.useUnprivilegedMode }}
+
+    useImmutableImage: {{ .Values.infraMonitoring.useImmutableImage }}
+  {{- end }}
+
+  {{- if .Values.classicFullStack.enabled }}
+  classicFullStack:
+    enabled: true
+
+    {{- if .Values.classicFullStack.nodeSelector }}
+    nodeSelector: {{ .Values.classicFullStack.nodeSelector | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.classicFullStack.tolerations }}
+    tolerations: {{ .Values.classicFullStack.tolerations | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.classicFullStack.waitReadySeconds }}
+    waitReadySeconds: {{ .Values.classicFullStack.waitReadySeconds }}
+    {{- end }}
+
+    {{- if .Values.classicFullStack.resources }}
+    resources: {{ .Values.classicFullStack.resources | toYaml | nindent 8}}
+    {{- end }}
+
+    {{- if and (.Values.classicFullStack.args) (ge (len .Values.classicFullStack.args) (1))}}
+    args: {{ .Values.classicFullStack.args | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if and (.Values.classicFullStack.env) (ge (len .Values.classicFullStack.env) (1))}}
+    env: {{ .Values.classicFullStack.env | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.classicFullStack.priorityClassName }}
+    priorityClassName: {{ .Values.classicFullStack.priorityClassName }}
+    {{- end }}
+
+    {{- if .Values.classicFullStack.dnsPolicy }}
+    dnsPolicy: {{ .Values.classicFullStack.dnsPolicy }}
+    {{- end }}
+
+    {{- if .Values.classicFullStack.serviceAccountName }}
+    serviceAccountName: {{ .Values.classicFullStack.serviceAccountName }}
+    {{- end }}
+
+    {{- if .Values.classicFullStack.labels }}
+    labels: {{ .Values.classicFullStack.labels | toYaml | nindent 8 }}
+    {{- end }}
+
+    useUnprivilegedMode: {{ .Values.classicFullStack.useUnprivilegedMode }}
+
+    useImmutableImage: {{ .Values.classicFullStack.useImmutableImage }}
   {{- end }}
 
   {{- if .Values.kubernetesMonitoring.enabled }}

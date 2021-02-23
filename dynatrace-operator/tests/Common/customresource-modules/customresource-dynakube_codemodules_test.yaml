@@ -1,0 +1,60 @@
+suit: test customresource values for codeModules spec
+templates:
+  - Common/customresource-dynakube.yaml
+tests:
+  - it: should be null if disabled
+    set:
+      apiUrl: test-url
+      secret.apiToken: test-token
+      secret.paasToken: test-token
+      codeModules.enabled: false
+    asserts:
+      - isNull:
+          path: spec.codeModules
+
+  - it: should exist if enabled
+    set:
+      apiUrl: test-url
+      secret.apiToken: test-token
+      secret.paasToken: test-token
+      codeModules.enabled: true
+    asserts:
+      - isNotNull:
+          path: spec.codeModules
+      - equal:
+          path: spec.codeModules.enabled
+          value: true
+
+  - it: should set resources
+    set:
+      apiUrl: test-url
+      secret.apiToken: test-token
+      secret.paasToken: test-token
+      codeModules:
+        enabled: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 150m
+            memory: 1Gi
+    asserts:
+      - isNotNull:
+          path: spec.codeModules.resources
+      - isNotNull:
+          path: spec.codeModules.resources.requests
+      - isNotNull:
+          path: spec.codeModules.resources.limits
+      - equal:
+          path: spec.codeModules.resources.requests.cpu
+          value: 100m
+      - equal:
+          path: spec.codeModules.resources.requests.memory
+          value: 512Mi
+      - equal:
+          path: spec.codeModules.resources.limits.cpu
+          value: 150m
+      - equal:
+          path: spec.codeModules.resources.limits.memory
+          value: 1Gi
