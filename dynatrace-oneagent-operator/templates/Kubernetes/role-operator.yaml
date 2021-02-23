@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-oneagent-operator.platformSet" .))}}
-{{- if eq .Values.platform "kubernetes" }}
+  {{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-oneagent-operator.platformSet" .))}}
+  {{- if eq .Values.platform "kubernetes" }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
+  {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
 rules:
   - apiGroups:
       - dynatrace.com
@@ -121,4 +121,4 @@ rules:
       - dynatrace-oneagent-operator
     verbs:
       - use
-{{ end }}
+  {{ end }}

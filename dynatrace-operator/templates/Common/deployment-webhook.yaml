@@ -150,4 +150,4 @@ spec:
       serviceAccountName: dynatrace-webhook
       volumes:
         - name: certs-volume
-          emptyDir: { }
+          emptyDir: {}

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-operator.platformSet" .))}}
+  {{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-operator.platformSet" .))}}
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingWebhookConfiguration
 metadata:
@@ -22,10 +22,10 @@ metadata:
 webhooks:
   - name: webhook.dynatrace.com
     rules:
-      - apiGroups: [ "" ]
-        apiVersions: [ "v1" ]
-        operations: [ "CREATE" ]
-        resources: [ "pods" ]
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE"]
+        resources: ["pods"]
         scope: Namespaced
     namespaceSelector:
       matchExpressions:
@@ -36,4 +36,4 @@ webhooks:
         name: dynatrace-webhook
         namespace: {{ .Release.Namespace }}
         path: /inject
-    admissionReviewVersions: [ "v1beta1" ]
+    admissionReviewVersions: ["v1beta1"]
