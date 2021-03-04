@@ -10,6 +10,8 @@ tests:
           count: 0
 
   - it: should exist
+    set:
+      platform: kubernetes
     asserts:
       - isKind:
           of: Role
