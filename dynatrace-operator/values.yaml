@@ -46,25 +46,6 @@ oneAgent:
   image: ""
   autoUpdate: false
 
-codeModules:
-  enabled: false
-  resources: {}
-
-infraMonitoring:
-  enabled: false
-  nodeSelector: {}
-  tolerations: []
-  waitReadySeconds: 300
-  resources: {}
-  args: {}
-  env: {}
-  priorityClassName: ""
-  dnsPolicy: ""
-  serviceAccountName: ""
-  labels: {}
-  useUnprivilegedMode: false
-  useImmutableImage: false
-
 classicFullStack:
   enabled: false
   nodeSelector: { }
