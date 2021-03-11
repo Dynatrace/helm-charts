@@ -5,8 +5,8 @@ tests:
   - it: should be null if disabled
     set:
       apiUrl: test-url
-      secret.apiToken: test-token
-      secret.paasToken: test-token
+      apiToken: test-token
+      paasToken: test-token
       codeModules.enabled: false
     asserts:
       - isNull:
@@ -15,8 +15,8 @@ tests:
   - it: should exist if enabled
     set:
       apiUrl: test-url
-      secret.apiToken: test-token
-      secret.paasToken: test-token
+      apiToken: test-token
+      paasToken: test-token
       codeModules.enabled: true
     asserts:
       - isNotNull:
@@ -28,8 +28,8 @@ tests:
   - it: should set resources
     set:
       apiUrl: test-url
-      secret.apiToken: test-token
-      secret.paasToken: test-token
+      apiToken: test-token
+      paasToken: test-token
       codeModules:
         enabled: true
         resources:

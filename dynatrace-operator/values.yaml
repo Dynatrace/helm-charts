@@ -26,15 +26,9 @@ networkZone: ""
 enableIstio: false
 createPodSecurityPolicies: true
 
-# Deprecated, use secret.apiToken instead
+autoCreateSecret: true
 apiToken: ""
-# Deprecated, use secret.paasToken instead
 paasToken: ""
-
-secret:
-  autoCreate: true
-  apiToken:
-  paasToken:
 
 operator:
   image: ""

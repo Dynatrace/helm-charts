@@ -94,29 +94,3 @@ dynatrace.com/operator: dynakube
 internal.dynatrace.com/component: webhook
 helm.sh/chart: {{ include "dynatrace-operator.chart" . }}
 {{- end -}}
-
-{{/*
-Use apiToken if secret.apiToken is unset
-*/}}
-{{- define "dyntrace-operator.apiToken" -}}
-{{- if .Values.secret.apiToken -}}
-    {{- printf "%s" .Values.secret.apiToken }}
-{{- else if .Values.apiToken -}}
-    {{- printf "%s" .Values.apiToken }}
-{{- else -}}
-    {{- print "" }}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Use paasToken if secret.paasToken is unset
-*/}}
-{{- define "dyntrace-operator.paasToken" -}}
-{{- if .Values.secret.paasToken -}}
-    {{- printf "%s" .Values.secret.paasToken }}
-{{- else if .Values.paasToken -}}
-    {{- printf "%s" .Values.paasToken }}
-{{- else -}}
-    {{- print "" }}
-{{- end -}}
-{{- end -}}

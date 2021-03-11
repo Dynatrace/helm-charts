@@ -5,8 +5,8 @@ tests:
   - it: should be null if disabled
     set:
       apiUrl: test-url
-      secret.apiToken: test-token
-      secret.paasToken: test-token
+      apiToken: test-token
+      paasToken: test-token
       classicFullStack.enabled: false
     asserts:
       - isNull:
@@ -15,8 +15,8 @@ tests:
   - it: should exist if enabled
     set:
       apiUrl: test-url
-      secret.apiToken: test-token
-      secret.paasToken: test-token
+      apiToken: test-token
+      paasToken: test-token
       classicFullStack.enabled: true
     asserts:
       - isNotNull:
@@ -28,8 +28,8 @@ tests:
   - it: should set nodeSelectors
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         nodeSelector:
@@ -44,8 +44,8 @@ tests:
   - it: should set tolerations
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         tolerations:
@@ -66,8 +66,8 @@ tests:
   - it: should set waitReadySeconds
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         waitReadySeconds: 100
@@ -79,8 +79,8 @@ tests:
   - it: should set resources
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         resources:
@@ -113,8 +113,8 @@ tests:
   - it: should set args
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         args:
@@ -129,8 +129,8 @@ tests:
   - it: should set envs
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         env:
@@ -145,8 +145,8 @@ tests:
   - it: should set priorityClassName
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         priorityClassName: test-priority-class
@@ -158,8 +158,8 @@ tests:
   - it: should set dnsPolicy
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         dnsPolicy: test-dns-policy
@@ -172,8 +172,8 @@ tests:
   - it: should set service account name
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         serviceAccountName: test-service-account
@@ -187,8 +187,8 @@ tests:
   - it: should set labels
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         labels:
@@ -203,8 +203,8 @@ tests:
   - it: should set useUnprivilegedMode
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         useUnprivilegedMode: true
@@ -216,8 +216,8 @@ tests:
   - it: should set useImmutableImage
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       classicFullStack:
         enabled: true
         useImmutableImage: true

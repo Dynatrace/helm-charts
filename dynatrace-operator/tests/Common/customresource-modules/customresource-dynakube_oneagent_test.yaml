@@ -5,8 +5,8 @@ tests:
   - it: should set oneAgent.version
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       oneAgent:
         version: test-version
     asserts:
@@ -19,8 +19,8 @@ tests:
   - it: should set oneAgent.image
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       oneAgent.image: test-image
     asserts:
       - isNotNull:
@@ -32,8 +32,8 @@ tests:
   - it: should set oneAgent.autoUpdate
     set:
       apiUrl: test-api-url
-      secret.apiToken: test-api-token
-      secret.paasToken: test-paas-token
+      apiToken: test-api-token
+      paasToken: test-paas-token
       oneAgent.autoUpdate: false
     asserts:
       - equal:
