@@ -51,7 +51,6 @@ Common labels
 {{- define "dynatrace-oneagent-operator.commonlabels" -}}
 dynatrace: operator
 operator: oneagent
-helm.sh/chart: {{ include "dynatrace-oneagent-operator.chart" . }}
 {{- end -}}
 
 {{/*
@@ -60,7 +59,6 @@ Common labels webhook
 {{- define "dynatrace-oneagent-operator.commonlabelswebhook" -}}
 dynatrace.com/operator: oneagent
 internal.oneagent.dynatrace.com/component: webhook
-helm.sh/chart: {{ include "dynatrace-oneagent-operator.chart" . }}
 {{- end -}}
 
 {{/*
