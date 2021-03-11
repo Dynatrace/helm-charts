@@ -2,3 +2,5 @@
 .idea
 .code
 .vscode
+/linter.output
+/dynatrace-operator/lint.output
