@@ -118,3 +118,91 @@ tests:
       - equal:
           path: spec.activeGate.autoUpdate
           value: false
+
+  - it: should exist if apiToken is set instead of secret.apiToken
+    set:
+      apiUrl: test-api-url
+      apiToken: test-api-token
+      secret.apiToken:
+      secret.paasToken: test-paas-token
+    asserts:
+      - isKind:
+          of: DynaKube
+      - isAPIVersion:
+          of: dynatrace.com/v1alpha1
+      - equal:
+          path: metadata.name
+          value: dynakube
+      - isNotEmpty:
+          path: metadata.namespace
+      - equal:
+          path: spec.apiUrl
+          value: test-api-url
+      - equal:
+          path: spec.tokens
+          value: dynakube
+      - isNull:
+          path: spec.proxy
+      - isNull:
+          path: spec.trustedCAs
+      - isNull:
+          path: spec.networkZone
+
+  - it: should exist if paasToken is set instead of secret.paasToken
+    set:
+      apiUrl: test-api-url
+      paasToken: test-paas-token
+      secret.apiToken: test-api-token
+      secret.paasToken:
+    asserts:
+      - isKind:
+          of: DynaKube
+      - isAPIVersion:
+          of: dynatrace.com/v1alpha1
+      - equal:
+          path: metadata.name
+          value: dynakube
+      - isNotEmpty:
+          path: metadata.namespace
+      - equal:
+          path: spec.apiUrl
+          value: test-api-url
+      - equal:
+          path: spec.tokens
+          value: dynakube
+      - isNull:
+          path: spec.proxy
+      - isNull:
+          path: spec.trustedCAs
+      - isNull:
+          path: spec.networkZone
+
+  - it: should exist if apiToken and paasToken are set instead of secret.apiToken and secret.paasToken
+    set:
+      apiUrl: test-api-url
+      apiToken: test-api-token
+      paasToken: test-paas-token
+      secret.apiToken:
+      secret.paasToken:
+    asserts:
+      - isKind:
+          of: DynaKube
+      - isAPIVersion:
+          of: dynatrace.com/v1alpha1
+      - equal:
+          path: metadata.name
+          value: dynakube
+      - isNotEmpty:
+          path: metadata.namespace
+      - equal:
+          path: spec.apiUrl
+          value: test-api-url
+      - equal:
+          path: spec.tokens
+          value: dynakube
+      - isNull:
+          path: spec.proxy
+      - isNull:
+          path: spec.trustedCAs
+      - isNull:
+          path: spec.networkZone
