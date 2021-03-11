@@ -1,0 +1,164 @@
+suit: test role for oneagent on openshift
+templates:
+  - Openshift/role-operator.yaml
+tests:
+  - it: should not exist if platform is not openshift
+    set:
+      platform: kubernetes
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should exist
+    set:
+      platform: openshift
+    asserts:
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME
+      - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - isNotEmpty:
+          path: metadata.labels
+      - equal:
+          path: rules
+          value:
+            - apiGroups:
+                - dynatrace.com
+              resources:
+                - dynakubes
+              verbs:
+                - get
+                - list
+                - watch
+                - update
+                - create
+            - apiGroups:
+                - dynatrace.com
+              resources:
+                - dynakubes/finalizers
+                - dynakubes/status
+              verbs:
+                - update
+
+            - apiGroups:
+                - apps
+              resources:
+                - statefulsets
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - apps
+              resources:
+                - daemonsets
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - apps
+              resources:
+                - replicasets
+                - deployments
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - apps
+              resources:
+                - deployments/finalizers
+              verbs:
+                - update
+
+            - apiGroups:
+                - "" # "" indicates the core API group
+              resources:
+                - configmaps
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - "" # "" indicates the core API group
+              resources:
+                - pods
+              verbs:
+                - get
+                - list
+                - watch
+                - delete
+                - create
+            - apiGroups:
+                - "" # "" indicates the core API group
+              resources:
+                - secrets
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+            - apiGroups:
+                - ""
+              resources:
+                - events
+              verbs:
+                - list
+                - create
+            - apiGroups:
+                - ""
+              resources:
+                - services
+              verbs:
+                - create
+                - get
+
+            - apiGroups:
+                - monitoring.coreos.com
+              resources:
+                - servicemonitors
+              verbs:
+                - get
+                - create
+
+            - apiGroups:
+                - networking.istio.io
+              resources:
+                - serviceentries
+                - virtualservices
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+
+            - apiGroups:
+                - coordination.k8s.io
+              resources:
+                - leases
+              verbs:
+                - get
+                - update
+                - create
+            - apiGroups:
+                - policy
+              resources:
+                - podsecuritypolicies
+              resourceNames:
+                - dynatrace-operator
+              verbs:
+                - use
