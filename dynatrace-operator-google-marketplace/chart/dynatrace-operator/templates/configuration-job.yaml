@@ -15,7 +15,6 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  annotations:
   name: {{ .Release.Name }}-job
   namespace: {{ .Release.Namespace }}
   labels:
@@ -31,8 +30,12 @@ spec:
             - "-ec"
             - |
               uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
-              sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/psp-kubernetes-monitoring.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/psp-oneagent.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/psp-oneagent-unprivileged.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/psp-webhook.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/mutatingWebhookConfiguration.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/dynakube_crd.yaml | kubectl apply -f -
               sleep 5
               sed "s/##UID##/${uid}/g" /objects/dynakube.yaml | kubectl apply -f -

@@ -293,6 +293,98 @@ properties:
     type: string
     x-google-marketplace:
       type: DEPLOYER_IMAGE
+
+  webhookServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace Operators Webhook
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      description: >
+        Service account used by the Dynatrace Operators Webhook
+      roles:
+        - type: ClusterRole
+          rulesType: CUSTOM
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - namespaces
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - admissionregistration.k8s.io
+              resources:
+                - mutatingwebhookconfigurations
+              verbs:
+                - list
+                - create
+                - watch
+            - apiGroups:
+                - admissionregistration.k8s.io
+              resources:
+                - mutatingwebhookconfigurations
+              resourceNames:
+                - dynatrace-webhook
+              verbs:
+                - get
+                - update
+        - type: Role
+          rulesType: CUSTOM
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - services
+                - configmaps
+                - secrets
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+            - apiGroups:
+                - ""
+              resources:
+                - pods
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - dynatrace.com
+              resources:
+                - dynakubes
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ""
+              resources:
+                - events
+              verbs:
+                - list
+                - create
+            - apiGroups:
+                - coordination.k8s.io
+              resources:
+                - leases
+              verbs:
+                - get
+                - update
+                - create
+            - apiGroups:
+                - policy
+              resources:
+                - podsecuritypolicies
+              resourceNames:
+                - dynatrace-webhook
+              verbs:
+                - use
+
   operatorServiceAccount:
     type: string
     title: Service account used by the Dynatrace Operator
@@ -306,7 +398,7 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - namespaces
                 resourceNames:
@@ -315,6 +407,32 @@ properties:
                   - get
                   - list
                   - watch
+              - apiGroups:
+                  - ""
+                resources:
+                  - nodes
+                  - namespaces
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - ""
+                resources:
+                  - secrets
+                verbs:
+                  - create
+              - apiGroups:
+                  - ""
+                resources:
+                  - secrets
+                resourceNames:
+                  - dynatrace-dynakube-config
+                  - dynatrace-dynakube-pull-secret
+                verbs:
+                  - get
+                  - update
+                  - delete
           - type: Role
             rulesType: CUSTOM
             rules:
@@ -335,10 +453,22 @@ properties:
                   - dynakubes/status
                 verbs:
                   - update
+
               - apiGroups:
                   - apps
                 resources:
                   - statefulsets
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - create
+                  - update
+                  - delete
+              - apiGroups:
+                  - apps
+                resources:
+                  - daemonsets
                 verbs:
                   - get
                   - list
@@ -395,16 +525,45 @@ properties:
               - apiGroups:
                   - ""
                 resources:
+                  - events
+                verbs:
+                  - list
+                  - create
+              - apiGroups:
+                  - ""
+                resources:
                   - services
                 verbs:
                   - create
                   - get
+
               - apiGroups:
-                  - ""
+                  - monitoring.coreos.com
                 resources:
-                  - events
+                  - servicemonitors
                 verbs:
+                  - get
+                  - create
+
+              - apiGroups:
+                  - networking.istio.io
+                resources:
+                  - serviceentries
+                  - virtualservices
+                verbs:
+                  - get
                   - list
+                  - create
+                  - update
+                  - delete
+
+              - apiGroups:
+                  - coordination.k8s.io
+                resources:
+                  - leases
+                verbs:
+                  - get
+                  - update
                   - create
               - apiGroups:
                   - policy
@@ -414,13 +573,50 @@ properties:
                   - dynatrace-operator
                 verbs:
                   - use
+
+  oneagentServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace OneAgent
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace OneAgent
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
               - apiGroups:
-                  - monitoring.coreos.com
+                  - policy
                 resources:
-                  - servicemonitors
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-dynakube-oneagent
                 verbs:
-                  - get
-                  - create
+                  - use
+
+  oneagentUnprivilegedServiceAccount:
+    type: string
+    title: Service account used by the unprivileged Dynatrace OneAgent
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the unprivileged Dynatrace OneAgent
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-dynakube-oneagent-unprivileged
+                verbs:
+                  - use
+
+
   kubernetesMonitoringServiceAccount:
     type: string
     title: Service account used by the Dynatrace Kubernetes Monitoring
@@ -434,10 +630,10 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                - ""
-                - batch
-                - apps
-                - apps.openshift.io
+                  - ""
+                  - batch
+                  - apps
+                  - apps.openshift.io
                 resources:
                   - nodes
                   - pods
@@ -468,6 +664,10 @@ properties:
                   - dynatrace-kubernetes-monitoring
                 verbs:
                   - use
+
+
+
+
   configurationServiceAccount:
     type: string
     title: Service account used to configure the Dynatrace Operator
