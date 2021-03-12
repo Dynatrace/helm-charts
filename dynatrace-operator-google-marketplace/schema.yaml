@@ -48,6 +48,7 @@ properties:
     type: string
     description: The Dynatrace api url including `/api` path at the end
     title: API URL
+
   apiToken:
     type: string
     description: The API token from your Dynatrace environment
@@ -60,6 +61,15 @@ properties:
     title: PaaS Token
     x-google-marketplace:
       type: MASKED_FIELD
+  autoCreateSecret:
+    type: boolean
+    description: "Enable if you want to automatically create a secret from your api-token and paas-token"
+    title: "Automatically create token-secret"
+
+  customPullSecret:
+    type: string
+    description: "Sets the name of the pull secret that should be used"
+    title: "Custom pull secret"
   skipCertCheck:
     type: boolean
     description: "Disable certificate validation checks for installer download and API communication"
@@ -77,25 +87,208 @@ properties:
     type: string
     description: "Sets a network zone for the given OneAgent or ActiveGates"
     title: "Network zone"
-  kubernetesMonitoring.enabled:
+  enablePodSecurityPolicies:
     type: boolean
-    description: "Enables automatic Kubernetes monitoring for your cluster"
-    title: "Enable Kubernetes monitoring"
+    description: "Enable the creation of PodSecurityPolicies"
+    title: "Enable PodSecurityPolicies"
     default: true
-  kubernetesMonitoring.replicas:
-    type: integer
-    description: "Number of replicas for the Kubernetes monitoring pods"
-    title: "Replicas"
-    default: 1
+
+  operator.image:
+    type: string
+    description: "The location from where to grab the Dynatrace Operator image"
+    title: "Operator image"
+  operator.nodeSelector:
+    type: string
+    description: "Node selector to control on which nodes the opertor will be deployed"
+    title: "Operator node selector"
+  operator.tolerations:
+    type: string
+    description: "Set which node taints the operator deployment tolerates"
+    title: "Operator tolerations"
+
   activeGate.image:
     type: string
     description: "The location from where to grab the Dynatrace ActiveGate image - default for Kubernetes is ToDo"
-    title: Custom ActiveGate image location
-  activeGate.disableActiveGateUpdate:
+    title: "Custom ActiveGate image location"
+  activeGate.autoUpdate:
     type: boolean
-    description: "Disables automatic restarts of ActiveGate pods in case a new version is available"
+    description: "Enable automatic restarts of ActiveGate pods in case a new version is available"
     default: false
-    title: "Disable automatic ActiveGate updates"
+    title: "Enable automatic ActiveGate updates"
+
+  oneAgent.version:
+    type: string
+    description: "The version of the OneAgent to be used when useImmutableImage is enabled"
+    title: "OneAgent version"
+  oneAgent.image:
+    type: string
+    description: "Set to use a custom OneAgent Docker image"
+    title: "OneAgent image"
+  oneAgent.autoUpdate:
+    type: boolean
+    description: "Enables automatic restarts of oneagent pods in case a new version is available"
+    title: "Automatically update OneAgent"
+
+  classicFullStack.enabled:
+    type: boolean
+    description: "Enable classic oneagent monitoring"
+    title: "Enable classic fullstack monitoring"
+  classicFullStack.nodeSelector:
+    type: string
+    description: "Set node selector to control on which nodes the OneAgent will be deployed"
+    title: "Classic node selector"
+  classicFullStack.tolerations:
+    type: string
+    description: "Tolerations to include with the OneAgent DaemonSet"
+    title: "Classic tolerations"
+  classicFullStack.waitReadySeconds:
+    type: integer
+    description: "Sets the time how long the operator waits for the pods to become ready"
+    title: "Classic wait ready seconds"
+  classicFullStack.resources:
+    type: string
+    description: "Resource settings for OneAgent container"
+    title: "Classic resources"
+  classicFullStack.args:
+    type: string
+    description: "Arguments to add to the OneAgent installer"
+    title: "Classic arguments"
+  classicFullStack.env:
+    type: string
+    description: "Additional environment variables to add to the OneAgent Pods"
+    title: "Classic environment variables"
+  classicFullStack.priorityClassName:
+    type: string
+    description: "Priority class to assign to the OneAgent Pods"
+    title: "Classic priority class name"
+  classicFullStack.dnsPolicy:
+    type: string
+    description: "DNS Policy for OneAgent pods"
+    title: "Classic DNS policy"
+    default: "ClusterFirstWithHostNet"
+    enum:
+      - "Default"
+      - "ClusterFirst"
+      - "ClusterFirstWithHostNet"
+      - "None"
+  classicFullStack.serviceAccountName:
+    type: string
+    description: "Name of the ServiceAccount to assign to the OneAgent Pods"
+    title: "Classic service-account name"
+  classicFullStack.labels:
+    type: string
+    description: "Labels are customer defined labels for OneAgent Pods to structure workloads as desired"
+    title: "Classic lables"
+  classicFullStack.useUnprivilegedMode:
+    type: boolean
+    description: "When enabled the OneAgent Pods will run as unprivileged pods"
+    title: "Classic use unprivileged mode"
+    default: true
+  classicFullStack.useImmutableImage:
+    type: boolean
+    description: "if enabled, the Operator will use the immutable image from the Dynatrace environment or from your custom registry, otherwise an installer image is used"
+    title: "Classic use immutable image"
+
+  routing.enabled:
+    type: boolean
+    description: "Enables automatic Routing for your cluster"
+    title: "Enable Routing"
+  routing.replicas:
+    type: integer
+    description: "Number of replicas for the Routing pods"
+    title: "Routing Replicas"
+    default: 1
+  routing.group:
+    type: string
+    description: "Set activation group for this ActiveGate"
+    title: "Routing activation group"
+  routing.customProperties.value:
+    type: string
+    description: "Add a custom properties file by providing it as a value"
+    title: "Routing custom properties as value"
+  routing.customProperties.valueFrom:
+    type: string
+    description: "Add a custom properties file by providing it as a reference"
+    title: "Routing custom properties as reference"
+  routing.resources:
+    type: string
+    description: "Resource settings for ActiveGate container"
+    title: "Routing resources"
+  routing.nodeSelector:
+    type: string
+    description: "Set node selector to control on which nodes these ActiveGate pods will be deployed"
+    title: "Routing node selector"
+  routing.tolerations:
+    type: string
+    description: "Tolerations to include with this ActiveGate StatefulSet"
+    title: "Routing tolerations"
+  routing.labels:
+    type: string
+    description: "Labels are customer defined labels for these ActiveGate Pods to structure workloads as desired"
+    title: "Routing labels"
+  routing.args:
+    type: string
+    description: "Arguments to add to these ActiveGate instances"
+    title: "Routing arguments"
+  routing.env:
+    type: string
+    description: "Additional environment variables to add to these ActiveGate Pods"
+    title: "Routing environment variables"
+  routing.serviceAccountName:
+    type: string
+    description: "Name of the ServiceAccount to assign to the ActiveGate Pods"
+    title: "Routing service-account name"
+
+  kubernetesMonitoring.enabled:
+    type: boolean
+    description: "Enables automatic Kubernetes monitoring for your cluster"
+    title: "Enable Kubernetes monitoring (Kubemon)"
+  kubernetesMonitoring.replicas:
+    type: integer
+    description: "Number of replicas for the Kubernetes monitoring pods"
+    title: "Kubemon Replicas"
+    default: 1
+  kubernetesMonitoring.group:
+    type: string
+    description: "Set activation group for this ActiveGate"
+    title: "Kubemon activation group"
+  kubernetesMonitoring.customProperties.value:
+    type: string
+    description: "Add a custom properties file by providing it as a value"
+    title: "Kubemon custom properties as value"
+  kubernetesMonitoring.customProperties.valueFrom:
+    type: string
+    description: "Add a custom properties file by providing it as a reference"
+    title: "Kubemon custom properties as reference"
+  kubernetesMonitoring.resources:
+    type: string
+    description: "Resource settings for ActiveGate container"
+    title: "Kubemon resources"
+  kubernetesMonitoring.nodeSelector:
+    type: string
+    description: "Set node selector to control on which nodes these ActiveGate pods will be deployed"
+    title: "Kubemon node selector"
+  kubernetesMonitoring.tolerations:
+    type: string
+    description: "Tolerations to include with this ActiveGate StatefulSet"
+    title: "Kubemon tolerations"
+  kubernetesMonitoring.labels:
+    type: string
+    description: "Labels are customer defined labels for these ActiveGate Pods to structure workloads as desired"
+    title: "Kubemon labels"
+  kubernetesMonitoring.args:
+    type: string
+    description: "Arguments to add to these ActiveGate instances"
+    title: "Kubemon arguments"
+  kubernetesMonitoring.env:
+    type: string
+    description: "Additional environment variables to add to these ActiveGate Pods"
+    title: "Kubemon environment variables"
+  kubernetesMonitoring.serviceAccountName:
+    type: string
+    description: "Name of the ServiceAccount to assign to the ActiveGate Pods"
+    title: "Kubemon service-account name"
+
   deployerHelm.image:
     type: string
     x-google-marketplace:

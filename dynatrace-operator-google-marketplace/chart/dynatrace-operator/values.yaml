@@ -14,33 +14,83 @@
 
 platform: "kubernetes"
 
+### base properties
+
 name: "dynakube"
 apiUrl: ""
+
+autoCreateSecret: true
 apiToken: ""
 paasToken: ""
+
+customPullSecret: ""
 skipCertCheck: false
 proxy: ""
 trustedCAs: ""
 networkZone: ""
+enableIstio: false
+createPodSecurityPolicies: true
+
 operator:
   image: ""
+  nodeSelector: {}
+  tolerations: {}
+
+### module properties
+
 activeGate:
   image: ""
+  autoUpdate: false
 
-kubernetesMonitoring:
-  enabled: true
-  replicas: 1
-  serviceAccountName: ""
-  tolerations: [ ]
+oneAgent:
+  version: ""
+  image: ""
+  autoUpdate: false
+
+classicFullStack:
+  enabled: false
   nodeSelector: { }
+  tolerations: [ ]
+  waitReadySeconds: 300
   resources: { }
-  labels: { }
   args: { }
   env: { }
+  priorityClassName: ""
+  dnsPolicy: ""
+  serviceAccountName: ""
+  labels: { }
+  useUnprivilegedMode: false
+  useImmutableImage: false
+
+routing:
+  enabled: false
+  replicas: 1
   group: ""
   customProperties:
     value: ""
     valueFrom: ""
+  resources: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  labels: { }
+  args: { }
+  env: { }
+  serviceAccountName: ""
+
+kubernetesMonitoring:
+  enabled: false
+  replicas: 1
+  group: ""
+  customProperties:
+    value: ""
+    valueFrom: ""
+  resources: { }
+  nodeSelector: {}
+  tolerations: []
+  labels: {}
+  args: {}
+  env: {}
+  serviceAccountName: ""
 
 deployerHelm:
   image: ""
