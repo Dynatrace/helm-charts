@@ -146,7 +146,7 @@ spec:
           volumeMounts:
             - name: certs-volume
               mountPath: /mnt/webhook-certs
-      serviceAccountName: dynatrace-webhook
+      serviceAccountName: {{ .Values.webhookServiceAccount }}
       volumes:
         - name: certs-volume
           emptyDir: {}

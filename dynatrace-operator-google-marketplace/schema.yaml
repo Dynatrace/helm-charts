@@ -65,6 +65,7 @@ properties:
     type: boolean
     description: "Enable if you want to automatically create a secret from your api-token and paas-token"
     title: "Automatically create token-secret"
+    default: true
 
   customPullSecret:
     type: string
@@ -299,8 +300,9 @@ properties:
     title: Service account used by the Dynatrace Operators Webhook
     x-google-marketplace:
       type: SERVICE_ACCOUNT
-      description: >
-        Service account used by the Dynatrace Operators Webhook
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace Operators Webhook
       roles:
         - type: ClusterRole
           rulesType: CUSTOM
@@ -616,7 +618,6 @@ properties:
                 verbs:
                   - use
 
-
   kubernetesMonitoringServiceAccount:
     type: string
     title: Service account used by the Dynatrace Kubernetes Monitoring
@@ -665,9 +666,6 @@ properties:
                 verbs:
                   - use
 
-
-
-
   configurationServiceAccount:
     type: string
     title: Service account used to configure the Dynatrace Operator
@@ -680,6 +678,14 @@ properties:
           - type: ClusterRole
             rulesType: CUSTOM
             rules:
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                verbs:
+                  - get
+                  - create
+                  - patch
               - apiGroups:
                   - dynatrace.com
                 resources:
@@ -732,4 +738,7 @@ required:
   - paasToken
   - operatorServiceAccount
   - kubernetesMonitoringServiceAccount
+  - oneagentUnprivilegedServiceAccount
+  - oneagentServiceAccount
+  - webhookServiceAccount
   - configurationServiceAccount
