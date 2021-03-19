@@ -461,7 +461,6 @@ properties:
                   - dynakubes/status
                 verbs:
                   - update
-
               - apiGroups:
                   - apps
                 resources:
@@ -530,6 +529,7 @@ properties:
                   - watch
                   - create
                   - update
+                  - delete
               - apiGroups:
                   - ""
                 resources:
@@ -544,7 +544,6 @@ properties:
                 verbs:
                   - create
                   - get
-
               - apiGroups:
                   - monitoring.coreos.com
                 resources:
