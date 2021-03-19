@@ -1480,6 +1480,8 @@ data:
 
         {{- if .Values.kubernetesMonitoring.serviceAccountName}}
         serviceAccountName: {{ .Values.kubernetesMonitoring.serviceAccountName }}
+        {{- else if .Values.kubernetesMonitoringServiceAccount }}
+        serviceAccountName: {{ .Values.kubernetesMonitoringServiceAccount }}
         {{- end }}
 
         {{- if .Values.kubernetesMonitoring.tolerations }}

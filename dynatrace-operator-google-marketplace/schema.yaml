@@ -454,6 +454,7 @@ properties:
                   - watch
                   - update
                   - create
+                  - delete
               - apiGroups:
                   - dynatrace.com
                 resources:
@@ -542,6 +543,7 @@ properties:
                 resources:
                   - services
                 verbs:
+                  - list
                   - create
                   - get
               - apiGroups:
@@ -551,7 +553,6 @@ properties:
                 verbs:
                   - get
                   - create
-
               - apiGroups:
                   - networking.istio.io
                 resources:
@@ -563,7 +564,6 @@ properties:
                   - create
                   - update
                   - delete
-
               - apiGroups:
                   - coordination.k8s.io
                 resources:
