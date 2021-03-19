@@ -88,6 +88,10 @@ properties:
     type: string
     description: "Sets a network zone for the given OneAgent or ActiveGates"
     title: "Network zone"
+  enableIstio:
+    type: boolean
+    description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntry objects to allow access to the Dynatrace cluster from the agent or the activeGate"
+    title: "Enable Istio"
   enablePodSecurityPolicies:
     type: boolean
     description: "Enable the creation of PodSecurityPolicies"
