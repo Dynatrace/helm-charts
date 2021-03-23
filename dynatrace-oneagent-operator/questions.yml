@@ -218,7 +218,7 @@ questions:
 - variable: oneagent.useUnprivilegedMode
   label: "Early Adopter: run unprivileged"
   description: "Early Adopter: support full-stack OneAgent running on unprivileged mode"
-  default: false
+  default: true
   type: boolean
   group: "Advanced Agent Configuration (OPTIONAL)"
   show_if: "show_advanced_config=true && mode=fullstack"

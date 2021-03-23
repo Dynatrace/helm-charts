@@ -67,7 +67,7 @@ spec:
           image: {{ include "dynatrace-oneagent-operator.image" . }}
           imagePullPolicy: Always
           env:
-            - name: WATCH_NAMESPACE
+            - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
@@ -80,7 +80,14 @@ spec:
               path: /healthz
               port: server-port
               scheme: HTTPS
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: server-port
+              scheme: HTTPS
+            initialDelaySeconds: 60
             periodSeconds: 10
           ports:
             - name: metrics
@@ -103,7 +110,7 @@ spec:
           image: {{ include "dynatrace-oneagent-operator.image" . }}
           imagePullPolicy: Always
           env:
-            - name: WATCH_NAMESPACE
+            - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
@@ -114,6 +121,22 @@ spec:
           ports:
             - name: metrics
               containerPort: 8484
+            - name: server-port
+              containerPort: 9080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: server-port
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: server-port
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
           resources:
             requests:
               cpu: 10m

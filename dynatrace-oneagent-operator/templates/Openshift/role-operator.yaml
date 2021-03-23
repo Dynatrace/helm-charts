@@ -59,7 +59,7 @@ rules:
     verbs:
       - update
   - apiGroups:
-      - ""  # "" indicates the core API group
+      - "" # "" indicates the core API group
     resources:
       - configmaps
     verbs:
@@ -70,7 +70,7 @@ rules:
       - update
       - delete
   - apiGroups:
-      - ""  # "" indicates the core API group
+      - "" # "" indicates the core API group
     resources:
       - pods
     verbs:
@@ -79,10 +79,13 @@ rules:
       - watch
       - delete
   - apiGroups:
-      - ""  # "" indicates the core API group
+      - "" # "" indicates the core API group
     resources:
       - secrets
     verbs:
+      - create
+      - update
+      - delete
       - get
       - list
       - watch
@@ -113,4 +116,19 @@ rules:
       - create
       - update
       - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - list
+      - create
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - update
+      - create
 {{ end }}
