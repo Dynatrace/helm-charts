@@ -27,9 +27,6 @@ spec:
 
   {{- if ne (printf "%T" .Values.oneagent.args) "string" }}
   args: {{- toYaml .Values.oneagent.args | nindent 4 }}
-  {{- else }}
-  args:
-    - --set-app-log-content-access=true
   {{- end }}
 
   {{- if .Values.oneagent.env }}

@@ -83,6 +83,9 @@ rules:
     resources:
       - secrets
     verbs:
+      - create
+      - update
+      - delete
       - get
       - list
       - watch
@@ -113,4 +116,19 @@ rules:
       - create
       - update
       - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - list
+      - create
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - update
+      - create
 {{ end }}
