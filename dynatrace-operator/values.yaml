@@ -61,21 +61,6 @@ classicFullStack:
   useUnprivilegedMode: false
   useImmutableImage: false
 
-routing:
-  enabled: false
-  replicas: 1
-  group: ""
-  customProperties:
-    value: ""
-    valueFrom: ""
-  resources: { }
-  nodeSelector: { }
-  tolerations: [ ]
-  labels: { }
-  args: { }
-  env: { }
-  serviceAccountName: ""
-
 kubernetesMonitoring:
   enabled: false
   replicas: 1
@@ -91,4 +76,17 @@ kubernetesMonitoring:
   env: {}
   serviceAccountName: ""
 
-
+routing:
+  enabled: false
+  replicas: 1
+  group: ""
+  customProperties:
+    value: ""
+    valueFrom: ""
+  resources: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  labels: { }
+  args: { }
+  env: { }
+  serviceAccountName: ""
