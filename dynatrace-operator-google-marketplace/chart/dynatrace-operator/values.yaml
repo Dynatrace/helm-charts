@@ -12,35 +12,68 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-platform: "kubernetes"
+### base properties
 
 name: "dynakube"
 apiUrl: ""
+
+autoCreateSecret: true
 apiToken: ""
 paasToken: ""
+
+customPullSecret: ""
 skipCertCheck: false
 proxy: ""
 trustedCAs: ""
 networkZone: ""
+enableIstio: false
+createPodSecurityPolicies: true
+
 operator:
   image: ""
+  nodeSelector: {}
+  tolerations: []
+
+### module properties
+
 activeGate:
   image: ""
+  autoUpdate: true
+
+oneAgent:
+  version: ""
+  image: ""
+  autoUpdate: true
+
+classicFullStack:
+  enabled: false
+  nodeSelector: { }
+  tolerations: [ ]
+  waitReadySeconds: 300
+  resources: { }
+  args: []
+  env: []
+  priorityClassName: ""
+  dnsPolicy: ""
+  serviceAccountName: ""
+  labels: { }
+  useUnprivilegedMode: true
+  useImmutableImage: false
 
 kubernetesMonitoring:
   enabled: true
   replicas: 1
-  serviceAccountName: ""
-  tolerations: [ ]
-  nodeSelector: { }
-  resources: { }
-  labels: { }
-  args: { }
-  env: { }
   group: ""
   customProperties:
     value: ""
     valueFrom: ""
+  resources: { }
+  nodeSelector: {}
+  tolerations: []
+  labels: {}
+  args: []
+  env: []
+  serviceAccountName: ""
 
 deployerHelm:
   image: ""
