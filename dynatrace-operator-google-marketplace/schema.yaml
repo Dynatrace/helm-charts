@@ -118,7 +118,7 @@ properties:
   activeGate.autoUpdate:
     type: boolean
     description: "Enable automatic restarts of ActiveGate pods in case a new version is available"
-    default: false
+    default: true
     title: "Enable automatic ActiveGate updates"
 
   oneAgent.version:
@@ -133,6 +133,7 @@ properties:
     type: boolean
     description: "Enables automatic restarts of oneagent pods in case a new version is available"
     title: "Automatically update OneAgent"
+    default: true
 
   classicFullStack.enabled:
     type: boolean
@@ -198,6 +199,7 @@ properties:
     type: boolean
     description: "Enables automatic Routing for your cluster"
     title: "Enable Routing"
+    default: true
   routing.replicas:
     type: integer
     description: "Number of replicas for the Routing pods"
@@ -248,6 +250,7 @@ properties:
     type: boolean
     description: "Enables automatic Kubernetes monitoring for your cluster"
     title: "Enable Kubernetes monitoring (Kubemon)"
+    default: true
   kubernetesMonitoring.replicas:
     type: integer
     description: "Number of replicas for the Kubernetes monitoring pods"
