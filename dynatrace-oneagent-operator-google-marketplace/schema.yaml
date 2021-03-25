@@ -15,13 +15,19 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.9.5"
+  publishedVersion: "0.10.0"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.9.5
+      v0.10.0
 
       Bug fixes
-        * Adapted the update interval to only do the request very 15 minutes
+        * Don't look at the cluster version when deploying the OneAgent using immutable images. Under certain conditions this may stop the Operator from deploying the OneAgent at all
+        * Upgrade OneAgent Pods using the immutable image by looking at the version label embedded on the images
+
+      Other changes
+        * Upgrade to Operator SDK 1.3
+          * Use ConfigMaps for leases
+        * Fix version and deployment instructions for dev builds
     releaseTypes:
       - BugFix
     recommended: true
@@ -120,7 +126,7 @@ properties:
     type: boolean
     description: "Early Adopter: support full-stack OneAgent running on unprivileged mode"
     title: "Early Adopter: run unprivileged"
-    default: false
+    default: true
   oneagent.useImmutableImage:
     type: boolean
     description: "If set the immutable OneAgent image will be used"
@@ -206,6 +212,21 @@ properties:
                   - get
                   - list
                   - watch
+              - apiGroups:
+                  - ""
+                resources:
+                  - events
+                verbs:
+                  - list
+                  - create
+              - apiGroups:
+                  - coordination.k8s.io
+                resources:
+                  - leases
+                verbs:
+                  - get
+                  - update
+                  - create
               - apiGroups:
                   - policy
                 resources:
@@ -316,6 +337,9 @@ properties:
                 resources:
                   - secrets
                 verbs:
+                  - create
+                  - update
+                  - delete
                   - get
                   - list
                   - watch
@@ -346,6 +370,21 @@ properties:
                   - create
                   - update
                   - delete
+              - apiGroups:
+                  - ""
+                resources:
+                  - events
+                verbs:
+                  - list
+                  - create
+              - apiGroups:
+                  - coordination.k8s.io
+                resources:
+                  - leases
+                verbs:
+                  - get
+                  - update
+                  - create
               - apiGroups:
                   - policy
                 resources:
@@ -452,6 +491,23 @@ properties:
                 verbs:
                   - get
                   - list
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                verbs:
+                  - list
+                  - create
+                  - watch
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                resourceNames:
+                  - dynatrace-oneagent-webhook
+                verbs:
+                  - get
+                  - update
 required:
   - name
   - namespace
