@@ -195,57 +195,6 @@ properties:
     description: "if enabled, the Operator will use the immutable image from the Dynatrace environment or from your custom registry, otherwise an installer image is used"
     title: "Classic use immutable image"
 
-  routing.enabled:
-    type: boolean
-    description: "Enables automatic Routing for your cluster"
-    title: "Enable Routing"
-    default: true
-  routing.replicas:
-    type: integer
-    description: "Number of replicas for the Routing pods"
-    title: "Routing Replicas"
-    default: 1
-  routing.group:
-    type: string
-    description: "Set activation group for this ActiveGate"
-    title: "Routing activation group"
-  routing.customProperties.value:
-    type: string
-    description: "Add a custom properties file by providing it as a value"
-    title: "Routing custom properties as value"
-  routing.customProperties.valueFrom:
-    type: string
-    description: "Add a custom properties file by providing it as a reference"
-    title: "Routing custom properties as reference"
-  routing.resources:
-    type: string
-    description: "Resource settings for ActiveGate container"
-    title: "Routing resources"
-  routing.nodeSelector:
-    type: string
-    description: "Set node selector to control on which nodes these ActiveGate pods will be deployed"
-    title: "Routing node selector"
-  routing.tolerations:
-    type: string
-    description: "Tolerations to include with this ActiveGate StatefulSet"
-    title: "Routing tolerations"
-  routing.labels:
-    type: string
-    description: "Labels are customer defined labels for these ActiveGate Pods to structure workloads as desired"
-    title: "Routing labels"
-  routing.args:
-    type: string
-    description: "Arguments to add to these ActiveGate instances"
-    title: "Routing arguments"
-  routing.env:
-    type: string
-    description: "Additional environment variables to add to these ActiveGate Pods"
-    title: "Routing environment variables"
-  routing.serviceAccountName:
-    type: string
-    description: "Name of the ServiceAccount to assign to the ActiveGate Pods"
-    title: "Routing service-account name"
-
   kubernetesMonitoring.enabled:
     type: boolean
     description: "Enables automatic Kubernetes monitoring for your cluster"
