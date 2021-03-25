@@ -40,7 +40,7 @@ spec:
           image: {{ include "dynatrace-oneagent-operator.image" . }}
           imagePullPolicy: Always
           env:
-            - name: WATCH_NAMESPACE
+            - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
@@ -51,6 +51,8 @@ spec:
           ports:
             - containerPort: 8080
               name: metrics
+            - containerPort: 10080
+              name: server-port
           resources:
             requests:
               cpu: 10m
@@ -58,6 +60,20 @@ spec:
             limits:
               cpu: 100m
               memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: server-port
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: server-port
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 10
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -83,3 +99,9 @@ spec:
                     values:
                       - linux
       serviceAccountName: {{ .Values.operatorServiceAccount }}
+      {{- if .Values.operator.nodeSelector }}
+      nodeSelector: {{- toYaml .Values.operator.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.operator.tolerations }}
+      tolerations: {{- toYaml .Values.operator.tolerations | nindent 8 }}
+      {{- end -}}
