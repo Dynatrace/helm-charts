@@ -32,18 +32,18 @@ createPodSecurityPolicies: true
 operator:
   image: ""
   nodeSelector: {}
-  tolerations: {}
+  tolerations: []
 
 ### module properties
 
 activeGate:
   image: ""
-  autoUpdate: false
+  autoUpdate: true
 
 oneAgent:
   version: ""
   image: ""
-  autoUpdate: false
+  autoUpdate: true
 
 classicFullStack:
   enabled: false
@@ -51,17 +51,17 @@ classicFullStack:
   tolerations: [ ]
   waitReadySeconds: 300
   resources: { }
-  args: { }
-  env: { }
+  args: []
+  env: []
   priorityClassName: ""
   dnsPolicy: ""
   serviceAccountName: ""
   labels: { }
-  useUnprivilegedMode: false
+  useUnprivilegedMode: true
   useImmutableImage: false
 
 routing:
-  enabled: false
+  enabled: true
   replicas: 1
   group: ""
   customProperties:
@@ -71,12 +71,12 @@ routing:
   nodeSelector: { }
   tolerations: [ ]
   labels: { }
-  args: { }
-  env: { }
+  args: []
+  env: []
   serviceAccountName: ""
 
 kubernetesMonitoring:
-  enabled: false
+  enabled: true
   replicas: 1
   group: ""
   customProperties:
@@ -86,8 +86,8 @@ kubernetesMonitoring:
   nodeSelector: {}
   tolerations: []
   labels: {}
-  args: {}
-  env: {}
+  args: []
+  env: []
   serviceAccountName: ""
 
 deployerHelm:

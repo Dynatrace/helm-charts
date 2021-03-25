@@ -92,7 +92,7 @@ properties:
     type: boolean
     description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntry objects to allow access to the Dynatrace cluster from the agent or the activeGate"
     title: "Enable Istio"
-  enablePodSecurityPolicies:
+  createPodSecurityPolicies:
     type: boolean
     description: "Enable the creation of PodSecurityPolicies"
     title: "Enable PodSecurityPolicies"
@@ -446,8 +446,6 @@ properties:
                   - dynatrace.com
                 resources:
                   - dynakubes
-                  - oneagentapms
-                  - oneagents
                 verbs:
                   - get
                   - list

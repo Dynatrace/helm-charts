@@ -1459,6 +1459,10 @@ data:
 
         {{- if .Values.classicFullStack.serviceAccountName }}
         serviceAccountName: {{ .Values.classicFullStack.serviceAccountName }}
+        {{- else if .Values.classicFullStack.useUnprivilegedMode }}
+        serviceAccountName: {{ .Values.oneagentUnprivilegedServiceAccount }}
+        {{- else }}
+        serviceAccountName: {{ .Values.oneagentServiceAccount }}
         {{- end }}
 
         {{- if .Values.classicFullStack.labels }}
