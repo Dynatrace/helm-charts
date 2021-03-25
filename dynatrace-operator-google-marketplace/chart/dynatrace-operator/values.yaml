@@ -75,5 +75,20 @@ kubernetesMonitoring:
   env: []
   serviceAccountName: ""
 
+routing:
+  enabled: true
+  replicas: 1
+  group: ""
+  customProperties:
+    value: ""
+    valueFrom: ""
+  resources: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  labels: { }
+  args: [ ]
+  env: [ ]
+  serviceAccountName: ""
+
 deployerHelm:
   image: ""

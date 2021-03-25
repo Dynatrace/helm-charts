@@ -1525,5 +1525,57 @@ data:
           valueFrom: {{ .Values.kubernetesMonitoring.customProperties.valueFrom }}
           {{- end }}
         {{- end }}
-
       {{- end }}
+
+      {{- if .Values.routing.enabled }}
+      routing:
+        enabled: {{ .Values.routing.enabled }}
+
+        {{- if .Values.routing.replicas }}
+        replicas: {{ .Values.routing.replicas }}
+        {{- end }}
+
+        {{- if .Values.routing.group }}
+        group: {{ .Values.routing.group }}
+        {{- end }}
+
+        {{- if .Values.routing.customProperties.value }}
+        customProperties:
+          value: {{ .Values.routing.customProperties.value }}
+        {{- else if .Values.routing.customProperties.valueFrom }}
+        customProperties:
+          valueFrom: {{ .Values.routing.customProperties.valueFrom }}
+        {{- end }}
+
+        {{- if .Values.routing.resources }}
+        resources: {{ .Values.routing.resources | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.nodeSelector }}
+        nodeSelector: {{ .Values.routing.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.tolerations }}
+        tolerations: {{ .Values.routing.tolerations | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.labels }}
+        labels: {{ .Values.routing.labels | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if and (.Values.routing.args) (ge (len .Values.routing.args) (1))}}
+        args: {{ .Values.routing.args | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if and (.Values.routing.env) (ge (len .Values.routing.env) (1))}}
+        env: {{ .Values.routing.env | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.serviceAccountName }}
+        serviceAccountName: {{ .Values.routing.serviceAccountName }}
+        {{- else if .Values.routingServiceAccount }}
+        serviceAccountName: {{ .Values.routingServiceAccount }}
+        {{- end }}
+      {{- end}}
+
+
