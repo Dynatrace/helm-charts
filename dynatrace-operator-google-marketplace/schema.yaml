@@ -48,6 +48,7 @@ properties:
     type: string
     description: The Dynatrace api url including `/api` path at the end
     title: API URL
+
   apiToken:
     type: string
     description: The API token from your Dynatrace environment
@@ -60,6 +61,16 @@ properties:
     title: PaaS Token
     x-google-marketplace:
       type: MASKED_FIELD
+  autoCreateSecret:
+    type: boolean
+    description: "Enable if you want to automatically create a secret from your api-token and paas-token"
+    title: "Automatically create token-secret"
+    default: true
+
+  customPullSecret:
+    type: string
+    description: "Sets the name of the pull secret that should be used"
+    title: "Custom pull secret"
   skipCertCheck:
     type: boolean
     description: "Disable certificate validation checks for installer download and API communication"
@@ -77,29 +88,261 @@ properties:
     type: string
     description: "Sets a network zone for the given OneAgent or ActiveGates"
     title: "Network zone"
+  enableIstio:
+    type: boolean
+    description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntry objects to allow access to the Dynatrace cluster from the agent or the activeGate"
+    title: "Enable Istio"
+  createPodSecurityPolicies:
+    type: boolean
+    description: "Enable the creation of PodSecurityPolicies"
+    title: "Enable PodSecurityPolicies"
+    default: true
+
+  operator.image:
+    type: string
+    description: "The location from where to grab the Dynatrace Operator image"
+    title: "Operator image"
+  operator.nodeSelector:
+    type: string
+    description: "Node selector to control on which nodes the opertor will be deployed"
+    title: "Operator node selector"
+  operator.tolerations:
+    type: string
+    description: "Set which node taints the operator deployment tolerates"
+    title: "Operator tolerations"
+
+  activeGate.image:
+    type: string
+    description: "The location from where to grab the Dynatrace ActiveGate image - default for Kubernetes is ToDo"
+    title: "Custom ActiveGate image location"
+  activeGate.autoUpdate:
+    type: boolean
+    description: "Enable automatic restarts of ActiveGate pods in case a new version is available"
+    default: true
+    title: "Enable automatic ActiveGate updates"
+
+  oneAgent.version:
+    type: string
+    description: "The version of the OneAgent to be used when useImmutableImage is enabled"
+    title: "OneAgent version"
+  oneAgent.image:
+    type: string
+    description: "Set to use a custom OneAgent Docker image"
+    title: "OneAgent image"
+  oneAgent.autoUpdate:
+    type: boolean
+    description: "Enables automatic restarts of oneagent pods in case a new version is available"
+    title: "Automatically update OneAgent"
+    default: true
+
+  classicFullStack.enabled:
+    type: boolean
+    description: "Enable classic oneagent monitoring"
+    title: "Enable classic fullstack monitoring"
+  classicFullStack.nodeSelector:
+    type: string
+    description: "Set node selector to control on which nodes the OneAgent will be deployed"
+    title: "Classic node selector"
+  classicFullStack.tolerations:
+    type: string
+    description: "Tolerations to include with the OneAgent DaemonSet"
+    title: "Classic tolerations"
+  classicFullStack.waitReadySeconds:
+    type: integer
+    description: "Sets the time how long the operator waits for the pods to become ready"
+    title: "Classic wait ready seconds"
+  classicFullStack.resources:
+    type: string
+    description: "Resource settings for OneAgent container"
+    title: "Classic resources"
+  classicFullStack.args:
+    type: string
+    description: "Arguments to add to the OneAgent installer"
+    title: "Classic arguments"
+  classicFullStack.env:
+    type: string
+    description: "Additional environment variables to add to the OneAgent Pods"
+    title: "Classic environment variables"
+  classicFullStack.priorityClassName:
+    type: string
+    description: "Priority class to assign to the OneAgent Pods"
+    title: "Classic priority class name"
+  classicFullStack.dnsPolicy:
+    type: string
+    description: "DNS Policy for OneAgent pods"
+    title: "Classic DNS policy"
+    default: "ClusterFirstWithHostNet"
+    enum:
+      - "Default"
+      - "ClusterFirst"
+      - "ClusterFirstWithHostNet"
+      - "None"
+  classicFullStack.serviceAccountName:
+    type: string
+    description: "Name of the ServiceAccount to assign to the OneAgent Pods"
+    title: "Classic service-account name"
+  classicFullStack.labels:
+    type: string
+    description: "Labels are customer defined labels for OneAgent Pods to structure workloads as desired"
+    title: "Classic lables"
+  classicFullStack.useUnprivilegedMode:
+    type: boolean
+    description: "When enabled the OneAgent Pods will run as unprivileged pods"
+    title: "Classic use unprivileged mode"
+    default: true
+  classicFullStack.useImmutableImage:
+    type: boolean
+    description: "if enabled, the Operator will use the immutable image from the Dynatrace environment or from your custom registry, otherwise an installer image is used"
+    title: "Classic use immutable image"
+
   kubernetesMonitoring.enabled:
     type: boolean
     description: "Enables automatic Kubernetes monitoring for your cluster"
-    title: "Enable Kubernetes monitoring"
+    title: "Enable Kubernetes monitoring (Kubemon)"
     default: true
   kubernetesMonitoring.replicas:
     type: integer
     description: "Number of replicas for the Kubernetes monitoring pods"
-    title: "Replicas"
+    title: "Kubemon Replicas"
     default: 1
-  activeGate.image:
+  kubernetesMonitoring.group:
     type: string
-    description: "The location from where to grab the Dynatrace ActiveGate image - default for Kubernetes is ToDo"
-    title: Custom ActiveGate image location
-  activeGate.disableActiveGateUpdate:
-    type: boolean
-    description: "Disables automatic restarts of ActiveGate pods in case a new version is available"
-    default: false
-    title: "Disable automatic ActiveGate updates"
+    description: "Set activation group for this ActiveGate"
+    title: "Kubemon activation group"
+  kubernetesMonitoring.customProperties.value:
+    type: string
+    description: "Add a custom properties file by providing it as a value"
+    title: "Kubemon custom properties as value"
+  kubernetesMonitoring.customProperties.valueFrom:
+    type: string
+    description: "Add a custom properties file by providing it as a reference"
+    title: "Kubemon custom properties as reference"
+  kubernetesMonitoring.resources:
+    type: string
+    description: "Resource settings for ActiveGate container"
+    title: "Kubemon resources"
+  kubernetesMonitoring.nodeSelector:
+    type: string
+    description: "Set node selector to control on which nodes these ActiveGate pods will be deployed"
+    title: "Kubemon node selector"
+  kubernetesMonitoring.tolerations:
+    type: string
+    description: "Tolerations to include with this ActiveGate StatefulSet"
+    title: "Kubemon tolerations"
+  kubernetesMonitoring.labels:
+    type: string
+    description: "Labels are customer defined labels for these ActiveGate Pods to structure workloads as desired"
+    title: "Kubemon labels"
+  kubernetesMonitoring.args:
+    type: string
+    description: "Arguments to add to these ActiveGate instances"
+    title: "Kubemon arguments"
+  kubernetesMonitoring.env:
+    type: string
+    description: "Additional environment variables to add to these ActiveGate Pods"
+    title: "Kubemon environment variables"
+  kubernetesMonitoring.serviceAccountName:
+    type: string
+    description: "Name of the ServiceAccount to assign to the ActiveGate Pods"
+    title: "Kubemon service-account name"
+
   deployerHelm.image:
     type: string
     x-google-marketplace:
       type: DEPLOYER_IMAGE
+
+  webhookServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace Operators Webhook
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace Operators Webhook
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - ""
+                resources:
+                  - namespaces
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                verbs:
+                  - list
+                  - create
+                  - watch
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                resourceNames:
+                  - dynatrace-webhook
+                verbs:
+                  - get
+                  - update
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - ""
+                resources:
+                  - services
+                  - configmaps
+                  - secrets
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - create
+                  - update
+              - apiGroups:
+                  - ""
+                resources:
+                  - pods
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - dynatrace.com
+                resources:
+                  - dynakubes
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - ""
+                resources:
+                  - events
+                verbs:
+                  - list
+                  - create
+              - apiGroups:
+                  - coordination.k8s.io
+                resources:
+                  - leases
+                verbs:
+                  - get
+                  - update
+                  - create
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-webhook
+                verbs:
+                  - use
+
   operatorServiceAccount:
     type: string
     title: Service account used by the Dynatrace Operator
@@ -113,7 +356,7 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - namespaces
                 resourceNames:
@@ -122,6 +365,32 @@ properties:
                   - get
                   - list
                   - watch
+              - apiGroups:
+                  - ""
+                resources:
+                  - nodes
+                  - namespaces
+                verbs:
+                  - get
+                  - list
+                  - watch
+              - apiGroups:
+                  - ""
+                resources:
+                  - secrets
+                verbs:
+                  - create
+              - apiGroups:
+                  - ""
+                resources:
+                  - secrets
+                resourceNames:
+                  - dynatrace-dynakube-config
+                  - dynatrace-dynakube-pull-secret
+                verbs:
+                  - get
+                  - update
+                  - delete
           - type: Role
             rulesType: CUSTOM
             rules:
@@ -135,6 +404,7 @@ properties:
                   - watch
                   - update
                   - create
+                  - delete
               - apiGroups:
                   - dynatrace.com
                 resources:
@@ -146,6 +416,17 @@ properties:
                   - apps
                 resources:
                   - statefulsets
+                verbs:
+                  - get
+                  - list
+                  - watch
+                  - create
+                  - update
+                  - delete
+              - apiGroups:
+                  - apps
+                resources:
+                  - daemonsets
                 verbs:
                   - get
                   - list
@@ -199,19 +480,47 @@ properties:
                   - watch
                   - create
                   - update
-              - apiGroups:
-                  - ""
-                resources:
-                  - services
-                verbs:
-                  - create
-                  - get
+                  - delete
               - apiGroups:
                   - ""
                 resources:
                   - events
                 verbs:
                   - list
+                  - create
+              - apiGroups:
+                  - ""
+                resources:
+                  - services
+                verbs:
+                  - list
+                  - create
+                  - get
+              - apiGroups:
+                  - monitoring.coreos.com
+                resources:
+                  - servicemonitors
+                verbs:
+                  - get
+                  - create
+              - apiGroups:
+                  - networking.istio.io
+                resources:
+                  - serviceentries
+                  - virtualservices
+                verbs:
+                  - get
+                  - list
+                  - create
+                  - update
+                  - delete
+              - apiGroups:
+                  - coordination.k8s.io
+                resources:
+                  - leases
+                verbs:
+                  - get
+                  - update
                   - create
               - apiGroups:
                   - policy
@@ -221,13 +530,49 @@ properties:
                   - dynatrace-operator
                 verbs:
                   - use
+
+  oneagentServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace OneAgent
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace OneAgent
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
               - apiGroups:
-                  - monitoring.coreos.com
+                  - policy
                 resources:
-                  - servicemonitors
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-dynakube-oneagent
                 verbs:
-                  - get
-                  - create
+                  - use
+
+  oneagentUnprivilegedServiceAccount:
+    type: string
+    title: Service account used by the unprivileged Dynatrace OneAgent
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the unprivileged Dynatrace OneAgent
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-dynakube-oneagent-unprivileged
+                verbs:
+                  - use
+
   kubernetesMonitoringServiceAccount:
     type: string
     title: Service account used by the Dynatrace Kubernetes Monitoring
@@ -241,10 +586,10 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                - ""
-                - batch
-                - apps
-                - apps.openshift.io
+                  - ""
+                  - batch
+                  - apps
+                  - apps.openshift.io
                 resources:
                   - nodes
                   - pods
@@ -275,6 +620,7 @@ properties:
                   - dynatrace-kubernetes-monitoring
                 verbs:
                   - use
+
   configurationServiceAccount:
     type: string
     title: Service account used to configure the Dynatrace Operator
@@ -287,6 +633,14 @@ properties:
           - type: ClusterRole
             rulesType: CUSTOM
             rules:
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                verbs:
+                  - get
+                  - create
+                  - patch
               - apiGroups:
                   - dynatrace.com
                 resources:
@@ -339,4 +693,7 @@ required:
   - paasToken
   - operatorServiceAccount
   - kubernetesMonitoringServiceAccount
+  - oneagentUnprivilegedServiceAccount
+  - oneagentServiceAccount
+  - webhookServiceAccount
   - configurationServiceAccount
