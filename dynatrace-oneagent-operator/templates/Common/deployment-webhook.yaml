@@ -94,6 +94,9 @@ spec:
               containerPort: 8383
             - name: server-port
               containerPort: 8443
+          {{- if .Values.webhook.server.resources }}
+          resources: {{- toYaml .Values.webhook.server.resources | nindent 12 }}
+          {{- else }}
           resources:
             requests:
               cpu: 10m
@@ -101,6 +104,7 @@ spec:
             limits:
               cpu: 100m
               memory: 256Mi
+          {{- end }}
           volumeMounts:
             - name: certs-volume
               mountPath: /mnt/webhook-certs
@@ -137,6 +141,9 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 60
             periodSeconds: 10
+          {{- if .Values.webhook.bootstrapper.resources }}
+          resources: {{- toYaml .Values.webhook.bootstrapper.resources | nindent 12 }}
+          {{- else }}
           resources:
             requests:
               cpu: 10m
@@ -144,6 +151,7 @@ spec:
             limits:
               cpu: 100m
               memory: 256Mi
+          {{- end }}
           volumeMounts:
             - name: certs-volume
               mountPath: /mnt/webhook-certs
