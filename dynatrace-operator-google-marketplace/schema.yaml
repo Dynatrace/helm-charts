@@ -635,6 +635,18 @@ properties:
       serviceAccount:
         description: >
           Service account used by Dynatrace Routing
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-routing
+                verbs:
+                  - use
 
   kubernetesMonitoringServiceAccount:
     type: string

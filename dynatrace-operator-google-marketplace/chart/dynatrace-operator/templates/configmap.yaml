@@ -71,7 +71,7 @@ data:
     spec:
       privileged: false
       allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
+      readOnlyRootFilesystem: false
       requiredDropCapabilities:
         - ALL
       volumes:
@@ -112,7 +112,7 @@ data:
     spec:
       privileged: false
       allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
+      readOnlyRootFilesystem: false
       requiredDropCapabilities:
         - ALL
       volumes:
