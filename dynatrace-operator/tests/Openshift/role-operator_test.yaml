@@ -125,7 +125,10 @@ tests:
               verbs:
                 - create
                 - get
-
+                - list
+                - delete
+                - update
+                - watch
             - apiGroups:
                 - monitoring.coreos.com
               resources:

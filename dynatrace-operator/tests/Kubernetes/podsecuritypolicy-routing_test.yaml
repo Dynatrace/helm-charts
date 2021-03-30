@@ -1,6 +1,6 @@
-suit: test pod security policy for kubernetes-monitoring on kubernetes
+suit: test pod security policy for routing on kubernetes
 templates:
-  - Kubernetes/podsecuritypolicy-kubernetes-monitoring.yaml
+  - Kubernetes/podsecuritypolicy-routing.yaml
 tests:
   - it: should not exist if platform is not kubernetes
     set:
@@ -26,7 +26,7 @@ tests:
       - equal:
           path: metadata
           value:
-            name: dynatrace-kubernetes-monitoring
+            name: dynatrace-routing
             annotations:
               seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
               apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"

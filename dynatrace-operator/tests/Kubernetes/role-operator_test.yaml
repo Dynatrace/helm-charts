@@ -41,7 +41,6 @@ tests:
                 - dynakubes/status
               verbs:
                 - update
-
             - apiGroups:
                 - apps
               resources:
@@ -79,7 +78,6 @@ tests:
                 - deployments/finalizers
               verbs:
                 - update
-
             - apiGroups:
                 - "" # "" indicates the core API group
               resources:
@@ -124,8 +122,11 @@ tests:
                 - services
               verbs:
                 - create
+                - list
                 - get
-
+                - delete
+                - update
+                - watch
             - apiGroups:
                 - monitoring.coreos.com
               resources:

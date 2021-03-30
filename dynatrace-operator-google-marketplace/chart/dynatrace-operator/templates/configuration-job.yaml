@@ -33,6 +33,7 @@ spec:
 
               {{- if .Values.createPodSecurityPolicies }}
               sed "s/##UID##/${uid}/g" /objects/psp-kubernetes-monitoring.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/psp-routing.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/psp-oneagent.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/psp-oneagent-unprivileged.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
