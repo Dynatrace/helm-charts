@@ -25,6 +25,7 @@ rules:
       - batch
       - apps
       - apps.openshift.io
+      - config.openshift.io
     resources:
       - nodes
       - pods
@@ -40,7 +41,14 @@ rules:
       - events
       - resourcequotas
       - pods/proxy
+      - nodes/proxy
+      - services
+      - clusterversions
     verbs:
       - list
       - watch
+      - get
+  - nonResourceURLs:
+      - /metrics
+    verbs:
       - get

@@ -36,7 +36,14 @@ tests:
               - events
               - resourcequotas
               - pods/proxy
+              - nodes/proxy
+              - services
+              - clusterversions
             verbs:
               - list
               - watch
+              - get
+          - nonResourceURLs:
+              - /metrics
+            verbs:
               - get
