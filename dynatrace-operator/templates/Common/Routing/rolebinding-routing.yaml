@@ -14,33 +14,15 @@
 
 {{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-operator.platformSet" .))}}
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: RoleBinding
 metadata:
-  name: dynatrace-kubernetes-monitoring
-  labels:
-    {{- include "dynatrace-operator.labels" . | nindent 4 }}
-rules:
-  - apiGroups:
-      - ""
-      - batch
-      - apps
-      - apps.openshift.io
-    resources:
-      - nodes
-      - pods
-      - namespaces
-      - deployments
-      - replicasets
-      - deploymentconfigs
-      - replicationcontrollers
-      - jobs
-      - cronjobs
-      - statefulsets
-      - daemonsets
-      - events
-      - resourcequotas
-      - pods/proxy
-    verbs:
-      - list
-      - watch
-      - get
+  name: dynatrace-routing
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: dynatrace-routing
+subjects:
+  - kind: ServiceAccount
+    name: dynatrace-routing
+    namespace: {{ .Release.Namespace }}

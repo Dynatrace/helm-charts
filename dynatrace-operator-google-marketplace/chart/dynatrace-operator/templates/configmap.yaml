@@ -71,7 +71,7 @@ data:
     spec:
       privileged: false
       allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
+      readOnlyRootFilesystem: false
       requiredDropCapabilities:
         - ALL
       volumes:
@@ -92,6 +92,48 @@ data:
         rule: "RunAsAny"
       fsGroup:
         rule: "RunAsAny"
+
+  psp-routing.yaml: |
+    apiVersion: policy/v1beta1
+    kind: PodSecurityPolicy
+    metadata:
+      name: dynatrace-routing
+      annotations:
+        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
+        apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
+        seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
+        apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+    spec:
+      privileged: false
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: false
+      requiredDropCapabilities:
+        - ALL
+      volumes:
+        - "configMap"
+        - "emptyDir"
+        - "projected"
+        - "secret"
+        - "downwardAPI"
+        - "persistentVolumeClaim"
+      hostNetwork: false
+      hostIPC: false
+      hostPID: false
+      runAsUser:
+        rule: "MustRunAsNonRoot"
+      seLinux:
+        rule: "RunAsAny"
+      supplementalGroups:
+        rule: "RunAsAny"
+      fsGroup:
+        rule: "RunAsAny"
+
   psp-oneagent.yaml: |
     apiVersion: policy/v1beta1
     kind: PodSecurityPolicy
@@ -1525,5 +1567,57 @@ data:
           valueFrom: {{ .Values.kubernetesMonitoring.customProperties.valueFrom }}
           {{- end }}
         {{- end }}
-
       {{- end }}
+
+      {{- if .Values.routing.enabled }}
+      routing:
+        enabled: {{ .Values.routing.enabled }}
+
+        {{- if .Values.routing.replicas }}
+        replicas: {{ .Values.routing.replicas }}
+        {{- end }}
+
+        {{- if .Values.routing.group }}
+        group: {{ .Values.routing.group }}
+        {{- end }}
+
+        {{- if .Values.routing.customProperties.value }}
+        customProperties:
+          value: {{ .Values.routing.customProperties.value }}
+        {{- else if .Values.routing.customProperties.valueFrom }}
+        customProperties:
+          valueFrom: {{ .Values.routing.customProperties.valueFrom }}
+        {{- end }}
+
+        {{- if .Values.routing.resources }}
+        resources: {{ .Values.routing.resources | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.nodeSelector }}
+        nodeSelector: {{ .Values.routing.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.tolerations }}
+        tolerations: {{ .Values.routing.tolerations | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.labels }}
+        labels: {{ .Values.routing.labels | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if and (.Values.routing.args) (ge (len .Values.routing.args) (1))}}
+        args: {{ .Values.routing.args | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if and (.Values.routing.env) (ge (len .Values.routing.env) (1))}}
+        env: {{ .Values.routing.env | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.routing.serviceAccountName }}
+        serviceAccountName: {{ .Values.routing.serviceAccountName }}
+        {{- else if .Values.routingServiceAccount }}
+        serviceAccountName: {{ .Values.routingServiceAccount }}
+        {{- end }}
+      {{- end}}
+
+

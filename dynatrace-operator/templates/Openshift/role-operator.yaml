@@ -77,7 +77,6 @@ rules:
       - deployments/finalizers
     verbs:
       - update
-
   - apiGroups:
       - "" # "" indicates the core API group
     resources:
@@ -123,7 +122,10 @@ rules:
     verbs:
       - create
       - get
-
+      - list
+      - delete
+      - update
+      - watch
   - apiGroups:
       - monitoring.coreos.com
     resources:
@@ -131,7 +133,6 @@ rules:
     verbs:
       - get
       - create
-
   - apiGroups:
       - networking.istio.io
     resources:
@@ -143,7 +144,6 @@ rules:
       - create
       - update
       - delete
-
   - apiGroups:
       - coordination.k8s.io
     resources:
