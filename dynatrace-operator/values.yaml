@@ -58,7 +58,7 @@ classicFullStack:
   dnsPolicy: ""
   serviceAccountName: ""
   labels: { }
-  useUnprivilegedMode: false
+  useUnprivilegedMode: true
   useImmutableImage: false
 
 kubernetesMonitoring:
