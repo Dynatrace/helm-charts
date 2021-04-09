@@ -137,8 +137,8 @@ questions:
         description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
         type: string
       - variable: classicFullStack.useUnprivilegedMode
-        label: "Early Adopter: run unprivileged"
-        description: "Early Adopter: support full-stack OneAgent running on unprivileged mode"
+        label: "Run unprivileged"
+        description: "Support full-stack OneAgent running on unprivileged mode"
         default: true
         type: boolean
       - variable: classicFullStack.useImmutableImage
@@ -146,7 +146,7 @@ questions:
         description: "If set the immutable OneAgent image will be used"
         default: false
         type: boolean
-      - variable: use_custom_limits_settings
+      - variable: classicFullStack_use_custom_limits_settings
         label: "Use custom limits settings"
         description: "Use custom resource limits for the Dynatrace OneAgent"
         default: false
@@ -200,11 +200,6 @@ questions:
         description: "Defines a NodeSelector to customize to which nodes the ActiveGate will be rolled out on - Please edit as Yaml for the best experience"
         default: ""
         type: multiline
-      - variable: kubernetesMonitoring.resources
-        label: "Resource definition for the ActiveGate pods"
-        description: "Defines the resources the ActiveGate pods can use - Please edit as Yaml for the best experience"
-        default: ""
-        type: multiline
       - variable: kubernetesMonitoring.labels
         label: "Custom labels for the ActiveGate pods"
         description: "Defines labels for ActiveGate pods to structure workloads as desired - Please edit as Yaml for the best experience"
@@ -245,6 +240,30 @@ questions:
         default: ""
         type: string
         show_if: "showKubernetesMonitoringCustomPropertiesSource=ValueFrom"
+      - variable: kubernetesMonitoring_use_custom_limits_settings
+        label: "Use custom limits settings"
+        description: "Use custom resource limits for the Kubernetes Monitoring ActiveGate"
+        default: false
+        type: boolean
+        show_subquestion_if: true
+        subquestions:
+          - variable: kubernetesMonitoring.resources.requests.cpu
+            label: "CPU resource request"
+            description: "Defines the minimum requested CPU by the ActiveGate"
+            type: string
+          - variable: kubernetesMonitoring.resources.requests.memory
+            label: "Memory resource request"
+            description: "Defines the minimum requested memory by the ActiveGate"
+            type: string
+          - variable: kubernetesMonitoring.resources.limits.cpu
+            label: "CPU resource limits"
+            description: "Defines the maximum provided CPU for the ActiveGate"
+            type: string
+          - variable: kubernetesMonitoring.resources.limits.memory
+            label: "Memory resource limits"
+            description: "Defines the maximum provided memory for the ActiveGate"
+            type: string
+
 
   #################### Routing (OPTIONAL) ####################
 
@@ -321,3 +340,26 @@ questions:
         default: ""
         type: string
         show_if: "showRoutingCustomPropertiesSource=ValueFrom"
+      - variable: routing_use_custom_limits_settings
+        label: "Use custom limits settings"
+        description: "Use custom resource limits for the routing ActiveGate"
+        default: false
+        type: boolean
+        show_subquestion_if: true
+        subquestions:
+          - variable: routing.resources.requests.cpu
+            label: "CPU resource request"
+            description: "Defines the minimum requested CPU by the ActiveGate"
+            type: string
+          - variable: routing.resources.requests.memory
+            label: "Memory resource request"
+            description: "Defines the minimum requested memory by the ActiveGate"
+            type: string
+          - variable: routing.resources.limits.cpu
+            label: "CPU resource limits"
+            description: "Defines the maximum provided CPU for the ActiveGate"
+            type: string
+          - variable: routing.resources.limits.memory
+            label: "Memory resource limits"
+            description: "Defines the maximum provided memory for the ActiveGate"
+            type: string

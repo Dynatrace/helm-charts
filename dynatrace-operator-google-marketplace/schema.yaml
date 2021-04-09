@@ -20,7 +20,11 @@ x-google-marketplace:
     releaseNote: >-
       v0.2.1
 
-      Bug fix
+      Features
+      * classicFullStack - The Dynatrace Operator now supports rolling out a fullstack agent
+      * routing - The Dynatrace Operator now supports rolling out a containerized ActiveGate to route the agent traffic
+
+      Bug fixes
       * Fixed a bug where setting resource limits for routing did not work
     releaseTypes:
       - Feature
