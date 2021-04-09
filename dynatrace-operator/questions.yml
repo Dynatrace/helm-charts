@@ -295,11 +295,6 @@ questions:
         description: "Defines a NodeSelector to customize to which nodes the ActiveGate will be rolled out on - Please edit as Yaml for the best experience"
         default: ""
         type: multiline
-      - variable: routing.resources
-        label: "Resource definition for the ActiveGate pods"
-        description: "Defines the resources the ActiveGate pods can use - Please edit as Yaml for the best experience"
-        default: ""
-        type: multiline
       - variable: routing.labels
         label: "Custom labels for the ActiveGate pods"
         description: "Defines labels for ActiveGate pods to structure workloads as desired - Please edit as Yaml for the best experience"
