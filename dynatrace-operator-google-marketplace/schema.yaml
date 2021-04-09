@@ -15,13 +15,17 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.1.0"
+  publishedVersion: "0.2.1"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.1.0
+      v0.2.1
 
       Features
-      * Initial release of the Dynatrace Operator
+      * classicFullStack - The Dynatrace Operator now supports rolling out a fullstack agent
+      * routing - The Dynatrace Operator now supports rolling out a containerized ActiveGate to route the agent traffic
+
+      Bug fixes
+      * Fixed a bug where setting resource limits for routing did not work
     releaseTypes:
       - Feature
     recommended: true
@@ -407,7 +411,7 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - ""  # "" indicates the core API group
+                  - ""
                 resources:
                   - namespaces
                 resourceNames:

@@ -8,6 +8,10 @@ The Dynatrace Operator supports rollout and lifecycle of various Dynatrace compo
 
 As of launch, the Dynatrace Operator can be used to deploy a containerized ActiveGate for Kubernetes API monitoring. New capabilities will be added to the Dynatrace Operator over time including metric routing, and API monitoring for AWS, Azure, GCP, and vSphere.
 
+With v0.2.0 we added the classicFullStack functionality which allows rolling out the OneAgent to your Kubernetes
+cluster. Furthermore, the Dynatrace Operator is now capable of rolling out a containerized ActiveGate for routing the
+OneAgent traffic.
+
 This Helm Chart requires Helm 3.
 
 ### Platforms
@@ -15,6 +19,7 @@ Depending on the version of the Dynatrace Operator, it supports the following pl
 
 | Dynatrace Operator Helm Chart version | Kubernetes | OpenShift Container Platform |
 | ------------------------------------- | ---------- | ---------------------------- |
+| v0.2.1                                | 1.18+      | 3.11.188+, 4.5+              |
 | v0.1.0                                | 1.18+      | 3.11.188+, 4.4+              |
 
 

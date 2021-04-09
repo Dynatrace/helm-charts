@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+{{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes or openshift" (include "dynatrace-operator.platformSet" .))}}
+{{- if eq .Values.platform "kubernetes"}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -99,10 +101,11 @@ spec:
                     operator: In
                     values:
                       - linux
-      serviceAccountName: {{ .Values.operatorServiceAccount }}
+      serviceAccountName: {{ .Release.Name }}
       {{- if .Values.operator.nodeSelector }}
       nodeSelector: {{- toYaml .Values.operator.nodeSelector | nindent 8 }}
       {{- end }}
       {{- if .Values.operator.tolerations }}
       tolerations: {{- toYaml .Values.operator.tolerations | nindent 8 }}
       {{- end -}}
+{{ end }}

@@ -89,12 +89,93 @@ questions:
     type: string
     group: "Global Configuration"
 
+  #################### ClassicFullStack (OPTIONAL) ####################
+
+  - variable: classicFullStack.enabled
+    label: "Enable classic fullstack monitoring"
+    description: "Enables classic fullstack monitoring and rolls out the OneAgent"
+    default: true
+    type: boolean
+    group: "Classic FullStack"
+    show_subquestion_if: true
+    subquestions:
+      - variable: classicFullStack.nodeSelector
+        label: "Node selector to control the selection of nodes"
+        description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out - Please edit as Yaml for the best experience"
+        type: string
+      - variable: classicFullStack.tolerations
+        label: "Custom tolerations for the OneAgent"
+        description: "Defines custom tolerations to the OneAgent - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
+        default: ""
+        type: string
+      - variable: classicFullStack.waitReadySeconds
+        label: "Wait seconds until ready"
+        description: "Define the time to wait until OneAgent pod is ready after update - defaults to 300s"
+        default: 300
+        type: int
+      - variable: classicFullStack.args
+        label: "Arguments to OneAgent installer"
+        description: "Defines additional arguments which get passed to the OneAgent installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
+        default: ""
+        type: string
+      - variable: classicFullStack.env
+        label: "Environment variables for OneAgent"
+        description: "Defines additional environment variables which get passed to the OneAgent - Please edit as Yaml for the best experience"
+        type: string
+      - variable: classicFullStack.priorityClassName
+        label: "Assign priority class to OneAgent pods"
+        description: "Priority class to assign to OneAgent pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
+        default: ""
+        type: string
+      - variable: classicFullStack.dnsPolicy
+        label: "Set custom DNS Policy"
+        description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
+        default: ""
+        type: string
+      - variable: classicFullStack.labels
+        label: "Custom labels for the OneAgent pods"
+        description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
+        type: string
+      - variable: classicFullStack.useUnprivilegedMode
+        label: "Run unprivileged"
+        description: "Support full-stack OneAgent running on unprivileged mode"
+        default: true
+        type: boolean
+      - variable: classicFullStack.useImmutableImage
+        label: "Use immutable OneAgent image"
+        description: "If set the immutable OneAgent image will be used"
+        default: false
+        type: boolean
+      - variable: classicFullStack_use_custom_limits_settings
+        label: "Use custom limits settings"
+        description: "Use custom resource limits for the Dynatrace OneAgent"
+        default: false
+        type: boolean
+        show_subquestion_if: true
+        subquestions:
+          - variable: classicFullStack.resources.requests.cpu
+            label: "CPU resource request"
+            description: "Defines the minimum requested CPU by the OneAgent"
+            type: string
+          - variable: classicFullStack.resources.requests.memory
+            label: "Memory resource request"
+            description: "Defines the minimum requested memory by the OneAgent"
+            type: string
+          - variable: classicFullStack.resources.limits.cpu
+            label: "CPU resource limits"
+            description: "Defines the maximum provided CPU for the OneAgent"
+            type: string
+          - variable: classicFullStack.resources.limits.memory
+            label: "Memory resource limits"
+            description: "Defines the maximum provided memory for the OneAgent"
+            type: string
+
   #################### Kubernetes Monitoring (OPTIONAL) ####################
 
   - variable: kubernetesMonitoring.enabled
     label: "Enable Kubernetes monitoring"
     description: "Enables Kubernetes monitoring for your cluster"
-    default: false
+    default: true
     type: boolean
     group: "Kubernetes Monitoring"
     show_subquestion_if: true
@@ -117,11 +198,6 @@ questions:
       - variable: kubernetesMonitoring.nodeSelector
         label: "Node selector to control the selection of nodes"
         description: "Defines a NodeSelector to customize to which nodes the ActiveGate will be rolled out on - Please edit as Yaml for the best experience"
-        default: ""
-        type: multiline
-      - variable: kubernetesMonitoring.resources
-        label: "Resource definition for the ActiveGate pods"
-        description: "Defines the resources the ActiveGate pods can use - Please edit as Yaml for the best experience"
         default: ""
         type: multiline
       - variable: kubernetesMonitoring.labels
@@ -164,3 +240,121 @@ questions:
         default: ""
         type: string
         show_if: "showKubernetesMonitoringCustomPropertiesSource=ValueFrom"
+      - variable: kubernetesMonitoring_use_custom_limits_settings
+        label: "Use custom limits settings"
+        description: "Use custom resource limits for the Kubernetes Monitoring ActiveGate"
+        default: false
+        type: boolean
+        show_subquestion_if: true
+        subquestions:
+          - variable: kubernetesMonitoring.resources.requests.cpu
+            label: "CPU resource request"
+            description: "Defines the minimum requested CPU by the ActiveGate"
+            type: string
+          - variable: kubernetesMonitoring.resources.requests.memory
+            label: "Memory resource request"
+            description: "Defines the minimum requested memory by the ActiveGate"
+            type: string
+          - variable: kubernetesMonitoring.resources.limits.cpu
+            label: "CPU resource limits"
+            description: "Defines the maximum provided CPU for the ActiveGate"
+            type: string
+          - variable: kubernetesMonitoring.resources.limits.memory
+            label: "Memory resource limits"
+            description: "Defines the maximum provided memory for the ActiveGate"
+            type: string
+
+
+  #################### Routing (OPTIONAL) ####################
+
+  - variable: routing.enabled
+    label: "Enable message routing"
+    description: "Enables routing for the OneAgent pods"
+    default: true
+    type: boolean
+    group: "Routing"
+    show_subquestion_if: true
+    subquestions:
+      - variable: routing.replicas
+        label: "Amount of replicas of ActiveGate pods"
+        description: "Sets the amount of replicas of ActiveGate pods are made"
+        default: 1
+        type: int
+      - variable: routing.serviceAccountName
+        label: "Name of the service-account for ActiveGate-pods"
+        description: "Optional: The name of the ServiceAccount to assign to the ActiveGate Pods."
+        default: "dynatrace-routing"
+        type: string
+      - variable: routing.tolerations
+        label: "Custom tolerations for the ActiveGate pods"
+        description: "Defines custom tolerations for the ActiveGate pods - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
+        default: ""
+        type: multiline
+      - variable: routing.nodeSelector
+        label: "Node selector to control the selection of nodes"
+        description: "Defines a NodeSelector to customize to which nodes the ActiveGate will be rolled out on - Please edit as Yaml for the best experience"
+        default: ""
+        type: multiline
+      - variable: routing.labels
+        label: "Custom labels for the ActiveGate pods"
+        description: "Defines labels for ActiveGate pods to structure workloads as desired - Please edit as Yaml for the best experience"
+        default: ""
+        type: multiline
+      - variable: routing.args
+        label: "Arguments for the ActiveGate installer"
+        description: "Defines additional arguments which get passed to the ActiveGate installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
+        default: ""
+        type: multiline
+      - variable: routing.env
+        label: "Environment variables for the ActiveGate"
+        description: "Defines additional environment variables which get passed to the ActiveGate - Please edit as Yaml for the best experience"
+        default: ""
+        type: multiline
+      - variable: routing.group
+        label: "Activation group"
+        description: "Optional: Set activation group for ActiveGate"
+        default: ""
+        type: string
+      - variable: showRoutingCustomPropertiesSource
+        label: "Select custom properties source"
+        description: "Select from where your custom properties are coming from. Value if you want to enter it directly. ValueFrom if you want to reference a secret."
+        default: "Value"
+        type: enum
+        options:
+          - "Value"
+          - "ValueFrom"
+      - variable: routing.customProperties.value
+        label: "Custom properties for the ActiveGate as value"
+        description: "Optional: Add custom properties - Please edit as Yaml for the best experience - more at https://www.dynatrace.com/support/help/setup-and-configuration/dynatrace-activegate/configuration/configure-activegate/"
+        default: ""
+        type: multiline
+        show_if: "showRoutingCustomPropertiesSource=Value"
+      - variable: routing.customProperties.valueFrom
+        label: "Custom properties for the ActiveGate as reference"
+        description: "Optional: Set the name of the secret that stores your custom properties"
+        default: ""
+        type: string
+        show_if: "showRoutingCustomPropertiesSource=ValueFrom"
+      - variable: routing_use_custom_limits_settings
+        label: "Use custom limits settings"
+        description: "Use custom resource limits for the routing ActiveGate"
+        default: false
+        type: boolean
+        show_subquestion_if: true
+        subquestions:
+          - variable: routing.resources.requests.cpu
+            label: "CPU resource request"
+            description: "Defines the minimum requested CPU by the ActiveGate"
+            type: string
+          - variable: routing.resources.requests.memory
+            label: "Memory resource request"
+            description: "Defines the minimum requested memory by the ActiveGate"
+            type: string
+          - variable: routing.resources.limits.cpu
+            label: "CPU resource limits"
+            description: "Defines the maximum provided CPU for the ActiveGate"
+            type: string
+          - variable: routing.resources.limits.memory
+            label: "Memory resource limits"
+            description: "Defines the maximum provided memory for the ActiveGate"
+            type: string
