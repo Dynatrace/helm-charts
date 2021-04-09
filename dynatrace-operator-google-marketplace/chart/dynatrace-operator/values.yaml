@@ -50,7 +50,13 @@ classicFullStack:
   nodeSelector: { }
   tolerations: [ ]
   waitReadySeconds: 300
-  resources: { }
+  # resources:
+  #   requests:
+  #     cpu: 100m
+  #     memory: 512Mi
+  #   limits:
+  #     cpu: 300m
+  #     memory: 1.5Gi
   args: []
   env: []
   priorityClassName: ""
@@ -67,7 +73,13 @@ kubernetesMonitoring:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
+  # resources:
+  #   requests:
+  #     cpu: 100m
+  #     memory: 512Mi
+  #   limits:
+  #     cpu: 300m
+  #     memory: 1.5Gi
   nodeSelector: {}
   tolerations: []
   labels: {}
@@ -82,7 +94,13 @@ routing:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
+  # resources:
+  #   requests:
+  #     cpu: 100m
+  #     memory: 512Mi
+  #   limits:
+  #     cpu: 300m
+  #     memory: 1.5Gi
   nodeSelector: { }
   tolerations: [ ]
   labels: { }
