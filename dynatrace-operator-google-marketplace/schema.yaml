@@ -306,98 +306,6 @@ properties:
     x-google-marketplace:
       type: DEPLOYER_IMAGE
 
-  webhookServiceAccount:
-    type: string
-    title: Service account used by the Dynatrace Operators Webhook
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the Dynatrace Operators Webhook
-        roles:
-          - type: ClusterRole
-            rulesType: CUSTOM
-            rules:
-              - apiGroups:
-                  - ""
-                resources:
-                  - namespaces
-                verbs:
-                  - get
-                  - list
-                  - watch
-              - apiGroups:
-                  - admissionregistration.k8s.io
-                resources:
-                  - mutatingwebhookconfigurations
-                verbs:
-                  - list
-                  - create
-                  - watch
-              - apiGroups:
-                  - admissionregistration.k8s.io
-                resources:
-                  - mutatingwebhookconfigurations
-                resourceNames:
-                  - dynatrace-webhook
-                verbs:
-                  - get
-                  - update
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-              - apiGroups:
-                  - ""
-                resources:
-                  - services
-                  - configmaps
-                  - secrets
-                verbs:
-                  - get
-                  - list
-                  - watch
-                  - create
-                  - update
-              - apiGroups:
-                  - ""
-                resources:
-                  - pods
-                verbs:
-                  - get
-                  - list
-                  - watch
-              - apiGroups:
-                  - dynatrace.com
-                resources:
-                  - dynakubes
-                verbs:
-                  - get
-                  - list
-                  - watch
-              - apiGroups:
-                  - ""
-                resources:
-                  - events
-                verbs:
-                  - list
-                  - create
-              - apiGroups:
-                  - coordination.k8s.io
-                resources:
-                  - leases
-                verbs:
-                  - get
-                  - update
-                  - create
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-webhook
-                verbs:
-                  - use
-
   operatorServiceAccount:
     type: string
     title: Service account used by the Dynatrace Operator
@@ -713,14 +621,6 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - admissionregistration.k8s.io
-                resources:
-                  - mutatingwebhookconfigurations
-                verbs:
-                  - get
-                  - create
-                  - patch
-              - apiGroups:
                   - dynatrace.com
                 resources:
                   - dynakubes
@@ -774,5 +674,4 @@ required:
   - kubernetesMonitoringServiceAccount
   - oneagentUnprivilegedServiceAccount
   - oneagentServiceAccount
-  - webhookServiceAccount
   - configurationServiceAccount

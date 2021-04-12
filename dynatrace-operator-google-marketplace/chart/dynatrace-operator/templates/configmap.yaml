@@ -20,38 +20,6 @@ metadata:
   labels:
   {{- include "dynatrace-operator.labels" . | nindent 4 }}
 data:
-  mutatingWebhookConfiguration.yaml: |
-    apiVersion: admissionregistration.k8s.io/v1beta1
-    kind: MutatingWebhookConfiguration
-    metadata:
-      name: dynatrace-webhook
-      labels:
-        {{- include "dynatrace-operator.commonlabelswebhook" . | nindent 8 }}
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
-    webhooks:
-      - name: webhook.dynatrace.com
-        rules:
-          - apiGroups: [""]
-            apiVersions: ["v1"]
-            operations: ["CREATE"]
-            resources: ["pods"]
-            scope: Namespaced
-        namespaceSelector:
-          matchExpressions:
-            - key: oneagent.dynatrace.com/instance
-              operator: Exists
-        clientConfig:
-          service:
-            name: dynatrace-webhook
-            namespace: {{ .Release.Namespace }}
-            path: /inject
-        admissionReviewVersions: ["v1beta1"]
-
   psp-kubernetes-monitoring.yaml: |
     apiVersion: policy/v1beta1
     kind: PodSecurityPolicy
@@ -224,46 +192,6 @@ data:
     kind: PodSecurityPolicy
     metadata:
       name: dynatrace-operator
-      annotations:
-        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
-        apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
-        seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
-        apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
-    spec:
-      privileged: false
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      requiredDropCapabilities:
-        - ALL
-      volumes:
-        - "configMap"
-        - "emptyDir"
-        - "projected"
-        - "secret"
-        - "downwardAPI"
-        - "persistentVolumeClaim"
-      hostNetwork: false
-      hostIPC: false
-      hostPID: false
-      runAsUser:
-        rule: "MustRunAsNonRoot"
-      seLinux:
-        rule: "RunAsAny"
-      supplementalGroups:
-        rule: "RunAsAny"
-      fsGroup:
-        rule: "RunAsAny"
-  psp-webhook.yaml: |
-    apiVersion: policy/v1beta1
-    kind: PodSecurityPolicy
-    metadata:
-      name: dynatrace-webhook
       annotations:
         seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
         apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
