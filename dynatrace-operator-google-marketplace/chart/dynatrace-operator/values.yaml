@@ -46,7 +46,7 @@ oneAgent:
   autoUpdate: true
 
 classicFullStack:
-  enabled: false
+  enabled: true
   nodeSelector: { }
   tolerations: [ ]
   waitReadySeconds: 300
