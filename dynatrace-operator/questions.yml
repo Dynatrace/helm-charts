@@ -135,7 +135,7 @@ questions:
       - variable: classicFullStack.labels
         label: "Custom labels for the OneAgent pods"
         description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
-        type: string
+        type: multiline
       - variable: classicFullStack.useUnprivilegedMode
         label: "Run unprivileged"
         description: "Support full-stack OneAgent running on unprivileged mode"
