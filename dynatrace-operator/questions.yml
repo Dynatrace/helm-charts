@@ -35,31 +35,12 @@ questions:
     type: boolean
     group: "Global Configuration"
 
-  - variable: showProxyValueSource
-    label: "Select source of your proxy"
-    description: "Value to provide your proxy as a string, ValueFrom to provide it as a reference to a secret"
-    default: "Value"
-    type: enum
-    group: "Global Configuration"
-    options:
-      - "Value"
-      - "ValueFrom"
-
-  - variable: proxy.value
+  - variable: proxy
     label: "Define a proxy by it's value"
     description: "Configures a proxy for the ActiveGate and Operator. Provide the proxy here"
     default: ""
     type: string
     group: "Global Configuration"
-    show_if: "showProxyValueSource=Value"
-
-  - variable: proxy.valueFrom
-    label: "Define a proxy by it's secret"
-    description: "Configures a proxy for the ActiveGate and Operator. Provide the name of the secret that stores your proxy"
-    default: ""
-    type: string
-    group: "Global Configuration"
-    show_if: "showProxyValueSource=ValueFrom"
 
   - variable: trustedCAs
     label: "Add custom CA certificates"
