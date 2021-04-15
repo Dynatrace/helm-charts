@@ -35,31 +35,12 @@ questions:
     type: boolean
     group: "Global Configuration"
 
-  - variable: showProxyValueSource
-    label: "Select source of your proxy"
-    description: "Value to provide your proxy as a string, ValueFrom to provide it as a reference to a secret"
-    default: "Value"
-    type: enum
-    group: "Global Configuration"
-    options:
-      - "Value"
-      - "ValueFrom"
-
-  - variable: proxy.value
+  - variable: proxy
     label: "Define a proxy by it's value"
     description: "Configures a proxy for the ActiveGate and Operator. Provide the proxy here"
     default: ""
     type: string
     group: "Global Configuration"
-    show_if: "showProxyValueSource=Value"
-
-  - variable: proxy.valueFrom
-    label: "Define a proxy by it's secret"
-    description: "Configures a proxy for the ActiveGate and Operator. Provide the name of the secret that stores your proxy"
-    default: ""
-    type: string
-    group: "Global Configuration"
-    show_if: "showProxyValueSource=ValueFrom"
 
   - variable: trustedCAs
     label: "Add custom CA certificates"
@@ -135,7 +116,7 @@ questions:
       - variable: classicFullStack.labels
         label: "Custom labels for the OneAgent pods"
         description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
-        type: string
+        type: multiline
       - variable: classicFullStack.useUnprivilegedMode
         label: "Run unprivileged"
         description: "Support full-stack OneAgent running on unprivileged mode"
