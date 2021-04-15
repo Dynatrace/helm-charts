@@ -48,7 +48,7 @@ oneAgent:
 
 classicFullStack:
   enabled: true
-  nodeSelector: { }
+  nodeSelector: ""
   tolerations: [ ]
   waitReadySeconds: 300
   resources: { }
@@ -57,7 +57,7 @@ classicFullStack:
   priorityClassName: ""
   dnsPolicy: ""
   serviceAccountName: ""
-  labels: { }
+  labels: ""
   useUnprivilegedMode: true
   useImmutableImage: false
 
@@ -69,9 +69,9 @@ kubernetesMonitoring:
     value: ""
     valueFrom: ""
   resources: { }
-  nodeSelector: {}
+  nodeSelector: ""
   tolerations: []
-  labels: {}
+  labels: ""
   args: []
   env: []
   serviceAccountName: ""
@@ -84,9 +84,9 @@ routing:
     value: ""
     valueFrom: ""
   resources: { }
-  nodeSelector: { }
+  nodeSelector: ""
   tolerations: [ ]
-  labels: { }
+  labels: ""
   args: [ ]
   env: [ ]
   serviceAccountName: ""
