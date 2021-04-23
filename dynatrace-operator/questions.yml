@@ -70,6 +70,129 @@ questions:
     type: string
     group: "Global Configuration"
 
+  #################### Code Modules (OPTIONAL) ####################
+
+  - variable: codeModules.enabled
+    label: "Enable code modules"
+    description: "Enables code modules and rolls out the OneAgent"
+    default: true
+    type: boolean
+    group: "Code Modules"
+    show_subquestion_if: true
+    subquestions:
+      - variable: codeModules.volume
+        label: "Volume from where to get the OneAgent binary from"
+        description: "Defines a Volume to customize from where the OneAgent binary will be taken - Please edit as Yaml for the best experience"
+        type: string
+      - variable: codeModules.selector
+        label: "Selector to define namespaces to monitor"
+        description: "Defines a Kubernetes Label Selector which is used to decide which namespaces are monitored - Please edit as Yaml for the best experience"
+        type: string
+      - variable: codemodules_use_custom_limits_settings
+        label: "Use custom limits settings"
+        description: "Use custom resource limits for the Dynatrace OneAgent"
+        default: false
+        type: boolean
+        show_subquestion_if: true
+        subquestions:
+          - variable: codeModules.resources.requests.cpu
+            label: "CPU resource request"
+            description: "Defines the minimum requested CPU by the OneAgent"
+            type: string
+          - variable: codeModules.resources.requests.memory
+            label: "Memory resource request"
+            description: "Defines the minimum requested memory by the OneAgent"
+            type: string
+          - variable: codeModules.resources.limits.cpu
+            label: "CPU resource limits"
+            description: "Defines the maximum provided CPU for the OneAgent"
+            type: string
+          - variable: codeModules.resources.limits.memory
+            label: "Memory resource limits"
+            description: "Defines the maximum provided memory for the OneAgent"
+            type: string
+
+  #################### Infra Monitoring (OPTIONAL) ####################
+
+  - variable: infraMonitoring.enabled
+    label: "Enable infrastructure monitoring"
+    description: "Enables infrastructure monitoring and rolls out the OneAgent"
+    default: true
+    type: boolean
+    group: "Infrastructure Monitoring"
+    show_subquestion_if: true
+    subquestions:
+      - variable: infraMonitoring.nodeSelector
+        label: "Node selector to control the selection of nodes"
+        description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out - Please edit as Yaml for the best experience"
+        type: string
+      - variable: infraMonitoring.tolerations
+        label: "Custom tolerations for the OneAgent"
+        description: "Defines custom tolerations to the OneAgent - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
+        default: ""
+        type: string
+      - variable: infraMonitoring.waitReadySeconds
+        label: "Wait seconds until ready"
+        description: "Define the time to wait until OneAgent pod is ready after update - defaults to 300s"
+        default: 300
+        type: int
+      - variable: infraMonitoring.args
+        label: "Arguments to OneAgent installer"
+        description: "Defines additional arguments which get passed to the OneAgent installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
+        default: ""
+        type: string
+      - variable: infraMonitoring.env
+        label: "Environment variables for OneAgent"
+        description: "Defines additional environment variables which get passed to the OneAgent - Please edit as Yaml for the best experience"
+        type: string
+      - variable: infraMonitoring.priorityClassName
+        label: "Assign priority class to OneAgent pods"
+        description: "Priority class to assign to OneAgent pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
+        default: ""
+        type: string
+      - variable: infraMonitoring.dnsPolicy
+        label: "Set custom DNS Policy"
+        description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
+        default: ""
+        type: string
+      - variable: infraMonitoring.labels
+        label: "Custom labels for the OneAgent pods"
+        description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
+        type: multiline
+      - variable: infraMonitoring.useUnprivilegedMode
+        label: "Run unprivileged"
+        description: "Support full-stack OneAgent running on unprivileged mode"
+        default: true
+        type: boolean
+      - variable: infraMonitoring.useImmutableImage
+        label: "Use immutable OneAgent image"
+        description: "If set the immutable OneAgent image will be used"
+        default: false
+        type: boolean
+      - variable: infraMonitoring_use_custom_limits_settings
+        label: "Use custom limits settings"
+        description: "Use custom resource limits for the Dynatrace OneAgent"
+        default: false
+        type: boolean
+        show_subquestion_if: true
+        subquestions:
+          - variable: infraMonitoring.resources.requests.cpu
+            label: "CPU resource request"
+            description: "Defines the minimum requested CPU by the OneAgent"
+            type: string
+          - variable: infraMonitoring.resources.requests.memory
+            label: "Memory resource request"
+            description: "Defines the minimum requested memory by the OneAgent"
+            type: string
+          - variable: infraMonitoring.resources.limits.cpu
+            label: "CPU resource limits"
+            description: "Defines the maximum provided CPU for the OneAgent"
+            type: string
+          - variable: infraMonitoring.resources.limits.memory
+            label: "Memory resource limits"
+            description: "Defines the maximum provided memory for the OneAgent"
+            type: string
+
   #################### ClassicFullStack (OPTIONAL) ####################
 
   - variable: classicFullStack.enabled
