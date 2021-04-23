@@ -56,6 +56,57 @@ spec:
     version: {{ .Values.oneAgent.version }}
     {{- end }}
 
+
+  {{- if .Values.infraMonitoring.enabled }}
+  infraMonitoring:
+    enabled: true
+
+    {{- if .Values.infraMonitoring.nodeSelector }}
+    nodeSelector: {{ .Values.infraMonitoring.nodeSelector | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.tolerations }}
+    tolerations: {{ .Values.infraMonitoring.tolerations | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.waitReadySeconds }}
+    waitReadySeconds: {{ .Values.infraMonitoring.waitReadySeconds }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.resources }}
+    resources: {{ .Values.infraMonitoring.resources | toYaml | nindent 8}}
+    {{- end }}
+
+    {{- if and (.Values.infraMonitoring.args) (ge (len .Values.infraMonitoring.args) (1))}}
+    args: {{ .Values.infraMonitoring.args | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if and (.Values.infraMonitoring.env) (ge (len .Values.infraMonitoring.env) (1))}}
+    env: {{ .Values.infraMonitoring.env | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.priorityClassName }}
+    priorityClassName: {{ .Values.infraMonitoring.priorityClassName }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.dnsPolicy }}
+    dnsPolicy: {{ .Values.infraMonitoring.dnsPolicy }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.serviceAccountName }}
+    serviceAccountName: {{ .Values.infraMonitoring.serviceAccountName }}
+    {{- end }}
+
+    {{- if .Values.infraMonitoring.labels }}
+    labels: {{ .Values.infraMonitoring.labels | toYaml | nindent 8 }}
+    {{- end }}
+
+    useUnprivilegedMode: {{ .Values.infraMonitoring.useUnprivilegedMode }}
+
+    useImmutableImage: {{ .Values.infraMonitoring.useImmutableImage }}
+  {{- end }}
+
+
   {{- if .Values.classicFullStack.enabled }}
   classicFullStack:
     enabled: true
