@@ -82,7 +82,7 @@ questions:
     subquestions:
       - variable: codeModules.volume
         label: "Volume from where to get the OneAgent binary from"
-        description: "Defines a Volume to customize from where the OneAgent binary will be taken - Please edit as Yaml for the best experience"
+        description: "Defines a volume to customize from where the OneAgent binary will be taken - Please edit as Yaml for the best experience"
         type: string
       - variable: codeModules.selector
         label: "Selector to define namespaces to monitor"

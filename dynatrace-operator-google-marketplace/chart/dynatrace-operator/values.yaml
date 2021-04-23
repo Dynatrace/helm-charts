@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-### base properties
-
 name: "dynakube"
 apiUrl: ""
 
@@ -45,18 +43,33 @@ oneAgent:
   image: ""
   autoUpdate: true
 
+codeModules:
+  enabled: true
+  resources: { }
+  volume: { }
+  selector: { }
+
+infraMonitoring:
+  enabled: true
+  nodeSelector: { }
+  tolerations: []
+  waitReadySeconds: 300
+  resources: { }
+  args: []
+  env: []
+  priorityClassName: ""
+  dnsPolicy: ""
+  serviceAccountName: ""
+  labels: { }
+  useUnprivilegedMode: true
+  useImmutableImage: false
+
 classicFullStack:
   enabled: true
   nodeSelector: { }
   tolerations: [ ]
   waitReadySeconds: 300
-  # resources:
-  #   requests:
-  #     cpu: 100m
-  #     memory: 512Mi
-  #   limits:
-  #     cpu: 300m
-  #     memory: 1.5Gi
+  resources: { }
   args: []
   env: []
   priorityClassName: ""
@@ -73,13 +86,7 @@ kubernetesMonitoring:
   customProperties:
     value: ""
     valueFrom: ""
-  # resources:
-  #   requests:
-  #     cpu: 100m
-  #     memory: 512Mi
-  #   limits:
-  #     cpu: 300m
-  #     memory: 1.5Gi
+  resources: { }
   nodeSelector: {}
   tolerations: []
   labels: {}
@@ -94,19 +101,10 @@ routing:
   customProperties:
     value: ""
     valueFrom: ""
-  # resources:
-  #   requests:
-  #     cpu: 100m
-  #     memory: 512Mi
-  #   limits:
-  #     cpu: 300m
-  #     memory: 1.5Gi
+  resources: { }
   nodeSelector: { }
   tolerations: [ ]
   labels: { }
   args: [ ]
   env: [ ]
   serviceAccountName: ""
-
-deployerHelm:
-  image: ""
