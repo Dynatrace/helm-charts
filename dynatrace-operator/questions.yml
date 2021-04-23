@@ -78,7 +78,7 @@ questions:
     default: true
     type: boolean
     group: "Code Modules"
-    show_subquestion_if: "codeModules.enabled=true"
+    show_subquestion_if: true
     subquestions:
       - variable: codeModules.volume
         label: "Volume from where to get the OneAgent binary from"
