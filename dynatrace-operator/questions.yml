@@ -427,3 +427,4 @@ questions:
         label: "Memory resource limits"
         description: "Defines the maximum provided memory for the ActiveGate"
         type: string
+
