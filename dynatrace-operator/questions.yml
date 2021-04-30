@@ -88,22 +88,22 @@ questions:
         label: "Selector to define namespaces to monitor"
         description: "Defines a Kubernetes Label Selector which is used to decide which namespaces are monitored - Please edit as Yaml for the best experience"
         type: string
-      - variable: codeModules.resources.requests.cpu
-        label: "CPU resource request"
-        description: "Defines the minimum requested CPU by the OneAgent"
-        type: string
-      - variable: codeModules.resources.requests.memory
-        label: "Memory resource request"
-        description: "Defines the minimum requested memory by the OneAgent"
-        type: string
-      - variable: codeModules.resources.limits.cpu
-        label: "CPU resource limits"
-        description: "Defines the maximum provided CPU for the OneAgent"
-        type: string
-      - variable: codeModules.resources.limits.memory
-        label: "Memory resource limits"
-        description: "Defines the maximum provided memory for the OneAgent"
-        type: string
+#      - variable: codeModules.resources.requests.cpu
+#        label: "CPU resource request"
+#        description: "Defines the minimum requested CPU by the OneAgent"
+#        type: string
+#      - variable: codeModules.resources.requests.memory
+#        label: "Memory resource request"
+#        description: "Defines the minimum requested memory by the OneAgent"
+#        type: string
+#      - variable: codeModules.resources.limits.cpu
+#        label: "CPU resource limits"
+#        description: "Defines the maximum provided CPU for the OneAgent"
+#        type: string
+#      - variable: codeModules.resources.limits.memory
+#        label: "Memory resource limits"
+#        description: "Defines the maximum provided memory for the OneAgent"
+#        type: string
 
   #################### Infra Monitoring (OPTIONAL) ####################
 
@@ -162,22 +162,22 @@ questions:
         description: "If set the immutable OneAgent image will be used"
         default: false
         type: boolean
-      - variable: infraMonitoring.resources.requests.cpu
-        label: "CPU resource request"
-        description: "Defines the minimum requested CPU by the OneAgent"
-        type: string
-      - variable: infraMonitoring.resources.requests.memory
-        label: "Memory resource request"
-        description: "Defines the minimum requested memory by the OneAgent"
-        type: string
-      - variable: infraMonitoring.resources.limits.cpu
-        label: "CPU resource limits"
-        description: "Defines the maximum provided CPU for the OneAgent"
-        type: string
-      - variable: infraMonitoring.resources.limits.memory
-        label: "Memory resource limits"
-        description: "Defines the maximum provided memory for the OneAgent"
-        type: string
+#      - variable: infraMonitoring.resources.requests.cpu
+#        label: "CPU resource request"
+#        description: "Defines the minimum requested CPU by the OneAgent"
+#        type: string
+#      - variable: infraMonitoring.resources.requests.memory
+#        label: "Memory resource request"
+#        description: "Defines the minimum requested memory by the OneAgent"
+#        type: string
+#      - variable: infraMonitoring.resources.limits.cpu
+#        label: "CPU resource limits"
+#        description: "Defines the maximum provided CPU for the OneAgent"
+#        type: string
+#      - variable: infraMonitoring.resources.limits.memory
+#        label: "Memory resource limits"
+#        description: "Defines the maximum provided memory for the OneAgent"
+#        type: string
 
   #################### ClassicFullStack (OPTIONAL) ####################
 
@@ -236,22 +236,22 @@ questions:
         description: "If set the immutable OneAgent image will be used"
         default: false
         type: boolean
-      - variable: classicFullStack.resources.requests.cpu
-        label: "CPU resource request"
-        description: "Defines the minimum requested CPU by the OneAgent"
-        type: string
-      - variable: classicFullStack.resources.requests.memory
-        label: "Memory resource request"
-        description: "Defines the minimum requested memory by the OneAgent"
-        type: string
-      - variable: classicFullStack.resources.limits.cpu
-        label: "CPU resource limits"
-        description: "Defines the maximum provided CPU for the OneAgent"
-        type: string
-      - variable: classicFullStack.resources.limits.memory
-        label: "Memory resource limits"
-        description: "Defines the maximum provided memory for the OneAgent"
-        type: string
+#      - variable: classicFullStack.resources.requests.cpu
+#        label: "CPU resource request"
+#        description: "Defines the minimum requested CPU by the OneAgent"
+#        type: string
+#      - variable: classicFullStack.resources.requests.memory
+#        label: "Memory resource request"
+#        description: "Defines the minimum requested memory by the OneAgent"
+#        type: string
+#      - variable: classicFullStack.resources.limits.cpu
+#        label: "CPU resource limits"
+#        description: "Defines the maximum provided CPU for the OneAgent"
+#        type: string
+#      - variable: classicFullStack.resources.limits.memory
+#        label: "Memory resource limits"
+#        description: "Defines the maximum provided memory for the OneAgent"
+#        type: string
 
   #################### Kubernetes Monitoring (OPTIONAL) ####################
 
@@ -323,22 +323,22 @@ questions:
         default: ""
         type: string
         show_if: "showKubernetesMonitoringCustomPropertiesSource=ValueFrom"
-      - variable: kubernetesMonitoring.resources.requests.cpu
-        label: "CPU resource request"
-        description: "Defines the minimum requested CPU by the ActiveGate"
-        type: string
-      - variable: kubernetesMonitoring.resources.requests.memory
-        label: "Memory resource request"
-        description: "Defines the minimum requested memory by the ActiveGate"
-        type: string
-      - variable: kubernetesMonitoring.resources.limits.cpu
-        label: "CPU resource limits"
-        description: "Defines the maximum provided CPU for the ActiveGate"
-        type: string
-      - variable: kubernetesMonitoring.resources.limits.memory
-        label: "Memory resource limits"
-        description: "Defines the maximum provided memory for the ActiveGate"
-        type: string
+#      - variable: kubernetesMonitoring.resources.requests.cpu
+#        label: "CPU resource request"
+#        description: "Defines the minimum requested CPU by the ActiveGate"
+#        type: string
+#      - variable: kubernetesMonitoring.resources.requests.memory
+#        label: "Memory resource request"
+#        description: "Defines the minimum requested memory by the ActiveGate"
+#        type: string
+#      - variable: kubernetesMonitoring.resources.limits.cpu
+#        label: "CPU resource limits"
+#        description: "Defines the maximum provided CPU for the ActiveGate"
+#        type: string
+#      - variable: kubernetesMonitoring.resources.limits.memory
+#        label: "Memory resource limits"
+#        description: "Defines the maximum provided memory for the ActiveGate"
+#        type: string
 
 
   #################### Routing (OPTIONAL) ####################
