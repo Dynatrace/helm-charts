@@ -108,3 +108,6 @@ routing:
   args: [ ]
   env: [ ]
   serviceAccountName: ""
+
+deployerHelm:
+  image: ""
