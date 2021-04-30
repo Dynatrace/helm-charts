@@ -82,7 +82,12 @@ questions:
     subquestions:
       - variable: codeModules.volume
         label: "Volume from where to get the OneAgent binary from"
-        description: "Defines a volume to customize from where the OneAgent binary will be taken - Please edit as Yaml for the best experience"
+        description: |
+          Define a volume the OneAgent binary will be taken from.
+          Two options are currently supported.
+          By default, the Dynatrace CSI driver will be used to provide a volume.
+          When using an emptyDir, the previous approach using init containers and wget will be used.
+          - Please edit as Yaml for the best experience
         type: string
       - variable: codeModules.selector
         label: "Selector to define namespaces to monitor"
