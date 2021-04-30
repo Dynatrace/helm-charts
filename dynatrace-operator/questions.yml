@@ -347,20 +347,3 @@ questions:
         default: ""
         type: string
         show_if: "showRoutingCustomPropertiesSource=ValueFrom"
-#      - variable: routing.resources.requests.cpu
-#        label: "CPU resource request"
-#        description: "Defines the minimum requested CPU by the ActiveGate"
-#        type: string
-#      - variable: routing.resources.requests.memory
-#        label: "Memory resource request"
-#        description: "Defines the minimum requested memory by the ActiveGate"
-#        type: string
-#      - variable: routing.resources.limits.cpu
-#        label: "CPU resource limits"
-#        description: "Defines the maximum provided CPU for the ActiveGate"
-#        type: string
-#      - variable: routing.resources.limits.memory
-#        label: "Memory resource limits"
-#        description: "Defines the maximum provided memory for the ActiveGate"
-#        type: string
-
