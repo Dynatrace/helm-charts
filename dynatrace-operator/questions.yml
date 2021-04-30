@@ -113,11 +113,6 @@ questions:
         description: "Defines custom tolerations to the OneAgent - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
         default: ""
         type: string
-      - variable: infraMonitoring.waitReadySeconds
-        label: "Wait seconds until ready"
-        description: "Define the time to wait until OneAgent pod is ready after update - defaults to 300s"
-        default: 300
-        type: int
       - variable: infraMonitoring.args
         label: "Arguments to OneAgent installer"
         description: "Defines additional arguments which get passed to the OneAgent installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
