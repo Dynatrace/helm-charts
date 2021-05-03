@@ -1,0 +1,30 @@
+properties:
+  name:
+    type: string
+    default: "dynatrace-oneagent-operator"
+    x-google-marketplace:
+      type: NAME
+  namespace:
+    type: string
+    default: "dynatrace"
+    x-google-marketplace:
+      type: NAMESPACE
+  oneagent.apiUrl:
+    type: string
+    description: The Dynatrace api url including `/api` path at the end
+    default: "https://mydynatraceenvironmenttesturl.com/api"
+    title: API URL
+  secret.apiToken:
+    type: string
+    description: The API token from your Dynatrace environment
+    title: API Token
+    default: "APITOKENtesttest1234"
+    x-google-marketplace:
+      type: MASKED_FIELD
+  secret.paasToken:
+    type: string
+    description: The PaaS token from your Dynatrace environment
+    title: PaaS Token
+    default: "PAASTOKENtesttest1234"
+    x-google-marketplace:
+      type: MASKED_FIELD
