@@ -139,6 +139,83 @@ properties:
     title: "Automatically update OneAgent"
     default: true
 
+  codeModules.enabled:
+    type: boolean
+    description: "Enable code modules"
+    title: "Enable code modules"
+  codeModules.volume:
+    type: string
+    description: |
+      Define a volume the OneAgent binary will be taken from.
+      Two options are currently supported.
+      By default, the Dynatrace CSI driver will be used to provide a volume.
+      When using an emptyDir, the previous approach using init containers and wget will be used.
+    title: "CodeModules volume"
+  codeModules.resources:
+    type: string
+    description: "Resource settings for the init-container"
+    title: "CodeModules resources"
+  codeModules.selector:
+    type: string
+    description: "Set the label selector to define which namespaces to inject into"
+    title: "CodeModules selector"
+
+  infraMonitoring.enabled:
+    type: boolean
+    description: "Enable infrastructure monitoring"
+    title: "Enable infrastructure monitoring"
+  infraMonitoring.nodeSelector:
+    type: string
+    description: "Set node selector to control on which nodes the OneAgent will be deployed"
+    title: "Infra node selector"
+  infraMonitoring.tolerations:
+    type: string
+    description: "Tolerations to include with the OneAgent DaemonSet"
+    title: "Infra tolerations"
+  infraMonitoring.resources:
+    type: string
+    description: "Resource settings for OneAgent container"
+    title: "Infra resources"
+  infraMonitoring.args:
+    type: string
+    description: "Arguments to add to the OneAgent installer"
+    title: "Infra arguments"
+  infraMonitoring.env:
+    type: string
+    description: "Additional environment variables to add to the OneAgent Pods"
+    title: "Infra environment variables"
+  infraMonitoring.priorityClassName:
+    type: string
+    description: "Priority class to assign to the OneAgent Pods"
+    title: "Infra priority class name"
+  infraMonitoring.dnsPolicy:
+    type: string
+    description: "DNS Policy for OneAgent pods"
+    title: "Infra DNS policy"
+    default: "ClusterFirstWithHostNet"
+    enum:
+      - "Default"
+      - "ClusterFirst"
+      - "ClusterFirstWithHostNet"
+      - "None"
+  infraMonitoring.serviceAccountName:
+    type: string
+    description: "Name of the ServiceAccount to assign to the OneAgent Pods"
+    title: "Infra service-account name"
+  infraMonitoring.labels:
+    type: string
+    description: "Labels are customer defined labels for OneAgent Pods to structure workloads as desired"
+    title: "Infra lables"
+  infraMonitoring.useUnprivilegedMode:
+    type: boolean
+    description: "When enabled the OneAgent Pods will run as unprivileged pods"
+    title: "Infra use unprivileged mode"
+    default: true
+  infraMonitoring.useImmutableImage:
+    type: boolean
+    description: "if enabled, the Operator will use the immutable image from the Dynatrace environment or from your custom registry, otherwise an installer image is used"
+    title: "Infra use immutable image"
+
   classicFullStack.enabled:
     type: boolean
     description: "Enable classic oneagent monitoring"
@@ -151,10 +228,6 @@ properties:
     type: string
     description: "Tolerations to include with the OneAgent DaemonSet"
     title: "Classic tolerations"
-  classicFullStack.waitReadySeconds:
-    type: integer
-    description: "Sets the time how long the operator waits for the pods to become ready"
-    title: "Classic wait ready seconds"
   classicFullStack.resources:
     type: string
     description: "Resource settings for OneAgent container"

@@ -425,7 +425,7 @@ data:
                                       key must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                               fieldRef:
                                 description: 'Selects a field of the pod: supports metadata.name,
@@ -442,7 +442,7 @@ data:
                                       API version.
                                     type: string
                                 required:
-                                - fieldPath
+                                  - fieldPath
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container: only
@@ -461,7 +461,7 @@ data:
                                     description: 'Required: resource to select'
                                     type: string
                                 required:
-                                - resource
+                                  - resource
                                 type: object
                               secretKeyRef:
                                 description: Selects a key of a secret in the pod's namespace
@@ -480,11 +480,11 @@ data:
                                       must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                             type: object
                         required:
-                        - name
+                          - name
                         type: object
                       type: array
                     labels:
@@ -636,7 +636,7 @@ data:
                                 in AWS (Amazon EBS volume). More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore'
                               type: string
                           required:
-                          - volumeID
+                            - volumeID
                           type: object
                         azureDisk:
                           description: AzureDisk represents an Azure Data Disk mount on
@@ -667,8 +667,8 @@ data:
                                 will force the ReadOnly setting in VolumeMounts.
                               type: boolean
                           required:
-                          - diskName
-                          - diskURI
+                            - diskName
+                            - diskURI
                           type: object
                         azureFile:
                           description: AzureFile represents an Azure File Service mount
@@ -686,8 +686,8 @@ data:
                               description: Share Name
                               type: string
                           required:
-                          - secretName
-                          - shareName
+                            - secretName
+                            - shareName
                           type: object
                         cephfs:
                           description: CephFS represents a Ceph FS mount on the host that
@@ -727,7 +727,7 @@ data:
                                 is admin More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it'
                               type: string
                           required:
-                          - monitors
+                            - monitors
                           type: object
                         cinder:
                           description: 'Cinder represents a cinder volume attached and
@@ -758,7 +758,7 @@ data:
                                 More info: https://examples.k8s.io/mysql-cinder-pd/README.md'
                               type: string
                           required:
-                          - volumeID
+                            - volumeID
                           type: object
                         configMap:
                           description: ConfigMap represents a configMap that should populate
@@ -811,8 +811,8 @@ data:
                                       the string '..'.
                                     type: string
                                 required:
-                                - key
-                                - path
+                                  - key
+                                  - path
                                 type: object
                               type: array
                             name:
@@ -866,7 +866,7 @@ data:
                                 documentation for supported values.
                               type: object
                           required:
-                          - driver
+                            - driver
                           type: object
                         downwardAPI:
                           description: DownwardAPI represents downward API about the pod
@@ -905,7 +905,7 @@ data:
                                           specified API version.
                                         type: string
                                     required:
-                                    - fieldPath
+                                      - fieldPath
                                     type: object
                                   mode:
                                     description: 'Optional: mode bits used to set permissions
@@ -943,10 +943,10 @@ data:
                                         description: 'Required: resource to select'
                                         type: string
                                     required:
-                                    - resource
+                                      - resource
                                     type: object
                                 required:
-                                - path
+                                  - path
                                 type: object
                               type: array
                           type: object
@@ -1065,8 +1065,8 @@ data:
                                             referenced
                                           type: string
                                       required:
-                                      - kind
-                                      - name
+                                        - kind
+                                        - name
                                       type: object
                                     resources:
                                       description: 'Resources represents the minimum resources
@@ -1123,8 +1123,8 @@ data:
                                                   type: string
                                                 type: array
                                             required:
-                                            - key
-                                            - operator
+                                              - key
+                                              - operator
                                             type: object
                                           type: array
                                         matchLabels:
@@ -1153,7 +1153,7 @@ data:
                                       type: string
                                   type: object
                               required:
-                              - spec
+                                - spec
                               type: object
                           type: object
                         fc:
@@ -1225,7 +1225,7 @@ data:
                                   type: string
                               type: object
                           required:
-                          - driver
+                            - driver
                           type: object
                         flocker:
                           description: Flocker represents a Flocker volume attached to
@@ -1273,7 +1273,7 @@ data:
                                 in VolumeMounts. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk'
                               type: boolean
                           required:
-                          - pdName
+                            - pdName
                           type: object
                         gitRepo:
                           description: 'GitRepo represents a git repository at a particular
@@ -1296,7 +1296,7 @@ data:
                               description: Commit hash for the specified revision.
                               type: string
                           required:
-                          - repository
+                            - repository
                           type: object
                         glusterfs:
                           description: 'Glusterfs represents a Glusterfs mount on the
@@ -1316,8 +1316,8 @@ data:
                                 false. More info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod'
                               type: boolean
                           required:
-                          - endpoints
-                          - path
+                            - endpoints
+                            - path
                           type: object
                         hostPath:
                           description: 'HostPath represents a pre-existing file or directory
@@ -1338,7 +1338,7 @@ data:
                                 info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath'
                               type: string
                           required:
-                          - path
+                            - path
                           type: object
                         iscsi:
                           description: 'ISCSI represents an ISCSI Disk resource that is
@@ -1403,9 +1403,9 @@ data:
                                 TCP ports 860 and 3260).
                               type: string
                           required:
-                          - iqn
-                          - lun
-                          - targetPortal
+                            - iqn
+                            - lun
+                            - targetPortal
                           type: object
                         nfs:
                           description: 'NFS represents an NFS mount on the host that shares
@@ -1425,8 +1425,8 @@ data:
                                 NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
                               type: string
                           required:
-                          - path
-                          - server
+                            - path
+                            - server
                           type: object
                         persistentVolumeClaim:
                           description: 'PersistentVolumeClaimVolumeSource represents a
@@ -1443,7 +1443,7 @@ data:
                                 Default false.
                               type: boolean
                           required:
-                          - claimName
+                            - claimName
                           type: object
                         photonPersistentDisk:
                           description: PhotonPersistentDisk represents a PhotonController
@@ -1459,7 +1459,7 @@ data:
                                 disk
                               type: string
                           required:
-                          - pdID
+                            - pdID
                           type: object
                         portworxVolume:
                           description: PortworxVolume represents a portworx volume attached
@@ -1479,7 +1479,7 @@ data:
                               description: VolumeID uniquely identifies a Portworx volume
                               type: string
                           required:
-                          - volumeID
+                            - volumeID
                           type: object
                         projected:
                           description: Items for all in one resources secrets, configmaps,
@@ -1546,8 +1546,8 @@ data:
                                                 '..'. May not start with the string '..'.
                                               type: string
                                           required:
-                                          - key
-                                          - path
+                                            - key
+                                            - path
                                           type: object
                                         type: array
                                       name:
@@ -1588,7 +1588,7 @@ data:
                                                     in the specified API version.
                                                   type: string
                                               required:
-                                              - fieldPath
+                                                - fieldPath
                                               type: object
                                             mode:
                                               description: 'Optional: mode bits used to
@@ -1631,10 +1631,10 @@ data:
                                                     select'
                                                   type: string
                                               required:
-                                              - resource
+                                                - resource
                                               type: object
                                           required:
-                                          - path
+                                            - path
                                           type: object
                                         type: array
                                     type: object
@@ -1682,8 +1682,8 @@ data:
                                                 '..'. May not start with the string '..'.
                                               type: string
                                           required:
-                                          - key
-                                          - path
+                                            - key
+                                            - path
                                           type: object
                                         type: array
                                       name:
@@ -1727,12 +1727,12 @@ data:
                                           into.
                                         type: string
                                     required:
-                                    - path
+                                      - path
                                     type: object
                                 type: object
                               type: array
                           required:
-                          - sources
+                            - sources
                           type: object
                         quobyte:
                           description: Quobyte represents a Quobyte mount on the host
@@ -1767,8 +1767,8 @@ data:
                                 created Quobyte volume by name.
                               type: string
                           required:
-                          - registry
-                          - volume
+                            - registry
+                            - volume
                           type: object
                         rbd:
                           description: 'RBD represents a Rados Block Device mount on the
@@ -1819,8 +1819,8 @@ data:
                                 info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it'
                               type: string
                           required:
-                          - image
-                          - monitors
+                            - image
+                            - monitors
                           type: object
                         scaleIO:
                           description: ScaleIO represents a ScaleIO persistent volume
@@ -1874,9 +1874,9 @@ data:
                                 ScaleIO system that is associated with this volume source.
                               type: string
                           required:
-                          - gateway
-                          - secretRef
-                          - system
+                            - gateway
+                            - secretRef
+                            - system
                           type: object
                         secret:
                           description: 'Secret represents a secret that should populate
@@ -1929,8 +1929,8 @@ data:
                                       the string '..'.
                                     type: string
                                 required:
-                                - key
-                                - path
+                                  - key
+                                  - path
                                 type: object
                               type: array
                             optional:
@@ -2002,7 +2002,7 @@ data:
                               description: Path that identifies vSphere volume vmdk
                               type: string
                           required:
-                          - volumePath
+                            - volumePath
                           type: object
                       type: object
                   type: object
@@ -2067,7 +2067,7 @@ data:
                                       key must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                               fieldRef:
                                 description: 'Selects a field of the pod: supports metadata.name,
@@ -2084,7 +2084,7 @@ data:
                                       API version.
                                     type: string
                                 required:
-                                - fieldPath
+                                  - fieldPath
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container: only
@@ -2103,7 +2103,7 @@ data:
                                     description: 'Required: resource to select'
                                     type: string
                                 required:
-                                - resource
+                                  - resource
                                 type: object
                               secretKeyRef:
                                 description: Selects a key of a secret in the pod's namespace
@@ -2122,11 +2122,11 @@ data:
                                       must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                             type: object
                         required:
-                        - name
+                          - name
                         type: object
                       type: array
                     labels:
@@ -2221,7 +2221,7 @@ data:
                       type: integer
                   type: object
                 kubernetesMonitoring:
-                  description: 'Configuration for Kubernetes Monitoring'
+                  description: ' Configuration for Kubernetes Monitoring'
                   properties:
                     args:
                       description: 'Optional: Adds additional arguments for the ActiveGate
@@ -2282,7 +2282,7 @@ data:
                                       key must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                               fieldRef:
                                 description: 'Selects a field of the pod: supports metadata.name,
@@ -2299,7 +2299,7 @@ data:
                                       API version.
                                     type: string
                                 required:
-                                - fieldPath
+                                  - fieldPath
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container: only
@@ -2318,7 +2318,7 @@ data:
                                     description: 'Required: resource to select'
                                     type: string
                                 required:
-                                - resource
+                                  - resource
                                 type: object
                               secretKeyRef:
                                 description: Selects a key of a secret in the pod's namespace
@@ -2337,11 +2337,11 @@ data:
                                       must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                             type: object
                         required:
-                        - name
+                          - name
                         type: object
                       type: array
                     group:
@@ -2456,7 +2456,7 @@ data:
                       type: string
                   type: object
                 routing:
-                  description: 'Configuration for Routing'
+                  description: ' Configuration for Routing'
                   properties:
                     args:
                       description: 'Optional: Adds additional arguments for the ActiveGate
@@ -2517,7 +2517,7 @@ data:
                                       key must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                               fieldRef:
                                 description: 'Selects a field of the pod: supports metadata.name,
@@ -2534,7 +2534,7 @@ data:
                                       API version.
                                     type: string
                                 required:
-                                - fieldPath
+                                  - fieldPath
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container: only
@@ -2553,7 +2553,7 @@ data:
                                     description: 'Required: resource to select'
                                     type: string
                                 required:
-                                - resource
+                                  - resource
                                 type: object
                               secretKeyRef:
                                 description: Selects a key of a secret in the pod's namespace
@@ -2572,11 +2572,11 @@ data:
                                       must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                             type: object
                         required:
-                        - name
+                          - name
                         type: object
                       type: array
                     group:
@@ -2673,7 +2673,7 @@ data:
                     The property is not applied to the ActiveGate'
                   type: string
               required:
-              - apiUrl
+                - apiUrl
               type: object
             status:
               description: DynaKubeStatus defines the observed state of DynaKube
@@ -2683,14 +2683,13 @@ data:
                     imageHash:
                       description: ImageHash contains the last image hash seen.
                       type: string
-                    imageVersion:
-                      description: ImageVersion contains the version from the last image
-                        seen.
-                      type: string
-                    lastImageProbeTimestamp:
-                      description: LastImageProbeTimestamp defines the last timestamp
-                        when the querying for image updates have been done.
+                    lastUpdateProbeTimestamp:
+                      description: LastUpdateProbeTimestamp defines the last timestamp
+                        when the querying for updates have been done
                       format: date-time
+                      type: string
+                    version:
+                      description: Version contains the version to be deployed.
                       type: string
                   type: object
                 conditions:
@@ -2742,9 +2741,9 @@ data:
                       status:
                         description: status of the condition, one of True, False, Unknown.
                         enum:
-                        - 'True'
-                        - 'False'
-                        - Unknown
+                          - 'True'
+                          - 'False'
+                          - Unknown
                         type: string
                       type:
                         description: type of condition in CamelCase or in foo.example.com/CamelCase.
@@ -2755,11 +2754,11 @@ data:
                         maxLength: 316
                         type: string
                     required:
-                    - lastTransitionTime
-                    - message
-                    - reason
-                    - status
-                    - type
+                      - lastTransitionTime
+                      - message
+                      - reason
+                      - status
+                      - type
                     type: object
                   type: array
                 environmentID:
@@ -2786,10 +2785,6 @@ data:
                     imageHash:
                       description: ImageHash contains the last image hash seen.
                       type: string
-                    imageVersion:
-                      description: ImageVersion contains the version from the last image
-                        seen.
-                      type: string
                     instances:
                       additionalProperties:
                         properties:
@@ -2801,9 +2796,9 @@ data:
                             type: string
                         type: object
                       type: object
-                    lastImageProbeTimestamp:
-                      description: LastImageProbeTimestamp defines the last timestamp
-                        when the querying for image updates have been done.
+                    lastHostsRequestTimestamp:
+                      description: LastHostsRequestTimestamp indicates the last timestamp
+                        the Operator queried for hosts
                       format: date-time
                       type: string
                     lastUpdateProbeTimestamp:
@@ -2816,7 +2811,7 @@ data:
                         currently in use
                       type: boolean
                     version:
-                      description: Dynatrace version being used.
+                      description: Version contains the version to be deployed.
                       type: string
                   type: object
                 phase:
@@ -2833,9 +2828,9 @@ data:
           type: object
       version: v1alpha1
       versions:
-      - name: v1alpha1
-        served: true
-        storage: true
+        - name: v1alpha1
+          served: true
+          storage: true
 
   dynakube.yaml: |
     apiVersion: dynatrace.com/v1alpha1
@@ -2885,6 +2880,77 @@ data:
         {{- if .Values.oneAgent.version }}
         version: {{ .Values.oneAgent.version }}
       {{- end }}
+
+      {{- if .Values.codeModules.enabled }}
+      codeModules:
+        enabled: true
+
+        {{- if .Values.codeModules.resources }}
+        resources: {{ .Values.codeModules.resources | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.codeModules.volume }}
+        volume: {{ .Values.codeModules.volume | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.codeModules.selector }}
+        selector: {{ .Values.codeModules.selector | toYaml | nindent 8}}
+        {{- end }}
+      {{- end }}
+
+      {{- if .Values.infraMonitoring.enabled }}
+      infraMonitoring:
+        enabled: true
+
+        {{- if .Values.infraMonitoring.nodeSelector }}
+        nodeSelector: {{ .Values.infraMonitoring.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.infraMonitoring.tolerations }}
+        tolerations: {{ .Values.infraMonitoring.tolerations | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.infraMonitoring.waitReadySeconds }}
+        waitReadySeconds: {{ .Values.infraMonitoring.waitReadySeconds }}
+        {{- end }}
+
+        {{- if .Values.infraMonitoring.resources }}
+        resources: {{ .Values.infraMonitoring.resources | toYaml | nindent 8}}
+        {{- end }}
+
+        {{- if and (.Values.infraMonitoring.args) (ge (len .Values.infraMonitoring.args) (1))}}
+        args: {{ .Values.infraMonitoring.args | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if and (.Values.infraMonitoring.env) (ge (len .Values.infraMonitoring.env) (1))}}
+        env: {{ .Values.infraMonitoring.env | toYaml | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.infraMonitoring.priorityClassName }}
+        priorityClassName: {{ .Values.infraMonitoring.priorityClassName }}
+        {{- end }}
+
+        {{- if .Values.infraMonitoring.dnsPolicy }}
+        dnsPolicy: {{ .Values.infraMonitoring.dnsPolicy }}
+        {{- end }}
+
+        {{- if .Values.infraMonitoring.serviceAccountName }}
+        serviceAccountName: {{ .Values.infraMonitoring.serviceAccountName }}
+        {{- else if .Values.infraMonitoring.useUnprivilegedMode }}
+        serviceAccountName: {{ .Values.oneagentUnprivilegedServiceAccount }}
+        {{- else }}
+        serviceAccountName: {{ .Values.oneagentServiceAccount }}
+        {{- end }}
+
+        {{- if .Values.infraMonitoring.labels }}
+        labels: {{ .Values.infraMonitoring.labels | toYaml | nindent 8 }}
+        {{- end }}
+
+        useUnprivilegedMode: {{ .Values.infraMonitoring.useUnprivilegedMode }}
+
+        useImmutableImage: {{ .Values.infraMonitoring.useImmutableImage }}
+      {{- end }}
+
 
       {{- if .Values.classicFullStack.enabled }}
       classicFullStack:
@@ -2982,13 +3048,13 @@ data:
         {{- end }}
 
         {{- if .Values.kubernetesMonitoring.customProperties }}
-          {{- if .Values.kubernetesMonitoring.customProperties.value }}
+        {{- if .Values.kubernetesMonitoring.customProperties.value }}
         customProperties:
           value: {{ .Values.kubernetesMonitoring.customProperties.value }}
-          {{- else if .Values.kubernetesMonitoring.customProperties.valueFrom }}
+        {{- else if .Values.kubernetesMonitoring.customProperties.valueFrom }}
         customProperties:
           valueFrom: {{ .Values.kubernetesMonitoring.customProperties.valueFrom }}
-          {{- end }}
+        {{- end }}
         {{- end }}
       {{- end }}
 
@@ -3036,11 +3102,9 @@ data:
         env: {{ .Values.routing.env | toYaml | nindent 8 }}
         {{- end }}
 
-        {{- if .Values.routing.serviceAccountName }}
+        {{- if .Values.routing.serviceAccountName}}
         serviceAccountName: {{ .Values.routing.serviceAccountName }}
         {{- else if .Values.routingServiceAccount }}
         serviceAccountName: {{ .Values.routingServiceAccount }}
         {{- end }}
       {{- end}}
-
-
