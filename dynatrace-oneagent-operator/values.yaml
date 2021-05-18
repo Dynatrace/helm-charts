@@ -20,6 +20,8 @@ createPodSecurityPolicies: true
 
 operator:
   image: ""
+  # The expected format is a list of imagePullSecret names
+  imagePullSecrets: []
   # The expected format is YAML and not a string
   nodeSelector: ""
   # The expected format is YAML and not a string

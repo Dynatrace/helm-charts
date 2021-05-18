@@ -16,6 +16,8 @@ mode: "fullstack"
 
 operator:
   image: ""
+  # The expected format is a list of imagePullSecret names
+  imagePullSecrets: []
 
 oneagent:
   name: "oneagent"
