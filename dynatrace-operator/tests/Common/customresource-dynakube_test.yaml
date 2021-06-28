@@ -65,13 +65,14 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
+      name: test-name
       trustedCAs: test-ca
     asserts:
       - isNotNull:
           path: spec.trustedCAs
       - equal:
           path: spec.trustedCAs
-          value: test-ca
+          value: test-name
 
   - it: should add networkZone if set
     set:
