@@ -66,3 +66,11 @@ secret:
   autoCreate: true
   apiToken: ""
   paasToken: ""
+
+webhook:
+  server:
+    # The expected format is YAML and not a string
+    resources: ""
+  bootstrapper:
+    # The expected format is YAML and not a string
+    resources: ""
