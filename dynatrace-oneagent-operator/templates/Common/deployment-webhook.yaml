@@ -148,6 +148,12 @@ spec:
             - name: certs-volume
               mountPath: /mnt/webhook-certs
       serviceAccountName: dynatrace-oneagent-webhook
+      {{- if .Values.operator.imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.operator.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end}}
+      {{- end }}
       {{- if .Values.operator.nodeSelector }}
       nodeSelector: {{- toYaml .Values.operator.nodeSelector | nindent 8 }}
       {{- end }}
