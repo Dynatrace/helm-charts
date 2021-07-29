@@ -56,6 +56,13 @@ questions:
     type: string
     group: "Global Configuration"
 
+  - variable: customPullSecret
+    label: "Define a custom pull secret"
+    description: "Optional: Defines a custom pull secret in case you use a private registry when pulling images from the dynatrace environment"
+    default: ""
+    type: string
+    group: "Global Configuration"
+
   - variable: operator.image
     label: "Set a custom image for operator"
     description: "Optional: Set a custom image for operator. Defaults to docker.io/dynatrace/dynatrace-operator"
