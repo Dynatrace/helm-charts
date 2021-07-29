@@ -2855,7 +2855,7 @@ data:
 
       {{- if .Values.proxy }}
       proxy:
-        valueFrom: {{ .Values.name }}
+        valueFrom: {{ .Values.proxy }}
       {{- end }}
 
       {{- if .Values.trustedCAs }}

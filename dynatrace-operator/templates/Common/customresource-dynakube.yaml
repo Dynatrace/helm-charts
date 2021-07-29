@@ -30,11 +30,11 @@ spec:
 
   {{- if .Values.proxy }}
   proxy:
-    valueFrom: {{ .Values.name }}
+    valueFrom: {{ .Values.proxy }}
   {{- end }}
 
   {{- if .Values.trustedCAs }}
-  trustedCAs: {{ .Values.name }}
+  trustedCAs: {{ .Values.trustedCAs }}
   {{- end }}
 
   {{- if .Values.networkZone }}
