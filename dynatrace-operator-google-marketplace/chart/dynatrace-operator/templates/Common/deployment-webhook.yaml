@@ -147,6 +147,10 @@ spec:
             - name: certs-volume
               mountPath: /mnt/webhook-certs
       serviceAccountName: {{ .Values.webhookServiceAccount }}
+      {{- if .Values.operator.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.operator.imagePullSecret }}
+      {{- end }}
       volumes:
         - name: certs-volume
           emptyDir: {}

@@ -149,3 +149,17 @@ tests:
                 volumes:
                   - name: certs-volume
                     emptyDir: { }
+
+  - it: should have imagePullSecrets defined in spec
+    set: 
+      operator: 
+        imagePullSecret: pull-secret
+    asserts:
+      - equal:
+          path: spec.template.spec.imagePullSecrets[0].name
+          value: pull-secret
+
+  - it: should not have imagePullSecrets defined in spec
+    asserts:
+      - isNull:
+          path: spec.template.spec.imagePullSecrets
