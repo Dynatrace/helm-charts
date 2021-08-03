@@ -16,7 +16,7 @@ mode: "fullstack"
 
 operator:
   image: ""
-  imagePullSecret: ""
+  customPullSecret: ""
 
 oneagent:
   name: "oneagent"

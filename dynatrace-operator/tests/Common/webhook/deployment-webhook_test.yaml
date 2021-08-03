@@ -153,7 +153,7 @@ tests:
   - it: should have imagePullSecrets defined in spec
     set: 
       operator: 
-        imagePullSecret: pull-secret
+        customPullSecret: pull-secret
     asserts:
       - equal:
           path: spec.template.spec.imagePullSecrets[0].name

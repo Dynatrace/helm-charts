@@ -143,7 +143,7 @@ tests:
   - it: should have imagePullSecrets defined in spec
     set: 
       platform: openshift
-      operator.imagePullSecret: pull-secret
+      operator.customPullSecret: pull-secret
     asserts:
       - equal:
           path: spec.template.spec.imagePullSecrets[0].name
