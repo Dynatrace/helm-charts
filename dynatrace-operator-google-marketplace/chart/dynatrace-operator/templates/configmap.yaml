@@ -2866,6 +2866,10 @@ data:
       networkZone: {{ .Values.networkZone }}
       {{- end }}
 
+      {{- if .Values.customPullSecret }}
+      customPullSecret: {{ .Values.customPullSecret }}
+      {{- end }}
+
       activeGate:
         {{- if .Values.activeGate.image}}
         image: {{ .Values.activeGate.image }}
