@@ -18,13 +18,11 @@ description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Opens
 icon: https://assets.dynatrace.com/global/resources/Signet_Logo_RGB_CP_512x512px.png
 home: https://www.dynatrace.com/
 type: application
-version: 0.10.0
-appVersion: 0.10.0
+version: 0.10.1
+appVersion: 0.10.1
 maintainers:
   - name: DTMad
     email: marco.mader@dynatrace.com
-  - name: lrgar
-    email: luis.garcia@dynatrace.com
   - name: mmayr-at
     email: michael.mayr@dynatrace.com
 sources:
