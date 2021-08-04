@@ -40,7 +40,6 @@ operator:
 
 activeGate:
   image: ""
-  autoUpdate: false
 
 oneAgent:
   version: ""
@@ -51,13 +50,11 @@ codeModules:
   enabled: true
   resources: {}
   volume: {}
-  selector: {}
 
 infraMonitoring:
   enabled: true
   nodeSelector: ""
   tolerations: [ ]
-  waitReadySeconds: 300
   resources: { }
   args: []
   env: []
@@ -67,12 +64,16 @@ infraMonitoring:
   labels: ""
   useUnprivilegedMode: true
   useImmutableImage: false
+  readOnly:
+    enabled: false
+    installationVolume: {}
+    userId: ""
+    groupId: ""
 
 classicFullStack:
   enabled: true
   nodeSelector: ""
   tolerations: [ ]
-  waitReadySeconds: 300
   resources: { }
   args: []
   env: []
@@ -82,6 +83,11 @@ classicFullStack:
   labels: ""
   useUnprivilegedMode: true
   useImmutableImage: false
+  readOnly:
+    enabled: false
+    installationVolume: {}
+    userId: ""
+    groupId: ""
 
 kubernetesMonitoring:
   enabled: true

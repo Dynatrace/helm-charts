@@ -45,11 +45,14 @@ spec:
   customPullSecret: {{ .Values.customPullSecret }}
   {{- end }}
 
+  {{- if .Values.enableIstio }}
+  enableIstio: {{ .Values.enableIstio }}
+  {{- end }}
+
   activeGate:
     {{- if .Values.activeGate.image}}
     image: {{ .Values.activeGate.image }}
     {{- end}}
-    autoUpdate: {{ .Values.activeGate.autoUpdate }}
 
   oneAgent:
     {{- if .Values.oneAgent.image }}
@@ -71,10 +74,6 @@ spec:
     {{- if .Values.codeModules.volume }}
     volume: {{ .Values.codeModules.volume | toYaml | nindent 8 }}
     {{- end }}
-
-    {{- if .Values.codeModules.selector }}
-    selector: {{ .Values.codeModules.selector | toYaml | nindent 8}}
-    {{- end }}
   {{- end }}
 
   {{- if .Values.infraMonitoring.enabled }}
@@ -87,10 +86,6 @@ spec:
 
     {{- if .Values.infraMonitoring.tolerations }}
     tolerations: {{ .Values.infraMonitoring.tolerations | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if .Values.infraMonitoring.waitReadySeconds }}
-    waitReadySeconds: {{ .Values.infraMonitoring.waitReadySeconds }}
     {{- end }}
 
     {{- if .Values.infraMonitoring.resources }}
@@ -124,8 +119,24 @@ spec:
     useUnprivilegedMode: {{ .Values.infraMonitoring.useUnprivilegedMode }}
 
     useImmutableImage: {{ .Values.infraMonitoring.useImmutableImage }}
-  {{- end }}
 
+    {{- if .Values.infraMonitoring.readOnly.enabled }}
+    readOnly:
+      enabled: true
+    
+      {{- if .Values.readOnly.installationVolume }}
+      installationVolume: {{ .Values.readOnly.installationVolume | toYaml | nindent 8 }}
+      {{- end }}
+
+      {{- if .Values.readOnly.userId }}
+      userId: {{ .Values.readOnly.userId }}
+      {{- end }}
+
+      {{- if .Values.readOnly.groupId }}
+      groupId: {{ .Values.readOnly.groupId }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
 
   {{- if .Values.classicFullStack.enabled }}
   classicFullStack:
@@ -137,10 +148,6 @@ spec:
 
     {{- if .Values.classicFullStack.tolerations }}
     tolerations: {{ .Values.classicFullStack.tolerations | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if .Values.classicFullStack.waitReadySeconds }}
-    waitReadySeconds: {{ .Values.classicFullStack.waitReadySeconds }}
     {{- end }}
 
     {{- if .Values.classicFullStack.resources }}
@@ -174,6 +181,23 @@ spec:
     useUnprivilegedMode: {{ .Values.classicFullStack.useUnprivilegedMode }}
 
     useImmutableImage: {{ .Values.classicFullStack.useImmutableImage }}
+
+    {{- if .Values.classicFullStack.readOnly.enabled }}
+    readOnly:
+      enabled: true
+    
+      {{- if .Values.readOnly.installationVolume }}
+      installationVolume: {{ .Values.readOnly.installationVolume | toYaml | nindent 8 }}
+      {{- end }}
+
+      {{- if .Values.readOnly.userId }}
+      userId: {{ .Values.readOnly.userId }}
+      {{- end }}
+
+      {{- if .Values.readOnly.groupId }}
+      groupId: {{ .Values.readOnly.groupId }}
+      {{- end }}
+    {{- end }}
   {{- end }}
 
   {{- if .Values.kubernetesMonitoring.enabled }}
@@ -235,28 +259,20 @@ spec:
     replicas: {{ .Values.routing.replicas }}
     {{- end }}
 
-    {{- if .Values.routing.group }}
-    group: {{ .Values.routing.group }}
+    {{- if .Values.routing.serviceAccountName}}
+    serviceAccountName: {{ .Values.routing.serviceAccountName }}
     {{- end }}
 
-    {{- if .Values.routing.customProperties.value }}
-    customProperties:
-      value: {{ .Values.routing.customProperties.value }}
-    {{- else if .Values.routing.customProperties.valueFrom }}
-    customProperties:
-      valueFrom: {{ .Values.routing.customProperties.valueFrom }}
-    {{- end }}
-
-    {{- if .Values.routing.resources }}
-    resources: {{ .Values.routing.resources | toYaml | nindent 8 }}
+    {{- if .Values.routing.tolerations }}
+    tolerations: {{ .Values.routing.tolerations | toYaml | nindent 8 }}
     {{- end }}
 
     {{- if .Values.routing.nodeSelector }}
     nodeSelector: {{ .Values.routing.nodeSelector | toYaml | nindent 8 }}
     {{- end }}
 
-    {{- if .Values.routing.tolerations }}
-    tolerations: {{ .Values.routing.tolerations | toYaml | nindent 8 }}
+    {{- if .Values.routing.resources }}
+    resources: {{ .Values.routing.resources | toYaml | nindent 8 }}
     {{- end }}
 
     {{- if .Values.routing.labels }}
@@ -271,8 +287,16 @@ spec:
     env: {{ .Values.routing.env | toYaml | nindent 8 }}
     {{- end }}
 
-    {{- if .Values.routing.serviceAccountName}}
-    serviceAccountName: {{ .Values.routing.serviceAccountName }}
+    {{- if .Values.routing.group }}
+    group: {{ .Values.routing.group }}
+    {{- end }}
+
+    {{- if .Values.routing.customProperties.value }}
+    customProperties:
+      value: {{ .Values.routing.customProperties.value }}
+    {{- else if .Values.routing.customProperties.valueFrom }}
+    customProperties:
+      valueFrom: {{ .Values.routing.customProperties.valueFrom }}
     {{- end }}
   {{- end}}
 
