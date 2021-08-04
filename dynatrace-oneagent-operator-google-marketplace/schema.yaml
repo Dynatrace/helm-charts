@@ -15,19 +15,13 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.10.0"
+  publishedVersion: "0.10.1"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.10.0
-
-      Bug fixes
-        * Don't look at the cluster version when deploying the OneAgent using immutable images. Under certain conditions this may stop the Operator from deploying the OneAgent at all
-        * Upgrade OneAgent Pods using the immutable image by looking at the version label embedded on the images
+      v0.10.1
 
       Other changes
-        * Upgrade to Operator SDK 1.3
-          * Use ConfigMaps for leases
-        * Fix version and deployment instructions for dev builds
+        * Updated the Operator image to rely on the latest ubi-minimal base image
     releaseTypes:
       - BugFix
     recommended: true
