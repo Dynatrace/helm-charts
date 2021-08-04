@@ -58,7 +58,7 @@ questions:
 
   - variable: customPullSecret
     label: "Define a custom pull secret"
-    description: "Optional: Defines a custom pull secret in case you use a private registry when pulling images from the dynatrace environment"
+    description: "Optional: Defines a custom pull secret in case you use a private registry when pulling images from the Dynatrace environment"
     default: ""
     type: string
     group: "Global Configuration"
