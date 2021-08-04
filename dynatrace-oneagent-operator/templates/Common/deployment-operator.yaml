@@ -100,6 +100,10 @@ spec:
                     values:
                       - linux
       serviceAccountName: {{ .Release.Name }}
+      {{- if .Values.operator.customPullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.operator.customPullSecret }}
+      {{- end }}
       {{- if .Values.operator.nodeSelector }}
       nodeSelector: {{- toYaml .Values.operator.nodeSelector | nindent 8 }}
       {{- end }}
