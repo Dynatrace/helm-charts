@@ -29,6 +29,7 @@ createPodSecurityPolicies: true
 
 operator:
   image: ""
+  customPullSecret: ""
   nodeSelector: {}
   tolerations: []
 
