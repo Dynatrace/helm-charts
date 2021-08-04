@@ -49,10 +49,12 @@ spec:
   enableIstio: {{ .Values.enableIstio }}
   {{- end }}
 
+  {{- if .Values.activeGate.image}}
   activeGate:
     {{- if .Values.activeGate.image}}
     image: {{ .Values.activeGate.image }}
     {{- end}}
+  {{- end}}
 
   oneAgent:
     {{- if .Values.oneAgent.image }}
