@@ -63,19 +63,6 @@ tests:
             operator: Exists
           count: 1
 
-  - it: should set waitReadySeconds
-    set:
-      apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
-      classicFullStack:
-        enabled: true
-        waitReadySeconds: 100
-    asserts:
-      - equal:
-          path: spec.classicFullStack.waitReadySeconds
-          value: 100
-
   - it: should set resources
     set:
       apiUrl: test-api-url

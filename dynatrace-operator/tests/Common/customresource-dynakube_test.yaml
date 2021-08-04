@@ -107,7 +107,6 @@ tests:
       paasToken: test-paas-token
       activeGate:
         image: test-image
-        autoUpdate: true
     asserts:
       - isNotNull:
           path: spec.activeGate
@@ -116,19 +115,3 @@ tests:
       - equal:
           path: spec.activeGate.image
           value: test-image
-      - equal:
-          path: spec.activeGate.autoUpdate
-          value: true
-
-  - it: should set activeGate.autoUpdate
-    set:
-      apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
-      activeGate:
-        image: test-image
-        autoUpdate: false
-    asserts:
-      - equal:
-          path: spec.activeGate.autoUpdate
-          value: false

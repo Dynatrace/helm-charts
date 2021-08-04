@@ -29,6 +29,8 @@ tests:
               type: Recreate
             template:
               metadata:
+                annotations:
+                  kubectl.kubernetes.io/default-logs-container: webhook
                 labels:
                   dynatrace.com/operator: oneagent
                   internal.dynatrace.com/component: webhook
@@ -80,13 +82,6 @@ tests:
                         scheme: HTTPS
                       initialDelaySeconds: 60
                       periodSeconds: 10
-                    livenessProbe:
-                      httpGet:
-                        path: /healthz
-                        port: server-port
-                        scheme: HTTPS
-                      initialDelaySeconds: 60
-                      periodSeconds: 10
                     ports:
                       - name: metrics
                         containerPort: 8383
@@ -94,18 +89,12 @@ tests:
                         containerPort: 8443
                     resources:
                       requests:
-                        cpu: 10m
-                        memory: 64Mi
+                        cpu: 300m
+                        memory: 128Mi
                       limits:
-                        cpu: 100m
+                        cpu: 600m
                         memory: 256Mi
-                    volumeMounts:
-                      - name: certs-volume
-                        mountPath: /mnt/webhook-certs
                 serviceAccountName: dynatrace-webhook
-                volumes:
-                  - name: certs-volume
-                    emptyDir: { }
 
   - it: should have imagePullSecrets defined in spec
     set: 
