@@ -15,8 +15,8 @@
 platform: "kubernetes"
 mode: "fullstack"
 
-# In case you don't want PSP to be created by this chart
-createPodSecurityPolicies: true
+# Only applicable for Openshift
+createSecurityContextConstraints: true
 
 operator:
   image: ""

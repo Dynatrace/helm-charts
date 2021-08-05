@@ -20,213 +20,6 @@ metadata:
   labels:
   {{- include "dynatrace-operator.labels" . | nindent 4 }}
 data:
-  psp-kubernetes-monitoring.yaml: |
-    apiVersion: policy/v1beta1
-    kind: PodSecurityPolicy
-    metadata:
-      name: dynatrace-kubernetes-monitoring
-      annotations:
-        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
-        apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
-        seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
-        apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
-    spec:
-      privileged: false
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: false
-      requiredDropCapabilities:
-        - ALL
-      volumes:
-        - "configMap"
-        - "emptyDir"
-        - "projected"
-        - "secret"
-        - "downwardAPI"
-        - "persistentVolumeClaim"
-      hostNetwork: false
-      hostIPC: false
-      hostPID: false
-      runAsUser:
-        rule: "MustRunAsNonRoot"
-      seLinux:
-        rule: "RunAsAny"
-      supplementalGroups:
-        rule: "RunAsAny"
-      fsGroup:
-        rule: "RunAsAny"
-
-  psp-routing.yaml: |
-    apiVersion: policy/v1beta1
-    kind: PodSecurityPolicy
-    metadata:
-      name: dynatrace-routing
-      annotations:
-        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
-        apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
-        seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
-        apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
-    spec:
-      privileged: false
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: false
-      requiredDropCapabilities:
-        - ALL
-      volumes:
-        - "configMap"
-        - "emptyDir"
-        - "projected"
-        - "secret"
-        - "downwardAPI"
-        - "persistentVolumeClaim"
-      hostNetwork: false
-      hostIPC: false
-      hostPID: false
-      runAsUser:
-        rule: "MustRunAsNonRoot"
-      seLinux:
-        rule: "RunAsAny"
-      supplementalGroups:
-        rule: "RunAsAny"
-      fsGroup:
-        rule: "RunAsAny"
-
-  psp-oneagent.yaml: |
-    apiVersion: policy/v1beta1
-    kind: PodSecurityPolicy
-    metadata:
-      name: dynatrace-dynakube-oneagent
-      annotations:
-        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "*"
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
-    spec:
-      privileged: true
-      allowPrivilegeEscalation: true
-      allowedCapabilities:
-        - "*"
-      volumes:
-        - "*"
-      hostNetwork: true
-      hostIPC: false
-      hostPID: true
-      hostPorts:
-        - min: 0
-          max: 65535
-      runAsUser:
-        rule: "RunAsAny"
-      seLinux:
-        rule: "RunAsAny"
-      supplementalGroups:
-        rule: "RunAsAny"
-      fsGroup:
-        rule: "RunAsAny"
-  psp-oneagent-unprivileged.yaml: |
-    apiVersion: policy/v1beta1
-    kind: PodSecurityPolicy
-    metadata:
-      name: dynatrace-dynakube-oneagent-unprivileged
-      annotations:
-        apparmor.security.beta.kubernetes.io/allowedProfileNames: "unconfined"
-        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "*"
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
-    spec:
-      privileged: false
-      allowPrivilegeEscalation: true
-      allowedCapabilities:
-        - CHOWN
-        - DAC_OVERRIDE
-        - DAC_READ_SEARCH
-        - FOWNER
-        - FSETID
-        - KILL
-        - NET_ADMIN
-        - NET_RAW
-        - SETFCAP
-        - SETGID
-        - SETUID
-        - SYS_ADMIN
-        - SYS_CHROOT
-        - SYS_PTRACE
-        - SYS_RESOURCE
-      requiredDropCapabilities:
-        - ALL
-      volumes:
-        - "*"
-      hostNetwork: true
-      hostIPC: false
-      hostPID: true
-      hostPorts:
-        - min: 0
-          max: 65535
-      runAsUser:
-        rule: "RunAsAny"
-      seLinux:
-        rule: "RunAsAny"
-      supplementalGroups:
-        rule: "RunAsAny"
-      fsGroup:
-        rule: "RunAsAny"
-  psp-operator.yaml: |
-    apiVersion: policy/v1beta1
-    kind: PodSecurityPolicy
-    metadata:
-      name: dynatrace-operator
-      annotations:
-        seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
-        apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
-        seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
-        apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
-      ownerReferences:
-      - apiVersion: v1beta1
-        blockOwnerDeletion: true
-        kind: Application
-        name: {{ .Release.Name }}
-        uid: ##UID##
-    spec:
-      privileged: false
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      requiredDropCapabilities:
-        - ALL
-      volumes:
-        - "configMap"
-        - "emptyDir"
-        - "projected"
-        - "secret"
-        - "downwardAPI"
-        - "persistentVolumeClaim"
-      hostNetwork: false
-      hostIPC: false
-      hostPID: false
-      runAsUser:
-        rule: "MustRunAsNonRoot"
-      seLinux:
-        rule: "RunAsAny"
-      supplementalGroups:
-        rule: "RunAsAny"
-      fsGroup:
-        rule: "RunAsAny"
   dynakube_crd.yaml: |
     apiVersion: apiextensions.k8s.io/v1beta1
     kind: CustomResourceDefinition
@@ -389,7 +182,7 @@ data:
                                     description: 'Required: resource to select'
                                     type: string
                                 required:
-                                - resource
+                                  - resource
                                 type: object
                               secretKeyRef:
                                 description: Selects a key of a secret in the pod's namespace
@@ -408,11 +201,11 @@ data:
                                       must be defined
                                     type: boolean
                                 required:
-                                - key
+                                  - key
                                 type: object
                             type: object
                         required:
-                        - name
+                          - name
                         type: object
                       type: array
                     labels:
@@ -595,8 +388,8 @@ data:
                                 will force the ReadOnly setting in VolumeMounts.
                               type: boolean
                           required:
-                          - diskName
-                          - diskURI
+                            - diskName
+                            - diskURI
                           type: object
                         azureFile:
                           description: AzureFile represents an Azure File Service mount
@@ -614,8 +407,8 @@ data:
                               description: Share Name
                               type: string
                           required:
-                          - secretName
-                          - shareName
+                            - secretName
+                            - shareName
                           type: object
                         cephfs:
                           description: CephFS represents a Ceph FS mount on the host that
@@ -655,7 +448,7 @@ data:
                                 is admin More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it'
                               type: string
                           required:
-                          - monitors
+                            - monitors
                           type: object
                         cinder:
                           description: 'Cinder represents a cinder volume attached and
@@ -686,7 +479,7 @@ data:
                                 More info: https://examples.k8s.io/mysql-cinder-pd/README.md'
                               type: string
                           required:
-                          - volumeID
+                            - volumeID
                           type: object
                         configMap:
                           description: ConfigMap represents a configMap that should populate
