@@ -38,9 +38,11 @@ spec:
               sed "s/##UID##/${uid}/g" /objects/psp-oneagent-unprivileged.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/psp-webhook.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/psp-data-ingest.yaml | kubectl apply -f -
               {{- end }}
 
               sed "s/##UID##/${uid}/g" /objects/mutatingWebhookConfiguration.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/csidriver.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/dynakube_crd.yaml | kubectl apply -f -
               sleep 5
               sed "s/##UID##/${uid}/g" /objects/dynakube.yaml | kubectl apply -f -

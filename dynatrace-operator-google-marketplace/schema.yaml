@@ -724,6 +724,68 @@ properties:
                   - dynatrace-routing
                 verbs:
                   - use
+  
+  csiServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace Kubernetes Monitoring
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace Kubernetes Monitoring
+        roles:
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups: [""]
+                resources: ["namespaces"]
+                verbs: ["get", "list", "watch"]
+              - apiGroups: [""]
+                resources: ["events"]
+                verbs: ["list", "watch", "create", "update", "patch"]
+              - apiGroups: ["storage.k8s.io"]
+                resources: ["csinodes"]
+                verbs: ["get", "list", "watch"]
+              - apiGroups: [""]
+                resources: ["nodes"]
+                verbs: ["get", "list", "watch"]
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups: [""]
+                resources: ["endpoints"]
+                verbs: ["get", "watch", "list", "delete", "update", "create"]
+              - apiGroups: ["coordination.k8s.io"]
+                resources: ["leases"]
+                verbs: ["get", "watch", "list", "delete", "update", "create"]
+              - apiGroups: ["dynatrace.com"]
+                resources: ["dynakubes"]
+                verbs: ["get", "list", "watch"]
+              - apiGroups: [""]
+                resources: ["secrets"]
+                verbs: ["get", "list", "watch"]
+
+  dataIngestServiceAccount:
+    type: string
+    title: Service account used by the Dynatrace Kubernetes Monitoring
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: >
+          Service account used by the Dynatrace Kubernetes Monitoring
+        roles:
+          - type: Role
+            rulesType: CUSTOM
+            rules:
+              - apiGroups:
+                  - policy
+                resources:
+                  - podsecuritypolicies
+                resourceNames:
+                  - dynatrace-data-ingest
+                verbs:
+                  - use
+
 
   kubernetesMonitoringServiceAccount:
     type: string
@@ -844,6 +906,8 @@ required:
   - apiToken
   - paasToken
   - operatorServiceAccount
+  - csiServiceAccount
+  - dataIngestServiceAccount
   - kubernetesMonitoringServiceAccount
   - oneagentUnprivilegedServiceAccount
   - oneagentServiceAccount
