@@ -24,7 +24,9 @@ proxy: ""
 trustedCAs: ""
 networkZone: ""
 enableIstio: false
-createPodSecurityPolicies: true
+
+### Only applicable for Openshift
+createSecurityContextConstraints: true
 
 autoCreateSecret: true
 apiToken: ""

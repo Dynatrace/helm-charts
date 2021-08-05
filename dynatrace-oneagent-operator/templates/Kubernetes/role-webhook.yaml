@@ -65,12 +65,4 @@ rules:
       - get
       - update
       - create
-  - apiGroups:
-      - policy
-    resources:
-      - podsecuritypolicies
-    resourceNames:
-      - dynatrace-oneagent-webhook
-    verbs:
-      - use
 {{ end }}

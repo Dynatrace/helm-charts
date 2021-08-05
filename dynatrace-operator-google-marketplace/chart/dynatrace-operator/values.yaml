@@ -25,7 +25,6 @@ proxy: ""
 trustedCAs: ""
 networkZone: ""
 enableIstio: false
-createPodSecurityPolicies: true
 
 operator:
   image: ""
