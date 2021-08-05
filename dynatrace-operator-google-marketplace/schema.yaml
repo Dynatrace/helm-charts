@@ -96,11 +96,7 @@ properties:
     type: boolean
     description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntry objects to allow access to the Dynatrace cluster from the agent or the activeGate"
     title: "Enable Istio"
-  createPodSecurityPolicies:
-    type: boolean
-    description: "Enable the creation of PodSecurityPolicies"
-    title: "Enable PodSecurityPolicies"
-    default: true
+
 
   operator.image:
     type: string
@@ -462,14 +458,7 @@ properties:
                   - get
                   - update
                   - create
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-webhook
-                verbs:
-                  - use
+
 
   operatorServiceAccount:
     type: string
@@ -653,14 +642,6 @@ properties:
                   - get
                   - update
                   - create
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-operator
-                verbs:
-                  - use
 
   oneagentServiceAccount:
     type: string
@@ -674,14 +655,7 @@ properties:
           - type: Role
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-dynakube-oneagent
-                verbs:
-                  - use
+
 
   oneagentUnprivilegedServiceAccount:
     type: string
@@ -695,14 +669,7 @@ properties:
           - type: Role
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-dynakube-oneagent-unprivileged
-                verbs:
-                  - use
+
 
   routingServiceAccount:
     type: string
@@ -716,14 +683,7 @@ properties:
           - type: Role
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-routing
-                verbs:
-                  - use
+
 
   kubernetesMonitoringServiceAccount:
     type: string
@@ -764,14 +724,6 @@ properties:
           - type: Role
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-kubernetes-monitoring
-                verbs:
-                  - use
 
   configurationServiceAccount:
     type: string
@@ -802,15 +754,7 @@ properties:
                   - list
                   - create
                   - patch
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                verbs:
-                  - get
-                  - list
-                  - create
-                  - patch
+
               - apiGroups:
                   - apiextensions.k8s.io
                 resources:
