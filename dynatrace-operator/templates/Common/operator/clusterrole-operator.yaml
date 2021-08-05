@@ -21,7 +21,7 @@ metadata:
     {{- include "dynatrace-operator.labels" . | nindent 4 }}
 rules:
   - apiGroups:
-      - ""
+      - "" # "" indicates the core API group
     resources:
       - nodes
       - namespaces
@@ -45,3 +45,27 @@ rules:
       - get
       - update
       - delete
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - mutatingwebhookconfigurations
+    verbs:
+      - list
+      - create
+      - watch
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - mutatingwebhookconfigurations
+    resourceNames:
+      - dynatrace-webhook
+    verbs:
+      - get
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch

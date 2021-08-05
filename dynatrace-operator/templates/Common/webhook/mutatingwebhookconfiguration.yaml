@@ -21,11 +21,12 @@ metadata:
   {{- include "dynatrace-operator.commonlabelswebhook" . | nindent 4 }}
 webhooks:
   - name: webhook.dynatrace.com
+    reinvocationPolicy: IfNeeded
     rules:
-      - apiGroups: [""]
-        apiVersions: ["v1"]
-        operations: ["CREATE"]
-        resources: ["pods"]
+      - apiGroups: [ "" ]
+        apiVersions: [ "v1" ]
+        operations: [ "CREATE" ]
+        resources: [ "pods" ]
         scope: Namespaced
     namespaceSelector:
       matchExpressions:
@@ -36,4 +37,5 @@ webhooks:
         name: dynatrace-webhook
         namespace: {{ .Release.Namespace }}
         path: /inject
-    admissionReviewVersions: ["v1beta1"]
+    admissionReviewVersions: [ "v1beta1", "v1" ]
+    sideEffects: None

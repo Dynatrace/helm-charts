@@ -29,19 +29,9 @@ rules:
       - list
       - watch
   - apiGroups:
-      - admissionregistration.k8s.io
+      - ""
     resources:
-      - mutatingwebhookconfigurations
+      - events
     verbs:
-      - list
       - create
-      - watch
-  - apiGroups:
-      - admissionregistration.k8s.io
-    resources:
-      - mutatingwebhookconfigurations
-    resourceNames:
-      - dynatrace-webhook
-    verbs:
-      - get
-      - update
+      - patch
