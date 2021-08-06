@@ -26,7 +26,7 @@ data:
     metadata:
       name: dynatrace-webhook
       labels:
-        {{- include "dynatrace-operator.commonlabelswebhook" . | nindent 8 }}
+        {{- include "dynatrace-operator.commonlabelswebhook" . | nindent 4 }}
       ownerReferences:
       - apiVersion: v1beta1
         blockOwnerDeletion: true
@@ -35,11 +35,12 @@ data:
         uid: ##UID##
     webhooks:
       - name: webhook.dynatrace.com
+        reinvocationPolicy: IfNeeded
         rules:
-          - apiGroups: [""]
-            apiVersions: ["v1"]
-            operations: ["CREATE"]
-            resources: ["pods"]
+          - apiGroups: [ "" ]
+            apiVersions: [ "v1" ]
+            operations: [ "CREATE" ]
+            resources: [ "pods" ]
             scope: Namespaced
         namespaceSelector:
           matchExpressions:
@@ -50,7 +51,8 @@ data:
             name: dynatrace-webhook
             namespace: {{ .Release.Namespace }}
             path: /inject
-        admissionReviewVersions: ["v1beta1"]
+        admissionReviewVersions: [ "v1beta1", "v1" ]
+        sideEffects: None
 
   psp-kubernetes-monitoring.yaml: |
     apiVersion: policy/v1beta1
@@ -6644,6 +6646,7 @@ data:
       {{- end}}
 
     {{- end }}
+
   csidriver.yaml: |
     apiVersion: storage.k8s.io/v1
     kind: CSIDriver

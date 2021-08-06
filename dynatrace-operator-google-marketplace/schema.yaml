@@ -400,22 +400,12 @@ properties:
                   - list
                   - watch
               - apiGroups:
-                  - admissionregistration.k8s.io
+                  - ""
                 resources:
-                  - mutatingwebhookconfigurations
+                  - events
                 verbs:
-                  - list
                   - create
-                  - watch
-              - apiGroups:
-                  - admissionregistration.k8s.io
-                resources:
-                  - mutatingwebhookconfigurations
-                resourceNames:
-                  - dynatrace-webhook
-                verbs:
-                  - get
-                  - update
+                  - patch
           - type: Role
             rulesType: CUSTOM
             rules:
@@ -462,14 +452,6 @@ properties:
                   - get
                   - update
                   - create
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-webhook
-                verbs:
-                  - use
 
   operatorServiceAccount:
     type: string
@@ -484,17 +466,7 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - ""
-                resources:
-                  - namespaces
-                resourceNames:
-                  - "kube-system"
-                verbs:
-                  - get
-                  - list
-                  - watch
-              - apiGroups:
-                  - ""
+                  - "" # "" indicates the core API group
                 resources:
                   - nodes
                   - namespaces
@@ -514,11 +486,35 @@ properties:
                   - secrets
                 resourceNames:
                   - dynatrace-dynakube-config
-                  - dynatrace-dynakube-pull-secret
                 verbs:
                   - get
                   - update
                   - delete
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                verbs:
+                  - list
+                  - create
+                  - watch
+              - apiGroups:
+                  - admissionregistration.k8s.io
+                resources:
+                  - mutatingwebhookconfigurations
+                resourceNames:
+                  - dynatrace-webhook
+                verbs:
+                  - get
+                  - update
+              - apiGroups:
+                  - ""
+                resources:
+                  - events
+                verbs:
+                  - create
+                  - patch
+
           - type: Role
             rulesType: CUSTOM
             rules:
@@ -532,7 +528,6 @@ properties:
                   - watch
                   - update
                   - create
-                  - delete
               - apiGroups:
                   - dynatrace.com
                 resources:
@@ -540,6 +535,7 @@ properties:
                   - dynakubes/status
                 verbs:
                   - update
+
               - apiGroups:
                   - apps
                 resources:
@@ -577,8 +573,9 @@ properties:
                   - deployments/finalizers
                 verbs:
                   - update
+
               - apiGroups:
-                  - ""
+                  - "" # "" indicates the core API group
                 resources:
                   - configmaps
                 verbs:
@@ -589,7 +586,7 @@ properties:
                   - update
                   - delete
               - apiGroups:
-                  - ""
+                  - "" # "" indicates the core API group
                 resources:
                   - pods
                 verbs:
@@ -599,7 +596,7 @@ properties:
                   - delete
                   - create
               - apiGroups:
-                  - ""
+                  - "" # "" indicates the core API group
                 resources:
                   - secrets
                 verbs:
@@ -608,7 +605,6 @@ properties:
                   - watch
                   - create
                   - update
-                  - delete
               - apiGroups:
                   - ""
                 resources:
@@ -621,12 +617,12 @@ properties:
                 resources:
                   - services
                 verbs:
+                  - create
+                  - delete
+                  - get
                   - list
                   - watch
-                  - create
-                  - get
-                  - update
-                  - delete
+
               - apiGroups:
                   - monitoring.coreos.com
                 resources:
@@ -634,6 +630,7 @@ properties:
                 verbs:
                   - get
                   - create
+
               - apiGroups:
                   - networking.istio.io
                 resources:
@@ -645,6 +642,7 @@ properties:
                   - create
                   - update
                   - delete
+
               - apiGroups:
                   - coordination.k8s.io
                 resources:
@@ -653,14 +651,6 @@ properties:
                   - get
                   - update
                   - create
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-operator
-                verbs:
-                  - use
 
   oneagentServiceAccount:
     type: string
@@ -804,6 +794,7 @@ properties:
                   - batch
                   - apps
                   - apps.openshift.io
+                  - config.openshift.io
                 resources:
                   - nodes
                   - pods
@@ -819,9 +810,19 @@ properties:
                   - events
                   - resourcequotas
                   - pods/proxy
+                  - nodes/proxy
+                  - services
+                  - clusterversions
                 verbs:
                   - list
                   - watch
+                  - get
+              - nonResourceURLs:
+                  - /metrics     
+                  - /version
+                  - /readyz
+                  - /healthz
+                verbs:
                   - get
           - type: Role
             rulesType: CUSTOM
