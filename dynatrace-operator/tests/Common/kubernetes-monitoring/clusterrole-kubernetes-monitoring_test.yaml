@@ -49,6 +49,9 @@ tests:
           content:
               nonResourceURLs:
                 - /metrics
+                - /version
+                - /readyz
+                - /healthz
               verbs:
                 - get
 

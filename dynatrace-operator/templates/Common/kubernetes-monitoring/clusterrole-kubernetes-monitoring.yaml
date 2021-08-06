@@ -49,7 +49,7 @@ rules:
       - watch
       - get
   - nonResourceURLs:
-      - /metrics     
+      - /metrics
       - /version
       - /readyz
       - /healthz

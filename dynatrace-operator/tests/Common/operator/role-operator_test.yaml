@@ -34,6 +34,7 @@ tests:
                 - dynakubes/status
               verbs:
                 - update
+
             - apiGroups:
                 - apps
               resources:
@@ -71,8 +72,9 @@ tests:
                 - deployments/finalizers
               verbs:
                 - update
+
             - apiGroups:
-                - ""
+                - "" # "" indicates the core API group
               resources:
                 - configmaps
               verbs:
@@ -83,7 +85,7 @@ tests:
                 - update
                 - delete
             - apiGroups:
-                - ""
+                - "" # "" indicates the core API group
               resources:
                 - pods
               verbs:
@@ -93,7 +95,7 @@ tests:
                 - delete
                 - create
             - apiGroups:
-                - ""
+                - "" # "" indicates the core API group
               resources:
                 - secrets
               verbs:
@@ -115,11 +117,11 @@ tests:
                 - services
               verbs:
                 - create
-                - list
-                - get
                 - delete
-                - update
+                - get
+                - list
                 - watch
+
             - apiGroups:
                 - monitoring.coreos.com
               resources:
@@ -148,11 +150,3 @@ tests:
                 - get
                 - update
                 - create
-            - apiGroups:
-                - policy
-              resources:
-                - podsecuritypolicies
-              resourceNames:
-                - dynatrace-operator
-              verbs:
-                - use
