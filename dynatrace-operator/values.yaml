@@ -25,9 +25,6 @@ trustedCAs: ""
 networkZone: ""
 enableIstio: false
 
-### Only applicable for Openshift
-createSecurityContextConstraints: true
-
 autoCreateSecret: true
 apiToken: ""
 paasToken: ""
@@ -37,6 +34,8 @@ operator:
   customPullSecret: ""
   nodeSelector: {}
   tolerations: {}
+
+createSecurityContextConstraints: true # Only applicable for Openshift
 
 ### module properties
 
