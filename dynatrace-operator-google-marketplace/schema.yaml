@@ -817,13 +817,6 @@ properties:
                   - list
                   - watch
                   - get
-              - nonResourceURLs:
-                  - /metrics     
-                  - /version
-                  - /readyz
-                  - /healthz
-                verbs:
-                  - get
           - type: Role
             rulesType: CUSTOM
             rules:
@@ -900,6 +893,11 @@ properties:
                 verbs:
                   - get
                   - list
+              - apiGroups: 
+                  - storage.k8s.io
+                resources: 
+                  - csidrivers
+                verbs: ["*"]
 required:
   - name
   - namespace

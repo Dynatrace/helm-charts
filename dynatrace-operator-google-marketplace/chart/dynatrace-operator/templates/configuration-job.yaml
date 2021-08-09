@@ -31,20 +31,19 @@ spec:
             - |
               uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
 
-              {{- if .Values.createPodSecurityPolicies }}
-              sed "s/##UID##/${uid}/g" /objects/psp-kubernetes-monitoring.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-routing.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-oneagent.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-oneagent-unprivileged.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-webhook.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-data-ingest.yaml | kubectl apply -f -
-              {{- end }}
-
+              echo "Applying mutatingWebhookConfiguration"
               sed "s/##UID##/${uid}/g" /objects/mutatingWebhookConfiguration.yaml | kubectl apply -f -
+              echo "Applying CSI driver config"
               sed "s/##UID##/${uid}/g" /objects/csidriver.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/dynakube_crd.yaml | kubectl apply -f -
+              
+              echo "Creating CRD definition"
+              mkdir /tmp/crd
+              sed "s/##UID##/${uid}/g" /crd1/dynakube_crd.yaml.1 > /tmp/crd/crd.yaml
+              tail -c +3 /crd2/dynakube_crd.yaml.2 >> /tmp/crd/crd.yaml
+              kubectl apply -f /tmp/crd/crd.yaml
+
               sleep 5
+              echo "Applying dynakube"
               sed "s/##UID##/${uid}/g" /objects/dynakube.yaml | kubectl apply -f -
           image: {{ .Values.deployerHelm.image }}
           imagePullPolicy: Always
@@ -52,6 +51,10 @@ spec:
           volumeMounts:
             - name: object-configmap
               mountPath: /objects/
+            - name: object-configmap-crd1
+              mountPath: /crd1/
+            - name: object-configmap-crd2
+              mountPath: /crd2/
       dnsPolicy: ClusterFirst
       restartPolicy: Never
       serviceAccountName: {{ .Values.configurationServiceAccount }}
@@ -59,3 +62,9 @@ spec:
         - name: object-configmap
           configMap:
             name: {{ .Release.Name }}-configmap
+        - name: object-configmap-crd1
+          configMap:
+            name: {{ .Release.Name }}-configmap-crd1
+        - name: object-configmap-crd2
+          configMap:
+            name: {{ .Release.Name }}-configmap-crd2
