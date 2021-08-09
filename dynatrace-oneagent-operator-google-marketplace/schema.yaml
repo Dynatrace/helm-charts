@@ -248,7 +248,7 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - nodes
                   - namespaces
@@ -313,7 +313,7 @@ properties:
                 verbs:
                   - update
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - configmaps
                 verbs:
@@ -324,7 +324,7 @@ properties:
                   - update
                   - delete
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - pods
                 verbs:
@@ -333,7 +333,7 @@ properties:
                   - watch
                   - delete
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - secrets
                 verbs:

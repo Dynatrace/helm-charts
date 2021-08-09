@@ -17,10 +17,10 @@ tests:
             - name: webhook.dynatrace.com
               reinvocationPolicy: IfNeeded
               rules:
-                - apiGroups: [ "" ]
-                  apiVersions: [ "v1" ]
-                  operations: [ "CREATE" ]
-                  resources: [ "pods" ]
+                - apiGroups: [""]
+                  apiVersions: ["v1"]
+                  operations: ["CREATE"]
+                  resources: ["pods"]
                   scope: Namespaced
               namespaceSelector:
                 matchExpressions:
@@ -31,5 +31,5 @@ tests:
                   name: dynatrace-webhook
                   namespace: NAMESPACE
                   path: /inject
-              admissionReviewVersions: [ "v1beta1", "v1" ]
+              admissionReviewVersions: ["v1beta1", "v1"]
               sideEffects: None
