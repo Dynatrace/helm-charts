@@ -84,6 +84,9 @@ Check if platform is set
 {{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") -}}
     {{ default "set" }}
 {{- end -}}
+{{- if (eq .Values.platform "openshift-3-11") -}}
+    {{ default "set" }}
+{{- end -}}
 {{- end -}}
 
 {{/*
