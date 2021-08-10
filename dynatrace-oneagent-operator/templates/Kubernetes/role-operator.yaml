@@ -131,12 +131,4 @@ rules:
       - get
       - update
       - create
-  - apiGroups:
-      - policy
-    resources:
-      - podsecuritypolicies
-    resourceNames:
-      - dynatrace-oneagent-operator
-    verbs:
-      - use
   {{ end }}

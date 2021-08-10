@@ -24,7 +24,6 @@ proxy: ""
 trustedCAs: ""
 networkZone: ""
 enableIstio: false
-createPodSecurityPolicies: true
 
 autoCreateSecret: true
 apiToken: ""
@@ -35,6 +34,8 @@ operator:
   customPullSecret: ""
   nodeSelector: {}
   tolerations: {}
+
+createSecurityContextConstraints: true # Only applicable for Openshift
 
 ### module properties
 
