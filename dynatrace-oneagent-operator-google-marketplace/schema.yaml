@@ -227,14 +227,6 @@ properties:
                   - get
                   - update
                   - create
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-oneagent-webhook
-                verbs:
-                  - use
   operatorServiceAccount:
     type: string
     title: Service account used by the Dynatrace OneAgent Operator
@@ -385,14 +377,6 @@ properties:
                   - get
                   - update
                   - create
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-oneagent-operator
-                verbs:
-                  - use
   oneagentServiceAccount:
     type: string
     title: Service account used by the Dynatrace OneAgent
@@ -405,14 +389,7 @@ properties:
           - type: Role
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-oneagent
-                verbs:
-                  - use
+
   oneagentUnprivilegedServiceAccount:
     type: string
     title: Service account used by the unprivileged Dynatrace OneAgent
@@ -425,14 +402,7 @@ properties:
           - type: Role
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
-                resourceNames:
-                  - dynatrace-oneagent-unprivileged
-                verbs:
-                  - use
+
   configurationServiceAccount:
     type: string
     title: Service account used to configure the Dynatrace OneAgent Operator
@@ -450,15 +420,6 @@ properties:
                 resources:
                   - oneagents
                   - oneagentapms
-                verbs:
-                  - get
-                  - list
-                  - create
-                  - patch
-              - apiGroups:
-                  - policy
-                resources:
-                  - podsecuritypolicies
                 verbs:
                   - get
                   - list

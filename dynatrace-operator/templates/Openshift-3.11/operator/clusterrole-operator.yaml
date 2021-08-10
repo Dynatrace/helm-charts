@@ -47,15 +47,6 @@ rules:
       - update
       - delete
   - apiGroups:
-      - admissionregistration.k8s.io
-    resources:
-      - mutatingwebhookconfigurations
-    resourceNames:
-      - dynatrace-webhook
-    verbs:
-      - get
-      - update
-  - apiGroups:
       - ""
     resources:
       - events

@@ -31,10 +31,6 @@ spec:
         - "-ec"
         - |
           uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
-          sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
-          sed "s/##UID##/${uid}/g" /objects/psp-oneagent.yaml | kubectl apply -f -
-          sed "s/##UID##/${uid}/g" /objects/psp-webhook.yaml | kubectl apply -f -
-          sed "s/##UID##/${uid}/g" /objects/psp-oneagent-unprivileged.yaml | kubectl apply -f -
           sed "s/##UID##/${uid}/g" /objects/mutatingwebhookconfiguration.yaml | kubectl apply -f -
           sed "s/##UID##/${uid}/g" /objects/oneagentapm_crd.yaml | kubectl apply -f -
           sed "s/##UID##/${uid}/g" /objects/oneagent_crd.yaml | kubectl apply -f -
