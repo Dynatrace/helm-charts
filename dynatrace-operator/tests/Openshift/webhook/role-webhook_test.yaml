@@ -62,12 +62,4 @@ tests:
                 - get
                 - update
                 - create
-            - apiGroups:
-                - policy
-              resources:
-                - podsecuritypolicies
-              resourceNames:
-                - dynatrace-webhook
-              verbs:
-                - use
 

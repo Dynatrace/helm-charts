@@ -5,15 +5,15 @@ tests:
   - it: should not exist if platform is not openshift
     set:
       platform: kubernetes
-      createPodSecurityPolicies: true
+      createSecurityContextConstraints: true
     asserts:
       - hasDocuments:
           count: 0
 
-  - it: should not exist if createPodSecurityPolicies is false
+  - it: should not exist if createSecurityContextConstraints is false
     set:
       platform: openshift
-      createPodSecurityPolicies: false
+      createSecurityContextConstraints: false
     asserts:
       - hasDocuments:
           count: 0
@@ -21,7 +21,7 @@ tests:
   - it: should exist
     set:
       platform: openshift
-      createPodSecurityPolicies: true
+      createSecurityContextConstraints: true
     asserts:
       - equal:
           path: metadata
