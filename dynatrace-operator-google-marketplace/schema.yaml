@@ -688,47 +688,6 @@ properties:
                 resources: ["secrets"]
                 verbs: ["get", "list", "watch"]
 
-  kubernetesMonitoringServiceAccount:
-    type: string
-    title: Service account used by the Dynatrace Kubernetes Monitoring
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the Dynatrace Kubernetes Monitoring
-        roles:
-          - type: ClusterRole
-            rulesType: CUSTOM
-            rules:
-              - apiGroups:
-                  - ""
-                  - batch
-                  - apps
-                  - apps.openshift.io
-                  - config.openshift.io
-                resources:
-                  - nodes
-                  - pods
-                  - namespaces
-                  - deployments
-                  - replicasets
-                  - deploymentconfigs
-                  - replicationcontrollers
-                  - jobs
-                  - cronjobs
-                  - statefulsets
-                  - daemonsets
-                  - events
-                  - resourcequotas
-                  - pods/proxy
-                  - nodes/proxy
-                  - services
-                  - clusterversions
-                verbs:
-                  - list
-                  - watch
-                  - get
-
   configurationServiceAccount:
     type: string
     title: Service account used to configure the Dynatrace Operator
@@ -790,6 +749,16 @@ properties:
                 resources: 
                   - csidrivers
                 verbs: ["*"]
+              - apiGroups: [""]
+                resources: 
+                  - serviceaccounts
+                verbs: ["*"]
+              - apiGroups:
+                  - rbac.authorization.k8s.io
+                resources: 
+                  - clusterroles
+                  - clusterrolebindings
+                verbs: ["*"]
 required:
   - name
   - namespace
@@ -798,6 +767,5 @@ required:
   - paasToken
   - operatorServiceAccount
   - csiServiceAccount
-  - kubernetesMonitoringServiceAccount
   - webhookServiceAccount
   - configurationServiceAccount

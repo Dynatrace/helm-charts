@@ -42,6 +42,11 @@ spec:
               tail -c +3 /crd2/dynakube_crd.yaml.2 >> /tmp/crd/crd.yaml
               kubectl apply -f /tmp/crd/crd.yaml
 
+              echo "Setup kubernetes-monitoring clusterrole"
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-serviceaccount.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrole.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrolebinding.yaml | kubectl apply -f -
+
               sleep 5
               echo "Applying dynakube"
               sed "s/##UID##/${uid}/g" /objects/dynakube.yaml | kubectl apply -f -
