@@ -754,12 +754,6 @@ data:
       apiUrl: {{ .Values.oneagent.apiUrl }}
       tokens: {{ .Values.oneagent.name }}
       image: {{ include "dynatrace-oneagent.image" . | quote }}
-      {{- if eq .Values.oneagent.useUnprivilegedMode true }}
-      serviceAccountName: {{ .Values.oneagentUnprivilegedServiceAccount }}
-      {{- else }}
-      serviceAccountName: {{ .Values.oneagentServiceAccount }}
-      {{- end }}
-
 
       {{- if ne (printf "%T" .Values.oneagent.args) "string" }}
       args: {{- toYaml .Values.oneagent.args | nindent 8 }}
