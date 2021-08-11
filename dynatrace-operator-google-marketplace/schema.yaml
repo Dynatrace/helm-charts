@@ -646,45 +646,6 @@ properties:
                   - get
                   - update
                   - create
-
-  oneagentServiceAccount:
-    type: string
-    title: Service account used by the Dynatrace OneAgent
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the Dynatrace OneAgent
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-
-  oneagentUnprivilegedServiceAccount:
-    type: string
-    title: Service account used by the unprivileged Dynatrace OneAgent
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the unprivileged Dynatrace OneAgent
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-
-  routingServiceAccount:
-    type: string
-    title: Service account used by Dynatrace Routing
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by Dynatrace Routing
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
   
   csiServiceAccount:
     type: string
@@ -726,20 +687,6 @@ properties:
                 resources: ["secrets"]
                 verbs: ["get", "list", "watch"]
 
-  dataIngestServiceAccount:
-    type: string
-    title: Service account used by the Dynatrace Kubernetes Monitoring
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the Dynatrace Kubernetes Monitoring
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-
-
   kubernetesMonitoringServiceAccount:
     type: string
     title: Service account used by the Dynatrace Kubernetes Monitoring
@@ -780,9 +727,6 @@ properties:
                   - list
                   - watch
                   - get
-          - type: Role
-            rulesType: CUSTOM
-            rules:
 
   configurationServiceAccount:
     type: string
@@ -853,9 +797,6 @@ required:
   - paasToken
   - operatorServiceAccount
   - csiServiceAccount
-  - dataIngestServiceAccount
   - kubernetesMonitoringServiceAccount
-  - oneagentUnprivilegedServiceAccount
-  - oneagentServiceAccount
   - webhookServiceAccount
   - configurationServiceAccount
