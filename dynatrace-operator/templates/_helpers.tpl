@@ -86,11 +86,3 @@ Check if platform is set
 {{- end -}}
 {{- end -}}
 
-{{/*
-Common labels webhook
-*/}}
-{{- define "dynatrace-operator.commonlabelswebhook" -}}
-dynatrace.com/operator: dynakube
-internal.dynatrace.com/component: webhook
-helm.sh/chart: {{ include "dynatrace-operator.chart" . }}
-{{- end -}}
