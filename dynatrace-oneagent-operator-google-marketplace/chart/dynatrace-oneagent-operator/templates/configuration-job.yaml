@@ -40,6 +40,11 @@ spec:
           else
             sed "s/##UID##/${uid}/g" /objects/oneagent.yaml | kubectl apply -f -
           fi
+
+          echo "Create service accounts needed by fullstack spec"
+          sed "s/##UID##/${uid}/g" /objects/oneagent-serviceaccount.yaml | kubectl apply -f -
+          sed "s/##UID##/${uid}/g" /objects/oneagent-unprivileged-serviceaccount.yaml | kubectl apply -f -
+
         image: {{ .Values.deployerHelm.image }}
         imagePullPolicy: Always
         name: objects-create

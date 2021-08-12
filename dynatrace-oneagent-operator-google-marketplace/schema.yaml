@@ -445,6 +445,16 @@ properties:
                   - get
                   - update
                   - patch
+              - apiGroups: [""]
+                resources: 
+                  - serviceaccounts
+                verbs: ["*"]
+              - apiGroups:
+                  - rbac.authorization.k8s.io
+                resources: 
+                  - clusterroles
+                  - clusterrolebindings
+                verbs: ["*"]
 required:
   - name
   - namespace

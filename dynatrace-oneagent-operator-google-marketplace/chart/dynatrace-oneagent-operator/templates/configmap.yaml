@@ -927,3 +927,29 @@ data:
       {{- if .Values.oneagent.flavor }}
       flavor: {{ .Values.oneagent.flavor }}
       {{- end }}
+
+  oneagent-serviceaccount.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: dynatrace-oneagent
+      namespace: {{ .Release.Namespace }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+
+  oneagent-unprivileged-serviceaccount.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: dynatrace-oneagent-unprivileged
+      namespace: {{ .Release.Namespace }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
