@@ -47,6 +47,10 @@ spec:
               sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrole.yaml | kubectl apply -f -
               sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrolebinding.yaml | kubectl apply -f -
 
+              echo "Create service accounts needed by fullstack spec"
+              sed "s/##UID##/${uid}/g" /objects/oneagent-serviceaccount.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/oneagent-unprivileged-serviceaccount.yaml | kubectl apply -f -
+
               sleep 5
               echo "Applying dynakube"
               sed "s/##UID##/${uid}/g" /objects/dynakube.yaml | kubectl apply -f -

@@ -165,10 +165,6 @@ data:
 
         {{- if .Values.infraMonitoring.serviceAccountName }}
         serviceAccountName: {{ .Values.infraMonitoring.serviceAccountName }}
-        {{- else if .Values.infraMonitoring.useUnprivilegedMode }}
-        serviceAccountName: {{ .Values.oneagentUnprivilegedServiceAccount }}
-        {{- else }}
-        serviceAccountName: {{ .Values.oneagentServiceAccount }}
         {{- end }}
 
         {{- if .Values.infraMonitoring.labels }}
@@ -231,10 +227,6 @@ data:
 
         {{- if .Values.classicFullStack.serviceAccountName }}
         serviceAccountName: {{ .Values.classicFullStack.serviceAccountName }}
-        {{- else if .Values.classicFullStack.useUnprivilegedMode }}
-        serviceAccountName: {{ .Values.oneagentUnprivilegedServiceAccount }}
-        {{- else }}
-        serviceAccountName: {{ .Values.oneagentServiceAccount }}
         {{- end }}
 
         {{- if .Values.classicFullStack.labels }}
@@ -458,6 +450,32 @@ data:
     kind: ServiceAccount
     metadata:
       name: dynatrace-kubernetes-monitoring
+      namespace: {{ .Release.Namespace }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+
+  oneagent-serviceaccount.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: dynatrace-dynakube-oneagent
+      namespace: {{ .Release.Namespace }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+
+  oneagent-unprivileged-serviceaccount.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: dynatrace-dynakube-oneagent-unprivileged
       namespace: {{ .Release.Namespace }}
       ownerReferences:
       - apiVersion: v1beta1
