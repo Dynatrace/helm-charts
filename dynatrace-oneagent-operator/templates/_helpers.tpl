@@ -64,8 +64,11 @@ internal.oneagent.dynatrace.com/component: webhook
 {{/*
 Check if platform is set
 */}}
-{{- define "dynatrace-oneagent-operator.platformSet" -}}
+{{- define "dynatrace-operator.platformSet" -}}
 {{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") -}}
+    {{ default "set" }}
+{{- end -}}
+{{- if (eq .Values.platform "openshift-3-11") -}}
     {{ default "set" }}
 {{- end -}}
 {{- end -}}
