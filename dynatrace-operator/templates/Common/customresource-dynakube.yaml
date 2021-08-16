@@ -17,6 +17,8 @@
 apiVersion: dynatrace.com/v1alpha1
 kind: DynaKube
 metadata:
+  annotations:
+    "helm.sh/hook": post-install
   name: {{ .Values.name }}
   namespace: {{ .Release.Namespace }}
 spec:
