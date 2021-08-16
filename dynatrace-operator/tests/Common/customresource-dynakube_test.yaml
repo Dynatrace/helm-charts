@@ -86,6 +86,19 @@ tests:
       - equal:
           path: spec.networkZone
           value: test-network-zone
+  
+  - it: should add customPullSecret if set
+    set:
+      apiUrl: test-api-url
+      apiToken: test-api-token
+      paasToken: test-paas-token
+      customPullSecret: test-custom-pull-secret
+    asserts:
+      - isNotNull:
+          path: spec.customPullSecret
+      - equal:
+          path: spec.customPullSecret
+          value: test-custom-pull-secret
 
   - it: should add ActiveGate image if set
     set:
