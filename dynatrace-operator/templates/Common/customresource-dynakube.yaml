@@ -34,7 +34,7 @@ spec:
   {{- end }}
 
   {{- if .Values.trustedCAs }}
-  trustedCAs: {{ .Values.trustedCAs }}
+  trustedCAs: {{ .Values.name }}
   {{- end }}
 
   {{- if .Values.networkZone }}
