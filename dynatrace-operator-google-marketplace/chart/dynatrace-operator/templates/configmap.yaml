@@ -2585,7 +2585,7 @@ data:
       {{- end }}
 
       {{- if .Values.trustedCAs }}
-      trustedCAs: {{ .Values.trustedCAs }}
+      trustedCAs: {{ .Values.name }}
       {{- end }}
 
       {{- if .Values.networkZone }}
@@ -2596,11 +2596,16 @@ data:
       customPullSecret: {{ .Values.customPullSecret }}
       {{- end }}
 
+      {{- if .Values.enableIstio }}
+        enableIstio: {{ .Values.enableIstio }}
+      {{- end }}
+
+      {{- if .Values.activeGate.image}}
       activeGate:
         {{- if .Values.activeGate.image}}
         image: {{ .Values.activeGate.image }}
         {{- end}}
-        autoUpdate: {{ .Values.activeGate.autoUpdate }}
+      {{- end}}
 
       oneAgent:
         {{- if .Values.oneAgent.image }}
@@ -2768,4 +2773,106 @@ data:
         {{- end }}
       {{- end}}
 
+  kubernetes-monitoring-clusterrole.yaml: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: dynatrace-kubernetes-monitoring
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+    rules:
+      - apiGroups:
+          - ""
+          - batch
+          - apps
+          - apps.openshift.io
+          - config.openshift.io
+        resources:
+          - nodes
+          - pods
+          - namespaces
+          - deployments
+          - replicasets
+          - deploymentconfigs
+          - replicationcontrollers
+          - jobs
+          - cronjobs
+          - statefulsets
+          - daemonsets
+          - events
+          - resourcequotas
+          - pods/proxy
+          - nodes/proxy
+          - services
+          - clusterversions
+        verbs:
+          - list
+          - watch
+          - get
+      - nonResourceURLs:
+          - /metrics
+          - /version
+          - /readyz
+          - /healthz
+        verbs:
+          - get
 
+  kubernetes-monitoring-clusterrolebinding.yaml: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: dynatrace-kubernetes-monitoring
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: dynatrace-kubernetes-monitoring
+    subjects:
+      - kind: ServiceAccount
+        name: dynatrace-kubernetes-monitoring
+        namespace: {{ .Release.Namespace }}
+  kubernetes-monitoring-serviceaccount.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: dynatrace-kubernetes-monitoring
+      namespace: {{ .Release.Namespace }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+  oneagent-serviceaccount.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: dynatrace-dynakube-oneagent
+      namespace: {{ .Release.Namespace }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##
+  oneagent-unprivileged-serviceaccount.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: dynatrace-dynakube-oneagent-unprivileged
+      namespace: {{ .Release.Namespace }}
+      ownerReferences:
+      - apiVersion: v1beta1
+        blockOwnerDeletion: true
+        kind: Application
+        name: {{ .Release.Name }}
+        uid: ##UID##

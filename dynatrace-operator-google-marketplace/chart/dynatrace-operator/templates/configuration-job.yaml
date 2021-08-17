@@ -30,6 +30,16 @@ spec:
             - "-ec"
             - |
               uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
+
+              echo "Create service accounts needed by fullstack spec"
+              sed "s/##UID##/${uid}/g" /objects/oneagent-serviceaccount.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/oneagent-unprivileged-serviceaccount.yaml | kubectl apply -f -
+
+              echo "Setup kubernetes-monitoring clusterrole"
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-serviceaccount.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrole.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrolebinding.yaml | kubectl apply -f -
+
               sed "s/##UID##/${uid}/g" /objects/dynakube_crd.yaml | kubectl apply -f -
               sleep 5
               sed "s/##UID##/${uid}/g" /objects/dynakube.yaml | kubectl apply -f -

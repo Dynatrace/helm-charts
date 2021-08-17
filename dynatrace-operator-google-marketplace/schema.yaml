@@ -484,48 +484,6 @@ properties:
                   - update
                   - create
 
-  oneagentServiceAccount:
-    type: string
-    title: Service account used by the Dynatrace OneAgent
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the Dynatrace OneAgent
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-
-
-  oneagentUnprivilegedServiceAccount:
-    type: string
-    title: Service account used by the unprivileged Dynatrace OneAgent
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the unprivileged Dynatrace OneAgent
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-
-
-  routingServiceAccount:
-    type: string
-    title: Service account used by Dynatrace Routing
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by Dynatrace Routing
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-
-
   kubernetesMonitoringServiceAccount:
     type: string
     title: Service account used by the Dynatrace Kubernetes Monitoring
@@ -562,9 +520,6 @@ properties:
                   - list
                   - watch
                   - get
-          - type: Role
-            rulesType: CUSTOM
-            rules:
 
   configurationServiceAccount:
     type: string
@@ -614,6 +569,17 @@ properties:
                 verbs:
                   - get
                   - list
+
+              - apiGroups: [ "" ]
+                resources:
+                  - serviceaccounts
+                verbs: [ "*" ]
+              - apiGroups:
+                  - rbac.authorization.k8s.io
+                resources:
+                  - clusterroles
+                  - clusterrolebindings
+                verbs: [ "*" ]
 required:
   - name
   - namespace
@@ -622,6 +588,4 @@ required:
   - paasToken
   - operatorServiceAccount
   - kubernetesMonitoringServiceAccount
-  - oneagentUnprivilegedServiceAccount
-  - oneagentServiceAccount
   - configurationServiceAccount
