@@ -81,7 +81,7 @@ Check if default operator image is used
 Check if platform is set
 */}}
 {{- define "dynatrace-operator.platformSet" -}}
-{{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") -}}
+{{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") (eq .Values.platform "openshift-3-11") -}}
     {{ default "set" }}
 {{- end -}}
 {{- end -}}
