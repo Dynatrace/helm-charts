@@ -15,10 +15,10 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.2.1"
+  publishedVersion: "0.2.2"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.2.1
+      v0.2.2
 
       Features
       * classicFullStack - The Dynatrace Operator now supports rolling out a fullstack agent
