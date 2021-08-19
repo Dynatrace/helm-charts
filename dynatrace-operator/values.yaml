@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# may be set to "kubernetes", "openshift", "openshift-3-11"
 platform: "kubernetes"
 
 ### base properties
@@ -24,7 +25,6 @@ proxy: ""
 trustedCAs: ""
 networkZone: ""
 enableIstio: false
-createPodSecurityPolicies: true
 
 autoCreateSecret: true
 apiToken: ""
@@ -34,6 +34,8 @@ operator:
   image: ""
   nodeSelector: {}
   tolerations: {}
+
+createSecurityContextConstraints: true # Only applicable for Openshift
 
 ### module properties
 

@@ -31,13 +31,14 @@ spec:
             - |
               uid=$(kubectl get application {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.metadata.uid}')
 
-              {{- if .Values.createPodSecurityPolicies }}
-              sed "s/##UID##/${uid}/g" /objects/psp-kubernetes-monitoring.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-routing.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-oneagent.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-oneagent-unprivileged.yaml | kubectl apply -f -
-              sed "s/##UID##/${uid}/g" /objects/psp-operator.yaml | kubectl apply -f -
-              {{- end }}
+              echo "Create service accounts needed by fullstack spec"
+              sed "s/##UID##/${uid}/g" /objects/oneagent-serviceaccount.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/oneagent-unprivileged-serviceaccount.yaml | kubectl apply -f -
+
+              echo "Setup kubernetes-monitoring clusterrole"
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-serviceaccount.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrole.yaml | kubectl apply -f -
+              sed "s/##UID##/${uid}/g" /objects/kubernetes-monitoring-clusterrolebinding.yaml | kubectl apply -f -
 
               sed "s/##UID##/${uid}/g" /objects/dynakube_crd.yaml | kubectl apply -f -
               sleep 5

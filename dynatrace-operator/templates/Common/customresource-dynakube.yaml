@@ -19,6 +19,8 @@ kind: DynaKube
 metadata:
   name: {{ .Values.name }}
   namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install
 spec:
   apiUrl: {{ required "ApiUrl needs to be set!" .Values.apiUrl }}
 
@@ -34,11 +36,15 @@ spec:
   {{- end }}
 
   {{- if .Values.trustedCAs }}
-  trustedCAs: {{ .Values.trustedCAs }}
+  trustedCAs: {{ .Values.name }}
   {{- end }}
 
   {{- if .Values.networkZone }}
   networkZone: {{ .Values.networkZone }}
+  {{- end }}
+
+  {{- if .Values.customPullSecret }}
+  customPullSecret: {{ .Values.customPullSecret }}
   {{- end }}
 
   activeGate:

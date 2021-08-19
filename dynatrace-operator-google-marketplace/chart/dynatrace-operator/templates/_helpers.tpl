@@ -87,12 +87,3 @@ Check if default operator image is used
     {{- printf "%s:v%s" "docker.io/dynatrace/dynatrace-operator" .Chart.AppVersion }}
 {{- end -}}
 {{- end -}}
-
-{{/*
-Common labels webhook
-*/}}
-{{- define "dynatrace-operator.commonlabelswebhook" -}}
-dynatrace.com/operator: dynakube
-internal.dynatrace.com/component: webhook
-helm.sh/chart: {{ include "dynatrace-operator.chart" . }}
-{{- end -}}

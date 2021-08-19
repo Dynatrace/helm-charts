@@ -81,16 +81,8 @@ Check if default operator image is used
 Check if platform is set
 */}}
 {{- define "dynatrace-operator.platformSet" -}}
-{{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") -}}
+{{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") (eq .Values.platform "openshift-3-11") -}}
     {{ default "set" }}
 {{- end -}}
 {{- end -}}
 
-{{/*
-Common labels webhook
-*/}}
-{{- define "dynatrace-operator.commonlabelswebhook" -}}
-dynatrace.com/operator: dynakube
-internal.dynatrace.com/component: webhook
-helm.sh/chart: {{ include "dynatrace-operator.chart" . }}
-{{- end -}}
