@@ -1,3 +1,6 @@
+{{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes, openshift or openshift-3-11" (include "dynatrace-oneagent-operator.platformSet" .))}}
+{{- if or (eq .Values.platform "kubernetes") (eq .Values.platform "openshift") }}
+
 # Copyright 2019 Dynatrace LLC
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,3 +40,5 @@ webhooks:
         namespace: {{ .Release.Namespace }}
         path: /inject
     admissionReviewVersions: ["v1beta1"]
+
+{{ end }}

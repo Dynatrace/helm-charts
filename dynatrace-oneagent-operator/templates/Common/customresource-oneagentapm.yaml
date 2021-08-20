@@ -20,6 +20,8 @@ kind: OneAgentAPM
 metadata:
   name: {{ include "oneagentapm.name" . }}
   namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install
 spec:
   apiUrl: {{ .Values.oneagent.apiUrl }}
   tokens: {{ .Values.oneagent.name }}
