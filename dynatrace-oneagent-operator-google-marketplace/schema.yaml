@@ -240,7 +240,7 @@ properties:
             rulesType: CUSTOM
             rules:
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - nodes
                   - namespaces
@@ -305,7 +305,7 @@ properties:
                 verbs:
                   - update
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - configmaps
                 verbs:
@@ -316,7 +316,7 @@ properties:
                   - update
                   - delete
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - pods
                 verbs:
@@ -325,7 +325,7 @@ properties:
                   - watch
                   - delete
               - apiGroups:
-                  - "" # "" indicates the core API group
+                  - ""  # "" indicates the core API group
                 resources:
                   - secrets
                 verbs:
@@ -377,31 +377,6 @@ properties:
                   - get
                   - update
                   - create
-  oneagentServiceAccount:
-    type: string
-    title: Service account used by the Dynatrace OneAgent
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the Dynatrace OneAgent
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
-
-  oneagentUnprivilegedServiceAccount:
-    type: string
-    title: Service account used by the unprivileged Dynatrace OneAgent
-    x-google-marketplace:
-      type: SERVICE_ACCOUNT
-      serviceAccount:
-        description: >
-          Service account used by the unprivileged Dynatrace OneAgent
-        roles:
-          - type: Role
-            rulesType: CUSTOM
-            rules:
 
   configurationServiceAccount:
     type: string
@@ -469,6 +444,17 @@ properties:
                 verbs:
                   - get
                   - update
+                  - patch
+              - apiGroups: [""]
+                resources: 
+                  - serviceaccounts
+                verbs: ["*"]
+              - apiGroups:
+                  - rbac.authorization.k8s.io
+                resources: 
+                  - clusterroles
+                  - clusterrolebindings
+                verbs: ["*"]
 required:
   - name
   - namespace
@@ -476,7 +462,5 @@ required:
   - secret.apiToken
   - secret.paasToken
   - operatorServiceAccount
-  - oneagentServiceAccount
   - configurationServiceAccount
   - webhookServiceAccount
-  - oneagentUnprivilegedServiceAccount

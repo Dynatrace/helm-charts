@@ -22,8 +22,6 @@ appVersion: 0.10
 maintainers:
   - name: DTMad
     email: marco.mader@dynatrace.com
-  - name: lrgar
-    email: luis.garcia@dynatrace.com
   - name: mmayr-at
     email: michael.mayr@dynatrace.com
 sources:
