@@ -17,4 +17,5 @@ if kubectl get Application/dynatrace-oneagent-operator -n dynatrace &> /dev/null
     kubectl delete application dynatrace-oneagent-operator -n dynatrace
 fi
 
+kubectl create ns dynatrace
 mpdev /scripts/install --deployer=$REGISTRY/$APP_NAME/deployer:$VERSION --parameters='{ "name": "dynatrace-oneagent-operator","namespace": "dynatrace","oneagent.apiUrl": "'"${APIURL}"'","secret.apiToken": "'"${APITOKEN}"'","secret.paasToken": "'"${PAASTOKEN}"'"}'

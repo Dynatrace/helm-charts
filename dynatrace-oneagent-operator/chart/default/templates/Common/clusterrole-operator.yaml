@@ -15,7 +15,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Release.Name }}
+  name: dynatrace-oneagent-operator
   labels:
     {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
 rules:

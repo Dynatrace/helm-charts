@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# may be set to "kubernetes", "openshift", "openshift-3-11"
+# may be set to "kubernetes", "openshift", "openshift-3-11", "google"
 platform: "kubernetes"
 mode: "fullstack"
 

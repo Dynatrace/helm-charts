@@ -11,3 +11,5 @@ The following environment variables needs to be provided:
 * APIURL (dynatrace api url)
 * APITOKEN (dynatrace api token)
 * PAASTOKEN (dynatrace paas token)
+
+The `verify.sh` script will run will build/push the necessary container then run `mpdev verify` on it.

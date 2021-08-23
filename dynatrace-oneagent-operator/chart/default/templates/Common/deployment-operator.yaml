@@ -15,7 +15,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: dynatrace-oneagent-operator
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 4 }}
@@ -34,7 +34,7 @@ spec:
         {{- include "dynatrace-oneagent-operator.commonlabels" . | nindent 8 }}
     spec:
       containers:
-        - name: {{ .Release.Name }}
+        - name: dynatrace-oneagent-operator
           args:
             - operator
           image: {{ include "dynatrace-oneagent-operator.image" . }}
@@ -98,7 +98,7 @@ spec:
                     operator: In
                     values:
                       - linux
-      serviceAccountName: {{ .Release.Name }}
+      serviceAccountName: dynatrace-oneagent-operator
       {{- if .Values.operator.customPullSecret }}
       imagePullSecrets:
         - name: {{ .Values.operator.customPullSecret }}
