@@ -15,4 +15,5 @@ if kubectl get Application/dynatrace-operator -n dynatrace &> /dev/null; then
     kubectl delete application dynatrace-operator -n dynatrace
 fi
 
+kubectl create ns dynatrace
 mpdev /scripts/install --deployer=$REGISTRY/$APP_NAME/deployer:$VERSION --parameters='{ "name": "dynatrace-operator","namespace": "dynatrace","apiUrl": "'"${APIURL}"'","apiToken": "'"${APITOKEN}"'","paasToken": "'"${PAASTOKEN}"'"}'
