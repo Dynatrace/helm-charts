@@ -41,7 +41,7 @@ https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-nee
 
 #### Apply CustomResourceDefinition
 
-Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases) and apply it.
+Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/helm-charts/releases) and apply it.
 
 ##### Kubernetes and OpenShift
 ```
@@ -90,7 +90,7 @@ You can then check for the latest version by searching your Helm repositories fo
 $ helm search repo dynatrace-oneagent-operator
 ```
 
-Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases) and apply it
+Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/helm-charts/releases) and apply it
 
 ##### Kubernetes
 ```
