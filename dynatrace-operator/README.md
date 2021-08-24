@@ -41,44 +41,28 @@ Generate an API and a PaaS token in your Dynatrace environment.
 
 https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-need-an-environment-id/#create-user-generated-access-tokens
 
-### Apply CustomResourceDefinition
-
-Apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases/latest).
-
-##### Kubernetes
-```
-$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
-```
-
-##### OpenShift
-```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
-```
-
-##### OpenShift 3.11
-```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
-```
-
 ### Chart installation
 
-To install the Dynatrace Operator replace the APIUrl, the API token and the PaaS token in command and execute it
+To install the Dynatrace Operator first create the dynatrace namespace, apply the latest CRD from [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases/latest) and replace the APIUrl, the API token and the PaaS token in command and execute it
 
 #### Kubernetes
 ```
 $ kubectl create namespace dynatrace
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 $ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 #### OpenShift
 ```
 $ oc adm new-project --node-selector="" dynatrace
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 $ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 #### OpenShift 3.11
 ```
 $ oc adm new-project --node-selector="" dynatrace
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
 $ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift-3-11",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
@@ -98,28 +82,27 @@ You can then check for the latest version by searching your Helm repositories fo
 $ helm search repo dynatrace-operator
 ```
 
-Apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases/latest).
+To update to the latest version apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases/latest) and run this command.
+Do not forget to add the `reuse-values` flag to keep your configuration
 
 ##### Kubernetes
 ```
 $ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
+$ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
 ```
 
 ##### OpenShift
 ```
 $ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
+$ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
 ```
 
 ##### OpenShift 3.11
 ```
 $ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
-```
-
-To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
-
-```
 $ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
 ```
+
 
 ## Uninstall dynatrace-operator
 Remove DynaKube custom resources and clean-up all remaining Dynatrace Operator specific objects:
