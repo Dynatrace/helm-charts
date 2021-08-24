@@ -41,21 +41,21 @@ https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-nee
 
 #### Apply CustomResourceDefinition
 
-Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/helm-charts/releases) and apply it.
+Apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest).
 
 ##### Kubernetes and OpenShift
 ```
-$ kubectl apply -f crd.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
 ```
 
 ##### OpenShift
 ```
-$ oc apply -f crd.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
 ```
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd-v1beta1.yaml
 ```
 
 #### Chart installation
@@ -90,21 +90,21 @@ You can then check for the latest version by searching your Helm repositories fo
 $ helm search repo dynatrace-oneagent-operator
 ```
 
-Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/helm-charts/releases) and apply it
+Apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest).
 
 ##### Kubernetes
 ```
-$ kubectl apply -f crd.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
 ```
 
 ##### OpenShift
 ```
-$ oc apply -f crd.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
 ```
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd-v1beta1.yaml
 ```
 
 To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
