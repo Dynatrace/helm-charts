@@ -60,7 +60,7 @@ $ helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator
 ##### OpenShift 3.11
 ```
 $ oc adm new-project --node-selector="" dynatrace
-$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
 $ helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform="openshift-3-11",oneagent.apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",secret.apiToken="DYNATRACE_API_TOKEN",secret.paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
