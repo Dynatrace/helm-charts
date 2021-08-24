@@ -54,12 +54,12 @@ $ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/late
 
 ##### OpenShift
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/crd.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
 ```
 
 #### Chart installation
@@ -109,12 +109,12 @@ $ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/late
 
 ##### OpenShift
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/crd.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
 ```
 
 To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
