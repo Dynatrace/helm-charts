@@ -49,7 +49,7 @@ Apply the latest version of the CRD attached to [the latest release](https://git
 
 ##### Kubernetes
 ```
-$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/crd.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift
@@ -104,7 +104,7 @@ Apply the latest version of the CRD attached to [the latest release](https://git
 
 ##### Kubernetes
 ```
-$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/crd.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift
