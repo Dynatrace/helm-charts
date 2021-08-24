@@ -39,11 +39,11 @@ Generate an API and a PaaS token in your Dynatrace environment.
 
 https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-need-an-environment-id/#create-user-generated-access-tokens
 
-#### Apply CustomResourceDefinition
+### Apply CustomResourceDefinition
 
 Apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest).
 
-##### Kubernetes and OpenShift
+##### Kubernetes
 ```
 $ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
@@ -58,7 +58,7 @@ $ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/
 $ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
 ```
 
-#### Chart installation
+### Chart installation
 
 To install the Dynatrace OneAgent Operator replace the APIUrl, the API token and the PaaS token in command and execute it
 
