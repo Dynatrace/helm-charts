@@ -45,17 +45,17 @@ Apply the latest version of the CRD attached to [the latest release](https://git
 
 ##### Kubernetes and OpenShift
 ```
-$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
 ```
 
 #### Chart installation
@@ -94,17 +94,17 @@ Apply the latest version of the CRD attached to [the latest release](https://git
 
 ##### Kubernetes
 ```
-$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
 ```
 
 To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
