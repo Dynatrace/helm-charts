@@ -97,7 +97,7 @@ $ helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
 $ helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --reuse-values
 ```
 
