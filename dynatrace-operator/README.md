@@ -62,7 +62,7 @@ $ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --se
 #### OpenShift 3.11
 ```
 $ oc adm new-project --node-selector="" dynatrace
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
 $ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift-3-11",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
