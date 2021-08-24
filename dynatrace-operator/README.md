@@ -47,7 +47,7 @@ https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-nee
 
 Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases) and apply it.
 
-##### Kubernetes and OpenShift
+##### Kubernetes
 ```
 $ kubectl apply -f crd.yaml
 ```
@@ -102,7 +102,7 @@ $ helm search repo dynatrace-operator
 
 Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases) and apply it
 
-##### Kubernetes and OpenShift
+##### Kubernetes
 ```
 $ kubectl apply -f crd.yaml
 ```
