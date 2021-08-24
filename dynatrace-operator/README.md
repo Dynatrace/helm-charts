@@ -99,7 +99,7 @@ $ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --re
 
 ##### OpenShift 3.11
 ```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-crd-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
 $ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
 ```
 
