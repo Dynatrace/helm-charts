@@ -41,6 +41,29 @@ Generate an API and a PaaS token in your Dynatrace environment.
 
 https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-need-an-environment-id/#create-user-generated-access-tokens
 
+### Installation
+
+#### Apply CustomResourceDefinition
+
+Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases) and apply it.
+
+##### Kubernetes and OpenShift
+```
+$ kubectl apply -f crd.yaml
+```
+
+##### OpenShift
+```
+$ oc apply -f crd.yaml
+```
+
+##### OpenShift 3.11
+```
+$ oc apply -f crd-v1beta1.yaml
+```
+
+#### Chart installation
+
 To install the Dynatrace Operator replace the APIUrl, the API token and the PaaS token in command and execute it
 
 #### Kubernetes
@@ -75,6 +98,23 @@ You can then check for the latest version by searching your Helm repositories fo
 
 ```
 $ helm search repo dynatrace-operator
+```
+
+Download the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases) and apply it
+
+##### Kubernetes
+```
+$ kubectl apply -f crd.yaml
+```
+
+##### OpenShift
+```
+$ oc apply -f crd.yaml
+```
+
+##### OpenShift 3.11
+```
+$ oc apply -f crd-v1beta1.yaml
 ```
 
 To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
