@@ -39,18 +39,32 @@ Generate an API and a PaaS token in your Dynatrace environment.
 
 https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-need-an-environment-id/#create-user-generated-access-tokens
 
-To install the Dynatrace OneAgent Operator replace the APIUrl, the API token and the PaaS token in command and execute it
+### Chart installation
+
+To install the Dynatrace OneAgent Operator first create the dynatrace namespace, apply the latest CRD from [the latest release](https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest) and replace the APIUrl, the API token and the PaaS token in command and execute it
 
 #### Kubernetes
 ```
 $ kubectl create namespace dynatrace
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagents.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagentapms.yaml
 $ helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform="kubernetes",oneagent.apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",secret.apiToken="DYNATRACE_API_TOKEN",secret.paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 #### OpenShift
 ```
 $ oc adm new-project --node-selector="" dynatrace
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagents.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagentapms.yaml
 $ helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform="openshift",oneagent.apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",secret.apiToken="DYNATRACE_API_TOKEN",secret.paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
+```
+
+##### OpenShift 3.11
+```
+$ oc adm new-project --node-selector="" dynatrace
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagents-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagentapms-v1beta1.yaml
+$ helm install dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --set platform="openshift-3-11",oneagent.apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",secret.apiToken="DYNATRACE_API_TOKEN",secret.paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 This will automatically install the Dynatrace OneAgent Operator and create OneAgents for every of your nodes.
@@ -69,11 +83,30 @@ You can then check for the latest version by searching your Helm repositories fo
 $ helm search repo dynatrace-oneagent-operator
 ```
 
-To then update to the latest version run this command and do not forget to add the `reuse-values` flag to keep your configuration
+To update to the latest version apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest) and run this command.
+Do not forget to add the `reuse-values` flag to keep your configuration
 
+##### Kubernetes
 ```
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagents.yaml
+$ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagentapms.yaml
 $ helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --reuse-values
 ```
+
+##### OpenShift
+```
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagents.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagentapms.yaml
+$ helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --reuse-values
+```
+
+##### OpenShift 3.11
+```
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagents-v1beta1.yaml
+$ oc apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagentapms-v1beta1.yaml
+$ helm upgrade dynatrace-oneagent-operator dynatrace/dynatrace-oneagent-operator -n dynatrace --reuse-values
+```
+
 
 ## Uninstall dynatrace-oneagent-operator
 Remove OneAgent custom resources and clean-up all remaining OneAgent Operator specific objects:
