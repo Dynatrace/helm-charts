@@ -45,7 +45,7 @@ spec:
   customPullSecret: {{ .Values.customPullSecret }}
   {{- end }}
 
-  {{- if .Values.oneagent.enableIstio }}
+  {{- if .Values.enableIstio }}
   enableIstio: {{ .Values.enableIstio }}
   {{- end }}
 
