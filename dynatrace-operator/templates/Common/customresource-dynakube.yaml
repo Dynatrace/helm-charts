@@ -45,6 +45,10 @@ spec:
   customPullSecret: {{ .Values.customPullSecret }}
   {{- end }}
 
+  {{- if .Values.enableIstio }}
+  enableIstio: {{ .Values.enableIstio }}
+  {{- end }}
+
   activeGate:
     {{- if .Values.activeGate.image}}
     image: {{ .Values.activeGate.image }}
