@@ -45,6 +45,10 @@ spec:
   customPullSecret: {{ .Values.customPullSecret }}
   {{- end }}
 
+  {{- if .Values.oneagent.enableIstio }}
+  enableIstio: {{ .Values.oneagent.enableIstio }}
+  {{- end }}
+
   activeGate:
     {{- if .Values.activeGate.image}}
     image: {{ .Values.activeGate.image }}
