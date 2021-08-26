@@ -46,7 +46,7 @@ spec:
   {{- end }}
 
   {{- if .Values.oneagent.enableIstio }}
-  enableIstio: {{ .Values.oneagent.enableIstio }}
+  enableIstio: {{ .Values.enableIstio }}
   {{- end }}
 
   activeGate:
