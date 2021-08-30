@@ -131,7 +131,7 @@ spec:
     {{- if .Values.infraMonitoring.readOnly.enabled }}
     readOnly:
       enabled: true
-    
+
       {{- if .Values.readOnly.installationVolume }}
       installationVolume: {{ .Values.readOnly.installationVolume | toYaml | nindent 8 }}
       {{- end }}
@@ -193,7 +193,7 @@ spec:
     {{- if .Values.classicFullStack.readOnly.enabled }}
     readOnly:
       enabled: true
-    
+
       {{- if .Values.readOnly.installationVolume }}
       installationVolume: {{ .Values.readOnly.installationVolume | toYaml | nindent 8 }}
       {{- end }}
