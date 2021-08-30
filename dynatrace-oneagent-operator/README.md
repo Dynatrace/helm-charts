@@ -13,7 +13,6 @@ https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-nee
 The Dynatrace OneAgent Operator acts on its separate namespace `dynatrace`.
 To create this namespace run the following command:
 
-##### OpenShift 3.11
 ```
 kubectl create namespace dynatrace
 ```
