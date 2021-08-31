@@ -67,6 +67,8 @@ spec:
     - group: v1
       kind: ServiceAccount
     - group: admissionregistration.k8s.io/v1
+      kind: ValidatingWebhookConfiguration
+    - group: admissionregistration.k8s.io/v1
       kind: MutatingWebhookConfiguration
     - group: apps/v1
       kind: StatefulSet
