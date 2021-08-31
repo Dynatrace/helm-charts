@@ -18,4 +18,6 @@ if kubectl get Application/dynatrace-oneagent-operator -n dynatrace &> /dev/null
 fi
 
 kubectl create ns dynatrace
+kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagents.yaml
+kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/dynatrace.com_oneagentapms.yaml
 mpdev /scripts/install --deployer=$REGISTRY/$APP_NAME/deployer:$VERSION --parameters='{ "name": "dynatrace-oneagent-operator","namespace": "dynatrace","oneagent.apiUrl": "'"${APIURL}"'","secret.apiToken": "'"${APITOKEN}"'","secret.paasToken": "'"${PAASTOKEN}"'"}'

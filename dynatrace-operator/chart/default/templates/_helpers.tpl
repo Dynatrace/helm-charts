@@ -51,7 +51,11 @@ Check if default image is used
 {{- if .Values.operator.image -}}
 	{{- printf "%s" .Values.operator.image -}}
 {{- else -}}
-	{{- printf "%s:%s" "gcr.io/dynatrace-marketplace-prod/dynatrace-operator" "{{ .Chart.AppVersion }}" }}
+	{{- if eq .Values.platform "google" -}}
+    	{{- printf "%s:%s" "gcr.io/dynatrace-marketplace-prod/dynatrace-operator" "{{ .Chart.AppVersion }}" }}
+	{{- else -}}
+		{{- printf "%s:v%s" "docker.io/dynatrace/dynatrace-operator" .Chart.AppVersion }}
+	{{- end -}}
 {{- end -}}
 {{- end -}}
 

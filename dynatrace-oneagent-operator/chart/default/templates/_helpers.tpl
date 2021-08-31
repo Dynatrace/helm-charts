@@ -110,7 +110,11 @@ Check if default operator image is used
 {{- if .Values.operator.image -}}
     {{- printf "%s" .Values.operator.image -}}
 {{- else -}}
-    {{- printf "%s:v%s" "docker.io/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
+    {{- if eq .Values.platform "google" -}}
+        {{- printf "%s:%s" "gcr.io/dynatrace-marketplace-prod/dynatrace-oneagent-operator" "{{ .Chart.AppVersion }}" }}
+    {{- else -}}
+        {{- printf "%s:v%s" "docker.io/dynatrace/dynatrace-oneagent-operator" .Chart.AppVersion }}
+    {{- end -}}
 {{- end -}}
 {{- end -}}
 
