@@ -143,6 +143,11 @@ properties:
     description: "Enable if you want to automatically create a secret from your api-token and paas-token"
     title: "Automatically create token-secret"
     default: true
+  crdApplied:
+    type: boolean
+    description: "Please make sure you have applied the latest CRD by following the instructions in the Github Repository."
+    title: "CRD manually applied"
+    default: false
 
   customPullSecret:
     type: string
@@ -278,7 +283,7 @@ properties:
   infraMonitoring.labels:
     type: string
     description: "Labels are customer defined labels for OneAgent Pods to structure workloads as desired"
-    title: "Infra lables"
+    title: "Infra labels"
   infraMonitoring.useUnprivilegedMode:
     type: boolean
     description: "When enabled the OneAgent Pods will run as unprivileged pods"
@@ -334,7 +339,7 @@ properties:
   classicFullStack.labels:
     type: string
     description: "Labels are customer defined labels for OneAgent Pods to structure workloads as desired"
-    title: "Classic lables"
+    title: "Classic labels"
   classicFullStack.useUnprivilegedMode:
     type: boolean
     description: "When enabled the OneAgent Pods will run as unprivileged pods"
@@ -458,3 +463,4 @@ required:
   - apiUrl
   - apiToken
   - paasToken
+  - crdApplied
