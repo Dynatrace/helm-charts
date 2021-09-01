@@ -107,6 +107,11 @@ x-google-marketplace:
               - clusterroles
               - clusterrolebindings
             verbs: ["*"]
+          - apiGroups:
+              - admissionregistration.k8s.io
+            resources:
+              - validatingwebhookconfigurations
+            verbs: ["*"]
 
 properties:
   name:
