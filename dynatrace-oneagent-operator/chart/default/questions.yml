@@ -52,25 +52,6 @@ questions:
     group: "Agent Configuration (REQUIRED)"
     show_if: "crdApplied=yes"
 
-    ### TEST
-
-  - variable: routing.enabled
-    label: "Enable message routing"
-    description: "Enables routing for the OneAgent pods"
-    default: true
-    type: boolean
-    group: "Routing"
-    show_if: "crdApplied=yes"
-    show_subquestion_if: true
-    subquestions:
-      - variable: routing.replicas
-        label: "Amount of replicas of ActiveGate pods"
-        description: "Sets the amount of replicas of ActiveGate pods are made"
-        default: 1
-        type: int
-        show_if: "crdApplied=yes"
-
-
     #################### Use custom limits settings ###################
 
   - variable: use_custom_limits_settings
@@ -80,9 +61,8 @@ questions:
     type: boolean
     group: "Use custom limits settings"
     show_if: "crdApplied=yes"
-    show_subquestions_if: true
+    show_subquestion_if: true
     subquestions:
-
       - variable: oneagent.resources.requests.cpu
         label: "CPU resource request"
         description: "Defines the minimum requested CPU by the OneAgent"
@@ -119,7 +99,7 @@ questions:
     type: boolean
     group: "Advanced Agent Configuration (OPTIONAL)"
     show_if: "crdApplied=yes"
-    show_subquestions_if: true
+    show_subquestion_if: true
     subquestions:
 
       - variable: operator.image
@@ -253,7 +233,7 @@ questions:
         type: string
         show_if: "crdApplied=yes"
         group: "Advanced Agent Configuration (OPTIONAL)"
-
+      
       - variable: oneagent.useUnprivilegedMode
         label: "Early Adopter: run unprivileged"
         description: "Early Adopter: support full-stack OneAgent running on unprivileged mode"
@@ -261,7 +241,7 @@ questions:
         type: boolean
         group: "Advanced Agent Configuration (OPTIONAL)"
         show_if: "crdApplied=yes && mode=fullstack"
-
+      
       - variable: oneagent.useImmutableImage
         label: "Use immutable OneAgent image"
         description: "If set the immutable OneAgent image will be used"
@@ -269,7 +249,7 @@ questions:
         type: boolean
         show_if: "crdApplied=yes"
         group: "Advanced Agent Configuration (OPTIONAL)"
-
+      
       - variable: oneagent.agentVersion
         label: "Agent version for immutable image"
         description: "Defines the agent version used when immutable image is used - defaults to latest"
@@ -277,7 +257,7 @@ questions:
         type: string
         show_if: "crdApplied=yes"
         group: "Advanced Agent Configuration (OPTIONAL)"
-
+      
       - variable: oneagent.customPullSecret
         label: "Custom PullSecret for the immutable image"
         description: "Defines a custom pull secret for the immutable image in case you have your own registry"
