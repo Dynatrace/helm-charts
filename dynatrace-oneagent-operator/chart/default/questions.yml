@@ -66,24 +66,28 @@ questions:
       label: "CPU resource request"
       description: "Defines the minimum requested CPU by the OneAgent"
       type: string
+      show_if: "crdApplied=true"
       group: "Use custom limits settings"
 
     - variable: oneagent.resources.requests.memory
       label: "Memory resource request"
       description: "Defines the minimum requested memory by the OneAgent"
       type: string
+      show_if: "crdApplied=true"
       group: "Use custom limits settings"
 
     - variable: oneagent.resources.limits.cpu
       label: "CPU resource limits"
       description: "Defines the maximum provided CPU for the OneAgent"
       type: string
+      show_if: "crdApplied=true"
       group: "Use custom limits settings"
 
     - variable: oneagent.resources.limits.memory
       label: "Memory resource limits"
       description: "Defines the maximum provided memory for the OneAgent"
       type: string
+      show_if: "crdApplied=true"
       group: "Use custom limits settings"
 
   #################### Advanced Agent Configuration (OPTIONAL) ####################
@@ -102,6 +106,7 @@ questions:
       description: "The location from where to grab the Dynatrace OneAgent operator image - default is quay.io/dynatrace/dynatrace-oneagent-operator"
       default: ""
       type: string
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.name
@@ -109,7 +114,7 @@ questions:
       default: "oneagent"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.disableAgentUpdate
       label: "Disable automatic OneAgent updates"
@@ -117,7 +122,7 @@ questions:
       default: false
       type: boolean
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.dnsPolicy
       label: "Set custom DNS Policy"
@@ -125,13 +130,14 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.enableIstio
       label: "Enable istio"
       description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntries objects to allow access to the Dynatrace cluster from the agent."
       default: false
       type: boolean
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.image
@@ -140,13 +146,14 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.skipCertCheck
       label: "Skip certificate check"
       description: "Disable certificate validation checks for installer download and API communication"
       default: false
       type: boolean
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.priorityClassName
@@ -155,13 +162,14 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.proxy
       label: "Define a proxy"
       description: "Configures a proxy for the Agent, AgentDownload and the Operator. Provide the proxy here"
       default: ""
       type: string
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.trustedCAs
@@ -169,6 +177,7 @@ questions:
       description: "Adds the provided CA certificates to the Operator and the OneAgent. Provide your custom certificates here. If this is not set the default embedded certificates on the images will be used"
       default: ""
       type: multiline
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.waitReadySeconds
@@ -177,7 +186,7 @@ questions:
       default: ""
       type: int
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.args
       label: "Arguments to OneAgent installer"
@@ -185,28 +194,28 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.env
       label: "Environment variables for OneAgent"
       description: "Defines additional environment variables which get passed to the OneAgent - Please edit as Yaml for the best experience"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.nodeSelector
       label: "Node selector to control the selection of nodes"
       description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out - Please edit as Yaml for the best experience"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.labels
       label: "Custom labels for the OneAgent pods"
       description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.tolerations
       label: "Custom tolerations for the OneAgent"
@@ -214,13 +223,14 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.networkZone
       label: "Network zone"
       description: "Configures a network zone for your OneAgents"
       default: ""
       type: string
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.useUnprivilegedMode
@@ -229,13 +239,14 @@ questions:
       default: true
       type: boolean
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
 
     - variable: oneagent.useImmutableImage
       label: "Use immutable OneAgent image"
       description: "If set the immutable OneAgent image will be used"
       default: false
       type: boolean
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.agentVersion
@@ -243,6 +254,7 @@ questions:
       description: "Defines the agent version used when immutable image is used - defaults to latest"
       default: ""
       type: string
+      show_if: "crdApplied=true"
       group: "Advanced Agent Configuration (OPTIONAL)"
 
     - variable: oneagent.customPullSecret
@@ -251,4 +263,4 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "mode=fullstack"
+      show_if: "crdApplied=true && mode=fullstack"
