@@ -52,6 +52,25 @@ questions:
     group: "Agent Configuration (REQUIRED)"
     show_if: "crdApplied=yes"
 
+    ### TEST
+
+  - variable: routing.enabled
+    label: "Enable message routing"
+    description: "Enables routing for the OneAgent pods"
+    default: true
+    type: boolean
+    group: "Routing"
+    show_if: "crdApplied=yes"
+    show_subquestion_if: true
+    subquestions:
+      - variable: routing.replicas
+        label: "Amount of replicas of ActiveGate pods"
+        description: "Sets the amount of replicas of ActiveGate pods are made"
+        default: 1
+        type: int
+        show_if: "crdApplied=yes"
+
+
     #################### Use custom limits settings ###################
 
   - variable: use_custom_limits_settings
