@@ -10,88 +10,92 @@ questions:
     required: true
     type: boolean
     group: "Prerequisites"
-    show_subquestion_if: true
+
+  #################### Agent Configuration (REQUIRED) ####################
+  - variable: mode
+    label: "Monitoring mode"
+    description: "Either fullstack for full monitoring or apm for application only monitoring"
+    default: "fullstack"
+    type: enum
+    group: "Agent Configuration (REQUIRED)"
+    show_if: "crdApplied=true"
+    options:
+      - "fullstack"
+      - "apm"
+
+  - variable: oneagent.apiUrl
+    label: "Dynatrace API URL"
+    description: "Dynatrace API URL including `/api` path at the end"
+    default: "https://ENVIRONMENTID.live.dynatrace.com/api"
+    type: string
+    required: true
+    group: "Agent Configuration (REQUIRED)"
+    show_if: "crdApplied=true"
+
+  - variable: secret.apiToken
+    label: "Dynatrace API token"
+    description: "Your Dynatrace API token - You can generate this token in your Dynatrace environment"
+    default: ""
+    type: string
+    required: false
+    group: "Agent Configuration (REQUIRED)"
+    show_if: "crdApplied=true"
+
+  - variable: secret.paasToken
+    label: "Dynatrace PaaS token"
+    description: "Your Dynatrace Platform as a Service token - You can generate this token in your Dynatrace environment"
+    default: ""
+    type: string
+    required: true
+    group: "Agent Configuration (REQUIRED)"
+    show_if: "crdApplied=true"
+
+    #################### Use custom limits settings ###################
+
+  - variable: use_custom_limits_settings
+    label: "Use custom limits settings"
+    description: "Use custom resource limits for the Dynatrace OneAgent"
+    default: false
+    type: boolean
+    group: "Use custom limits settings"
+    show_if: "crdApplied=true"
+    show_subquestions_if: true
     subquestions:
-
-    #################### Agent Configuration (REQUIRED) ####################
-    - variable: mode
-      label: "Monitoring mode"
-      description: "Either fullstack for full monitoring or apm for application only monitoring"
-      default: "fullstack"
-      type: enum
-      group: "Agent Configuration (REQUIRED)"
-      options:
-        - "fullstack"
-        - "apm"
-
-    - variable: oneagent.apiUrl
-      label: "Dynatrace API URL"
-      description: "Dynatrace API URL including `/api` path at the end"
-      default: "https://ENVIRONMENTID.live.dynatrace.com/api"
-      type: string
-      required: true
-      group: "Agent Configuration (REQUIRED)"
-
-    - variable: secret.apiToken
-      label: "Dynatrace API token"
-      description: "Your Dynatrace API token - You can generate this token in your Dynatrace environment"
-      default: ""
-      type: string
-      required: false
-      group: "Agent Configuration (REQUIRED)"
-
-    - variable: secret.paasToken
-      label: "Dynatrace PaaS token"
-      description: "Your Dynatrace Platform as a Service token - You can generate this token in your Dynatrace environment"
-      default: ""
-      type: string
-      required: true
-      group: "Agent Configuration (REQUIRED)"
-
-      #################### Use custom limits settings ###################
-
-    - variable: use_custom_limits_settings
-      label: "Use custom limits settings"
-      description: "Use custom resource limits for the Dynatrace OneAgent"
-      default: false
-      type: boolean
-      group: "Use custom limits settings"
 
     - variable: oneagent.resources.requests.cpu
       label: "CPU resource request"
       description: "Defines the minimum requested CPU by the OneAgent"
       type: string
       group: "Use custom limits settings"
-      show_if: "use_custom_limits_settings=true"
 
     - variable: oneagent.resources.requests.memory
       label: "Memory resource request"
       description: "Defines the minimum requested memory by the OneAgent"
       type: string
       group: "Use custom limits settings"
-      show_if: "use_custom_limits_settings=true"
 
     - variable: oneagent.resources.limits.cpu
       label: "CPU resource limits"
       description: "Defines the maximum provided CPU for the OneAgent"
       type: string
       group: "Use custom limits settings"
-      show_if: "use_custom_limits_settings=true"
 
     - variable: oneagent.resources.limits.memory
       label: "Memory resource limits"
       description: "Defines the maximum provided memory for the OneAgent"
       type: string
       group: "Use custom limits settings"
-      show_if: "use_custom_limits_settings=true"
 
-    #################### Advanced Agent Configuration (OPTIONAL) ####################
-    - variable: show_advanced_config
-      label: "Show advanced configuration"
-      description: "Show advanced configuration options for the Dynatrace OneAgent Operator"
-      default: false
-      type: boolean
-      group: "Advanced Agent Configuration (OPTIONAL)"
+  #################### Advanced Agent Configuration (OPTIONAL) ####################
+  - variable: show_advanced_config
+    label: "Show advanced configuration"
+    description: "Show advanced configuration options for the Dynatrace OneAgent Operator"
+    default: false
+    type: boolean
+    group: "Advanced Agent Configuration (OPTIONAL)"
+    show_if: "crdApplied=true"
+    show_subquestions_if: true
+    subquestions:
 
     - variable: operator.image
       label: "Custom Operator image location"
@@ -99,14 +103,13 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.name
       label: "OneAgent CustomResource name"
       default: "oneagent"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.disableAgentUpdate
       label: "Disable automatic OneAgent updates"
@@ -114,7 +117,7 @@ questions:
       default: false
       type: boolean
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.dnsPolicy
       label: "Set custom DNS Policy"
@@ -122,7 +125,7 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.enableIstio
       label: "Enable istio"
@@ -130,7 +133,6 @@ questions:
       default: false
       type: boolean
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.image
       label: "Custom OneAgent image location"
@@ -138,7 +140,7 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.skipCertCheck
       label: "Skip certificate check"
@@ -146,7 +148,6 @@ questions:
       default: false
       type: boolean
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.priorityClassName
       label: "Assign priority class to OneAgent pods"
@@ -154,7 +155,7 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.proxy
       label: "Define a proxy"
@@ -162,7 +163,6 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.trustedCAs
       label: "Add custom CA certificates"
@@ -170,7 +170,6 @@ questions:
       default: ""
       type: multiline
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.waitReadySeconds
       label: "Wait seconds until ready"
@@ -178,7 +177,7 @@ questions:
       default: ""
       type: int
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.args
       label: "Arguments to OneAgent installer"
@@ -186,28 +185,28 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.env
       label: "Environment variables for OneAgent"
       description: "Defines additional environment variables which get passed to the OneAgent - Please edit as Yaml for the best experience"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.nodeSelector
       label: "Node selector to control the selection of nodes"
       description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out - Please edit as Yaml for the best experience"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.labels
       label: "Custom labels for the OneAgent pods"
       description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.tolerations
       label: "Custom tolerations for the OneAgent"
@@ -215,7 +214,7 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.networkZone
       label: "Network zone"
@@ -223,7 +222,6 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.useUnprivilegedMode
       label: "Early Adopter: run unprivileged"
@@ -231,7 +229,7 @@ questions:
       default: true
       type: boolean
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
 
     - variable: oneagent.useImmutableImage
       label: "Use immutable OneAgent image"
@@ -239,7 +237,6 @@ questions:
       default: false
       type: boolean
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.agentVersion
       label: "Agent version for immutable image"
@@ -247,7 +244,6 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true"
 
     - variable: oneagent.customPullSecret
       label: "Custom PullSecret for the immutable image"
@@ -255,4 +251,4 @@ questions:
       default: ""
       type: string
       group: "Advanced Agent Configuration (OPTIONAL)"
-      show_if: "show_advanced_config=true && mode=fullstack"
+      show_if: "mode=fullstack"
