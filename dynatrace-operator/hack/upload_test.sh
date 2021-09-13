@@ -16,5 +16,5 @@ if kubectl get Application/dynatrace-operator -n dynatrace &> /dev/null; then
 fi
 
 kubectl create ns dynatrace
-kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
+kubectl apply -f https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/crd/default/bases/dynatrace.com_dynakubes.yaml
 mpdev /scripts/install --deployer=$REGISTRY/$APP_NAME/deployer:$VERSION --parameters='{ "name": "dynatrace-operator","namespace": "dynatrace","apiUrl": "'"${APIURL}"'","apiToken": "'"${APITOKEN}"'","paasToken": "'"${PAASTOKEN}"'"}'
