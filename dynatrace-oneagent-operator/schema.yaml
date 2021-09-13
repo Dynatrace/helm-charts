@@ -123,14 +123,6 @@ properties:
     type: string
     x-google-marketplace:
       type: NAMESPACE
-  mode:
-    type: string
-    description: Either fullstack for full monitoring or apm for application only monitoring
-    title: Monitoring mode
-    default: fullstack
-    enum:
-      - fullstack
-      - apm
   oneagent.apiUrl:
     type: string
     description: The Dynatrace api url including `/api` path at the end
@@ -153,79 +145,11 @@ properties:
     title: "CRD manually applied"
     default: false
 
-  oneagent.name:
-    type: string
-    default: oneagent
-    description: The name of the oneagent custom resource
-    title: Custom Resource Name
-  oneagent.image:
-    type: string
-    description: "The location from where to grab the Dynatrace OneAgent image - default for Kubernetes is docker.io/dynatrace/oneagent"
-    title: Custom OneAgent image location
-  oneagent.skipCertCheck:
-    type: boolean
-    description: "Disable certificate validation checks for installer download and API communication"
-    default: false
-    title: "Skip certificate check"
-  oneagent.disableAgentUpdate:
-    type: boolean
-    description: "Disables automatic restarts of oneagent pods in case a new version is available"
-    default: false
-    title: "Disable automatic OneAgent updates"
-  oneagent.enableIstio:
-    type: boolean
-    description: "When enabled, and if Istio is installed on the Kubernetes environment, then the Operator will create the corresponding VirtualService and ServiceEntries objects to allow access to the Dynatrace cluster from the agent."
-    default: false
-    title: "Enable istio"
-  oneagent.dnsPolicy:
-    type: string
-    description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
-    title: "Set custom DNS Policy"
-  oneagent.waitReadySeconds:
-    type: integer
-    description: "Define the time to wait until OneAgent pod is ready after update - defaults to 300s"
-    title: "Wait seconds until ready"
-  oneagent.priorityClassName:
-    type: string
-    description: "Priority class to assign to OneAgent pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
-    title: "Assign priority class to OneAgent pods"
-  oneagent.proxy:
-    type: string
-    description: "Configures a proxy for the Agent, AgentDownload and the Operator. Either provide the proxy URL directly at 'value' or create a secret with a field 'proxy' which holds your encrypted proxy URL"
-    title: "Define a proxy"
-  oneagent.trustedCAs:
-    type: string
-    description: "Adds the provided CA certificates to the Operator and the OneAgent. Provide the name of the configmap which holds your .pem in a field called 'certs'. If this is not set the default embedded certificates on the images will be used"
-    title: "Add custom CA certificates"
-  oneagent.networkZone:
-    type: string
-    description: "Configures a network zone for your OneAgents"
-    title: "Network zone"
-  oneagent.useUnprivilegedMode:
-    type: boolean
-    description: "Early Adopter: support full-stack OneAgent running on unprivileged mode"
-    title: "Early Adopter: run unprivileged"
-    default: true
-  oneagent.useImmutableImage:
-    type: boolean
-    description: "If set the immutable OneAgent image will be used"
-    title: "Use immutable OneAgent image"
-    default: false
-  oneagent.agentVersion:
-    type: string
-    description: "Defines the agent version used when immutable image is used - defaults to latest"
-    title: "Agent version for immutable image"
-  oneagent.customPullSecret:
-    type: string
-    description: "Defines a custom pull secret for the immutable image in case you have your own registry"
-    title: "Custom PullSecret for the immutable image"
-
   platform:
     type: string
     title: The platform you are deploying on
     description: This should always be set to "google"
     default: google
-
   deployerHelm.image:
     type: string
     x-google-marketplace:
