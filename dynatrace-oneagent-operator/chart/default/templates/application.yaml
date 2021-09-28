@@ -28,7 +28,7 @@ metadata:
 spec:
   descriptor:
     type: "Dynatrace OneAgent Operator"
-    version: "0.10.0"
+    version: "0.10.2"
     maintainers:
       - name: Dynatrace LLC
         url: https://www.dynatrace.com/
@@ -43,14 +43,6 @@ spec:
       The Dynatrace OneAgent Operator allows users to easily deploy full-stack monitoring for [Kubernetes clusters](https://www.dynatrace.com/technologies/kubernetes-monitoring/). The Dynatrace OneAgent automatically monitors workloads in containers down to the code and request level.
 
       For deployment instructions please consult the [Operator Deploy Guide](https://www.dynatrace.com/support/help/shortlink/kubernetes-deploy).
-    links:
-      - description: Dynatrace Website
-        url: https://www.dynatrace.com/
-      - description: Operator Deploy Guide
-        url: https://www.dynatrace.com/support/help/shortlink/kubernetes-deploy
-      - description: Kubernetes Monitoring Info
-        url: https://www.dynatrace.com/technologies/kubernetes-monitoring
-
     links:
       - description: Dynatrace Website
         url: https://www.dynatrace.com/
