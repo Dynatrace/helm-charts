@@ -15,13 +15,15 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.10.1"
+  publishedVersion: "0.10.2"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.10.1
+      v0.10.2
 
       Other changes
-        * Updated the Operator image to rely on the latest ubi-minimal base image
+        * Removed the CustomResourceDefinition from the Helm chart
+        * Removed PodSecurityPolicies since they got removed with Kubernetes 1.22
+        * Updated the apiVersion of the CRD from v1beta1 to v1 since v1beta1 got removed with Kubernetes 1.22
     releaseTypes:
       - BugFix
     recommended: true
