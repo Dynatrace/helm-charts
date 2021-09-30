@@ -1,0 +1,38 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+apiVersion: v2
+appVersion: 0.10.2
+description: The Dynatrace OneAgent Operator Helm chart for Kubernetes and Openshift
+home: https://www.dynatrace.com/
+icon: https://assets.dynatrace.com/global/resources/Signet_Logo_RGB_CP_512x512px.png
+maintainers:
+- - email: marco.mader@dynatrace.com
+  name: DTMad
+- - email: michael.mayr@dynatrace.com
+  name: mmayr-at
+name: dynatrace-oneagent-operator
+sources:
+- - https://github.com/Dynatrace/helm-charts
+type: application
+version: 0.10.2
+
+...
+files:
+  dynatrace-oneagent-operator-0.10.2.tgz: sha256:d9b8854b046242654f65f5ef56bec61eca126bf96e65bf8328773948657be45f
+-----BEGIN PGP SIGNATURE-----
+
+wsFcBAEBCgAQBQJhVAeOCRB0Z15Uz8nJ/gAA4FwQACfk21ooFIbgOY1WmjCAp7pI
+6fI60AAvWOUnI6Cunth7tonRxjQo3MfyKkJ67SYLC8SCJGwO4XGgD0vXOyG5SiTI
+Zesd5wSeqK3/V3eH8EoCa6+2fLsy+v2wsAph5TCfPwWPt8hlhlJiSx+duE56M236
+Stli6vnGdl83Pu62hzJTi4mIlajoPcX8uf7/NL8GHn29ETHQI9gOwuBsMY02HG2p
+DXRLW5d+rz268ZBeG4FP0ULe04kAH5pjwFOwtrsjzqZoFL4QmktH4+sw45NpCbsu
+Y+bmeHkBujFL51KK/+mWkijAQb0UamLAPe9/VC2pYQMstdofuzf+PtfCGPFA3v4K
+jX0C1LXO61PVofdoXbKdMwVZVaVV35RdXY6xD8Oie2ON5S/gGTp/zqEGNQMolrIE
+Kk8fx8d4GBesdkL0zC5yEDLcH0dJT+mjBGPl7RNR9Ru5AZCYATrfDuYmfxEqQKYz
+aRno1kEtdmU8KBc4WPc2Vk+HY//tA0R9JGzwsE8QqtkaW3hlCkxiK7lSTuOoIgoX
+sk5CigfAbhzC9KFGzHOVEAj6M6DucuqjOlSPkCNUNoGh4ceo506+6oFx2QhRtb4E
++gDw689ZBf75sz4tBvJYLiQkXLiOtFjlrGF+Sfzux6UxOyTRQlH6TDWDQLpI7P6y
+aMJV2YVx2x5Sn43JuD/S
+=nqJi
+-----END PGP SIGNATURE-----
