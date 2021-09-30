@@ -14,4 +14,4 @@ jobs:
       - name: Run Changelog CI
         uses: "Dynatrace/dynatrace-operator/actions/changelog-ci@master"
         with: 
-          config_file: "Dynatrace/dynatrace-operator/actions/changelog-ci/changelog-ci-config.json"
+          config_file: "./actions/changelog-ci/changelog-ci-config.json"
