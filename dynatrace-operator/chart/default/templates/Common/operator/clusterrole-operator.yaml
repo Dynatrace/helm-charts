@@ -21,14 +21,22 @@ metadata:
     {{- include "dynatrace-operator.labels" . | nindent 4 }}
 rules:
   - apiGroups:
-      - ""  # "" indicates the core API group
+      - ""
     resources:
       - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
       - namespaces
     verbs:
       - get
       - list
       - watch
+      - update
   - apiGroups:
       - ""
     resources:
@@ -86,4 +94,20 @@ rules:
     verbs:
       - create
       - patch
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    resourceNames:
+      - "dynakubes.dynatrace.com"
+    verbs:
+      - get
+      - update
+  - apiGroups:
+    - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - list
+      - watch
 {{end}}

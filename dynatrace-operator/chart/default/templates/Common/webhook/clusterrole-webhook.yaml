@@ -23,6 +23,14 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
       - namespaces
     verbs:
       - get
@@ -35,4 +43,21 @@ rules:
     verbs:
       - create
       - patch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+  - apiGroups:
+    - ""
+    resources:
+      - secrets
+    resourceNames:
+      - dynatrace-dynakube-config
+    verbs:
+      - get
+      - list
+      - watch
+      - update
 {{end}}
