@@ -59,6 +59,26 @@ Check if default image is used
 {{- end -}}
 {{- end -}}
 
+{{- define "dynatrace-operator.modeSet" -}}
+	{{- $modes := list .Values.cloudNativeFullStack.enabled .Values.classicFullStack.enabled .Values.hostMonitoring.enabled .Values.applicationMonitoring.enabled -}}
+	{{- $enabled := dict -}}
+		{{- range $index, $mode := $modes -}}
+			{{- if $mode -}}
+				{{- $_ := set $enabled ($index|toString) ($mode|toString) -}}
+			{{- end -}}
+		{{- end -}}
+		{{- if (lt (len (keys $enabled)) 2 ) -}}
+			{{- "set" -}}
+		{{- end -}}
+{{- end -}}
+
+{{- define "dynatrace-operator.activeGateModeSet" -}}
+	{{- if not (and (ge (len .Values.activeGate.capabilities) (1)) (or .Values.kubernetesMonitoring.enabled .Values.routing.enabled)) }}
+		{{- "set" -}}
+	{{- end -}}
+{{- end -}}
+
+
 {{/*
 Check if platform is set
 */}}

@@ -41,58 +41,75 @@ createSecurityContextConstraints: true # Only applicable for Openshift
 ### module properties
 
 activeGate:
+  capabilities: []
   image: ""
-
-oneAgent:
-  version: ""
-  image: ""
-  autoUpdate: false
-
-codeModules:
-  enabled: true
-  resources: {}
-  volume: {}
-
-infraMonitoring:
-  enabled: true
+  replicas: 1
+  group: ""
+  customProperties:
+    value: ""
+    valueFrom: ""
+  resources: { }
   nodeSelector: ""
   tolerations: [ ]
-  resources: { }
+  labels: ""
+  env: [ ]
+  tlsSecretName: ""
+
+applicationMonitoring:
+  enabled: false
+  image: ""
+  version: ""
+  useCSIDriver: false
+  initResources: {}
+  namespaceSelector: {}
+
+cloudNativeFullStack:
+  enabled: true
+  version: ""
+  useCSIDriver: false
+  initResources: {}
+  namespaceSelector: {}
+  nodeSelector: ""
+  tolerations: [ ]
+  oneAgentResources: { }
   args: []
   env: []
+  autoUpdate: true
   priorityClassName: ""
   dnsPolicy: ""
-  serviceAccountName: ""
   labels: ""
-  useUnprivilegedMode: true
-  useImmutableImage: false
-  readOnly:
-    enabled: false
-    installationVolume: {}
-    userId: ""
-    groupId: ""
+
+hostMonitoring:
+  enabled: false
+  image: ""
+  version: ""
+  nodeSelector: ""
+  tolerations: [ ]
+  oneAgentResources: { }
+  args: []
+  env: []
+  autoUpdate: true
+  priorityClassName: ""
+  dnsPolicy: ""
+  labels: ""
 
 classicFullStack:
   enabled: false
+  image: ""
+  version: ""
   nodeSelector: ""
   tolerations: [ ]
-  resources: { }
+  oneAgentResources: { }
   args: []
   env: []
+  autoUpdate: true
   priorityClassName: ""
   dnsPolicy: ""
-  serviceAccountName: ""
   labels: ""
-  useUnprivilegedMode: true
-  useImmutableImage: false
-  readOnly:
-    enabled: false
-    installationVolume: {}
-    userId: ""
-    groupId: ""
 
 kubernetesMonitoring:
-  enabled: true
+  enabled: false
+  image: ""
   replicas: 1
   group: ""
   customProperties:
@@ -102,12 +119,11 @@ kubernetesMonitoring:
   nodeSelector: ""
   tolerations: []
   labels: ""
-  args: []
   env: []
-  serviceAccountName: ""
 
 routing:
-  enabled: true
+  enabled: false
+  image: ""
   replicas: 1
   group: ""
   customProperties:
@@ -117,6 +133,4 @@ routing:
   nodeSelector: ""
   tolerations: [ ]
   labels: ""
-  args: [ ]
   env: [ ]
-  serviceAccountName: ""
