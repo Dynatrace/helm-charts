@@ -1,4 +1,4 @@
-suit: test customresource values for classicFullStack spec
+suit: test customresource values for hostMonitoring spec
 templates:
   - Common/customresource-dynakube.yaml
 tests:
@@ -7,10 +7,10 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      classicFullStack.enabled: false
+      hostMonitoring.enabled: false
     asserts:
       - isNull:
-          path: spec.oneAgent.classicFullStack
+          path: spec.oneAgent.hostMonitoring
 
   - it: should exist if enabled
     set:
@@ -18,10 +18,11 @@ tests:
       apiToken: test-token
       paasToken: test-token
       cloudNativeFullStack.enabled: false
-      classicFullStack.enabled: true
+      hostMonitoring.enabled: true
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack
+          path: spec.oneAgent.hostMonitoring
+
 
   - it: should set image
     set:
@@ -29,13 +30,13 @@ tests:
       apiToken: test-token
       paasToken: test-token
       cloudNativeFullStack.enabled: false
-      classicFullStack.enabled: true
-      classicFullStack.image: "test"
+      hostMonitoring.enabled: true
+      hostMonitoring.image: "test"
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack
+          path: spec.oneAgent.hostMonitoring
       - equal:
-          path: spec.oneAgent.classicFullStack.image
+          path: spec.oneAgent.hostMonitoring.image
           value: "test"
 
   - it: should set version
@@ -44,13 +45,13 @@ tests:
       apiToken: test-token
       paasToken: test-token
       cloudNativeFullStack.enabled: false
-      classicFullStack.enabled: true
-      classicFullStack.version: "v.1.2"
+      hostMonitoring.enabled: true
+      hostMonitoring.version: "v.1.2"
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack
+          path: spec.oneAgent.hostMonitoring
       - equal:
-          path: spec.oneAgent.classicFullStack.version
+          path: spec.oneAgent.hostMonitoring.version
           value: "v.1.2"
 
   - it: should set autoUpdate
@@ -59,13 +60,13 @@ tests:
       apiToken: test-token
       paasToken: test-token
       cloudNativeFullStack.enabled: false
-      classicFullStack.enabled: true
-      classicFullStack.autoUpdate: false
+      hostMonitoring.enabled: true
+      hostMonitoring.autoUpdate: false
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack
+          path: spec.oneAgent.hostMonitoring
       - equal:
-          path: spec.oneAgent.classicFullStack.autoUpdate
+          path: spec.oneAgent.hostMonitoring.autoUpdate
           value: false
 
   - it: should set nodeSelectors
@@ -74,15 +75,15 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         nodeSelector:
           disktype: ssd
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.nodeSelector
+          path: spec.oneAgent.hostMonitoring.nodeSelector
       - equal:
-          path: spec.oneAgent.classicFullStack.nodeSelector.disktype
+          path: spec.oneAgent.hostMonitoring.nodeSelector.disktype
           value: ssd
 
   - it: should set tolerations
@@ -91,7 +92,7 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         tolerations:
           - effect: NoSchedule
@@ -99,9 +100,9 @@ tests:
             operator: Exists
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.tolerations
+          path: spec.oneAgent.hostMonitoring.tolerations
       - contains:
-          path: spec.oneAgent.classicFullStack.tolerations
+          path: spec.oneAgent.hostMonitoring.tolerations
           content:
             effect: NoSchedule
             key: node-role.kubernetes.io/master
@@ -114,7 +115,7 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         oneAgentResources:
           requests:
@@ -125,22 +126,22 @@ tests:
             memory: 1Gi
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.oneAgentResources
+          path: spec.oneAgent.hostMonitoring.oneAgentResources
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.oneAgentResources.requests
+          path: spec.oneAgent.hostMonitoring.oneAgentResources.requests
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.oneAgentResources.limits
+          path: spec.oneAgent.hostMonitoring.oneAgentResources.limits
       - equal:
-          path: spec.oneAgent.classicFullStack.oneAgentResources.requests.cpu
+          path: spec.oneAgent.hostMonitoring.oneAgentResources.requests.cpu
           value: 100m
       - equal:
-          path: spec.oneAgent.classicFullStack.oneAgentResources.requests.memory
+          path: spec.oneAgent.hostMonitoring.oneAgentResources.requests.memory
           value: 512Mi
       - equal:
-          path: spec.oneAgent.classicFullStack.oneAgentResources.limits.cpu
+          path: spec.oneAgent.hostMonitoring.oneAgentResources.limits.cpu
           value: 150m
       - equal:
-          path: spec.oneAgent.classicFullStack.oneAgentResources.limits.memory
+          path: spec.oneAgent.hostMonitoring.oneAgentResources.limits.memory
           value: 1Gi
 
   - it: should set args
@@ -149,15 +150,15 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         args:
           test-arg: test-value
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.args
+          path: spec.oneAgent.hostMonitoring.args
       - equal:
-          path: spec.oneAgent.classicFullStack.args.test-arg
+          path: spec.oneAgent.hostMonitoring.args.test-arg
           value: test-value
 
   - it: should set envs
@@ -166,15 +167,15 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         env:
           test-env: test-value
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.env
+          path: spec.oneAgent.hostMonitoring.env
       - equal:
-          path: spec.oneAgent.classicFullStack.env.test-env
+          path: spec.oneAgent.hostMonitoring.env.test-env
           value: test-value
 
   - it: should set priorityClassName
@@ -183,12 +184,12 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         priorityClassName: test-priority-class
     asserts:
       - equal:
-          path: spec.oneAgent.classicFullStack.priorityClassName
+          path: spec.oneAgent.hostMonitoring.priorityClassName
           value: test-priority-class
 
   - it: should set dnsPolicy
@@ -197,12 +198,12 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         dnsPolicy: test-dns-policy
     asserts:
       - equal:
-          path: spec.oneAgent.classicFullStack.dnsPolicy
+          path: spec.oneAgent.hostMonitoring.dnsPolicy
           value: test-dns-policy
 
   - it: should set labels
@@ -211,13 +212,14 @@ tests:
       apiToken: test-api-token
       paasToken: test-paas-token
       cloudNativeFullStack.enabled: false
-      classicFullStack:
+      hostMonitoring:
         enabled: true
         labels:
           test-label: test-value
     asserts:
       - isNotNull:
-          path: spec.oneAgent.classicFullStack.labels
+          path: spec.oneAgent.hostMonitoring.labels
       - equal:
-          path: spec.oneAgent.classicFullStack.labels.test-label
+          path: spec.oneAgent.hostMonitoring.labels.test-label
           value: test-value
+

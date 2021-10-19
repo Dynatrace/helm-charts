@@ -140,9 +140,7 @@ spec:
       priorityClassName: {{ .Values.cloudNativeFullStack.priorityClassName }}
       {{- end }}
 
-      {{- if .Values.cloudNativeFullStack.autoUpdate }}
       autoUpdate: {{.Values.cloudNativeFullStack.autoUpdate}}
-      {{- end }}
 
       {{- if .Values.cloudNativeFullStack.dnsPolicy }}
       dnsPolicy: {{ .Values.cloudNativeFullStack.dnsPolicy }}
@@ -152,9 +150,7 @@ spec:
       labels: {{ .Values.cloudNativeFullStack.labels | toYaml | nindent 8 }}
       {{- end }}
 
-      {{- if .Values.cloudNativeFullStack.useCSIDriver }}
       useCSIDriver: {{.Values.cloudNativeFullStack.useCSIDriver}}
-      {{- end }}
 
       {{- if .Values.cloudNativeFullStack.initResources }}
       initResources: {{ .Values.cloudNativeFullStack.initResources | toYaml | nindent 10 }}
@@ -175,9 +171,7 @@ spec:
       version: {{.Values.applicationMonitoring.version}}
       {{- end }}
 
-      {{- if .Values.applicationMonitoring.useCSIDriver }}
       useCSIDriver: {{.Values.applicationMonitoring.useCSIDriver}}
-      {{- end }}
 
       {{- if .Values.applicationMonitoring.initResources }}
       initResources: {{ .Values.applicationMonitoring.initResources | toYaml | nindent 10 }}
@@ -222,9 +216,7 @@ spec:
       priorityClassName: {{ .Values.hostMonitoring.priorityClassName }}
       {{- end }}
 
-      {{- if .Values.hostMonitoring.autoUpdate }}
       autoUpdate: {{.Values.hostMonitoring.autoUpdate}}
-      {{- end }}
 
       {{- if .Values.hostMonitoring.dnsPolicy }}
       dnsPolicy: {{ .Values.hostMonitoring.dnsPolicy }}
@@ -270,9 +262,7 @@ spec:
       priorityClassName: {{ .Values.classicFullStack.priorityClassName }}
       {{- end }}
 
-      {{- if .Values.classicFullStack.autoUpdate }}
       autoUpdate: {{.Values.classicFullStack.autoUpdate}}
-      {{- end }}
 
       {{- if .Values.classicFullStack.dnsPolicy }}
       dnsPolicy: {{ .Values.classicFullStack.dnsPolicy }}

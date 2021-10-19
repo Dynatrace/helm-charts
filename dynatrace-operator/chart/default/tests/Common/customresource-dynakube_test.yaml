@@ -11,7 +11,7 @@ tests:
       - isKind:
           of: DynaKube
       - isAPIVersion:
-          of: dynatrace.com/v1alpha1
+          of: dynatrace.com/v1beta1
       - equal:
           path: metadata.name
           value: dynakube
@@ -86,7 +86,7 @@ tests:
       - equal:
           path: spec.networkZone
           value: test-network-zone
-  
+
   - it: should add customPullSecret if set
     set:
       apiUrl: test-api-url
@@ -99,19 +99,3 @@ tests:
       - equal:
           path: spec.customPullSecret
           value: test-custom-pull-secret
-
-  - it: should add ActiveGate image if set
-    set:
-      apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
-      activeGate:
-        image: test-image
-    asserts:
-      - isNotNull:
-          path: spec.activeGate
-      - isNotNull:
-          path: spec.activeGate.image
-      - equal:
-          path: spec.activeGate.image
-          value: test-image
