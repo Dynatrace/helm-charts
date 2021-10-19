@@ -150,8 +150,6 @@ spec:
       labels: {{ .Values.cloudNativeFullStack.labels | toYaml | nindent 8 }}
       {{- end }}
 
-      useCSIDriver: {{.Values.cloudNativeFullStack.useCSIDriver}}
-
       {{- if .Values.cloudNativeFullStack.initResources }}
       initResources: {{ .Values.cloudNativeFullStack.initResources | toYaml | nindent 10 }}
       {{- end }}

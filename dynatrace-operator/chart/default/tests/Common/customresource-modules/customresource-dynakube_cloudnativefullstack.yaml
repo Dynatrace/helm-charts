@@ -196,20 +196,6 @@ tests:
           path: spec.oneAgent.cloudNativeFullStack.labels.test-label
           value: test-value
 
-  - it: should set useCSIDriver
-    set:
-      apiUrl: test-url
-      apiToken: test-token
-      paasToken: test-token
-      cloudNativeFullStack.enabled: true
-      cloudNativeFullStack.useCSIDriver: true
-    asserts:
-      - isNotNull:
-          path: spec.oneAgent.cloudNativeFullStack
-      - equal:
-          path: spec.oneAgent.cloudNativeFullStack.useCSIDriver
-          value: true
-
   - it: should set namespaceSelector
     set:
       apiUrl: test-url
