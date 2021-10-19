@@ -59,7 +59,7 @@ seccompProfiles:
 supplementalGroups:
   type: RunAsAny
 users:
-  - system:serviceaccount:dynatrace:dynatrace-dynakube-oneagent-unprivileged
+  - system:serviceaccount:{{ .Release.Namespace }}:dynatrace-dynakube-oneagent-unprivileged
 volumes:
   - "*"
 {{ end }}
