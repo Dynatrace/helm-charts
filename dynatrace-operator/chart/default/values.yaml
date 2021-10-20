@@ -106,6 +106,7 @@ classicFullStack:
   dnsPolicy: ""
   labels: ""
 
+# deprecated
 kubernetesMonitoring:
   enabled: false
   image: ""
@@ -120,6 +121,7 @@ kubernetesMonitoring:
   labels: ""
   env: []
 
+# deprecated
 routing:
   enabled: false
   image: ""
