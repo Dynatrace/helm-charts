@@ -44,7 +44,7 @@ seccompProfiles:
 supplementalGroups:
   type: RunAsAny
 users:
-  - system:serviceaccount:dynatrace:dynatrace-dynakube-oneagent
+  - system:serviceaccount:{{ .Release.Namespace }}:dynatrace-dynakube-oneagent
 volumes:
   - "*"
 {{ end }}

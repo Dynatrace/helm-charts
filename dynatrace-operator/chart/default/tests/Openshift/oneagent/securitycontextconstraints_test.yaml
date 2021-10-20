@@ -86,7 +86,7 @@ tests:
       - equal:
           path: users
           value:
-            - system:serviceaccount:dynatrace:dynatrace-dynakube-oneagent
+            - system:serviceaccount:NAMESPACE:dynatrace-dynakube-oneagent
       - equal:
           path: volumes
           value:

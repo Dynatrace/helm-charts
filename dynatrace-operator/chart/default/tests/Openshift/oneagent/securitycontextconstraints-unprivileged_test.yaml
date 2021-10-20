@@ -102,7 +102,7 @@ tests:
       - equal:
           path: users
           value:
-            - system:serviceaccount:dynatrace:dynatrace-dynakube-oneagent-unprivileged
+            - system:serviceaccount:NAMESPACE:dynatrace-dynakube-oneagent-unprivileged
       - equal:
           path: volumes
           value:
