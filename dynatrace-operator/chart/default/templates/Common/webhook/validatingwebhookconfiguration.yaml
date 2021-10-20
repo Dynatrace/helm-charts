@@ -27,7 +27,7 @@ webhooks:
     clientConfig:
       service:
         name: dynatrace-webhook
-        namespace: dynatrace
+        namespace: {{ .Release.Namespace }}
         path: /validate
     rules:
       - operations:

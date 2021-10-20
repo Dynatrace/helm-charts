@@ -31,7 +31,7 @@ tests:
                 clientConfig:
                   service:
                     name: dynatrace-webhook
-                    namespace: dynatrace
+                    namespace: NAMESPACE
                     path: /inject
                 admissionReviewVersions: [ "v1beta1", "v1" ]
                 sideEffects: None
@@ -48,7 +48,7 @@ tests:
                 clientConfig:
                   service:
                     name: dynatrace-webhook
-                    namespace: dynatrace
+                    namespace: NAMESPACE
                     path: /label-ns
                 admissionReviewVersions: [ "v1beta1", "v1" ]
                 sideEffects: None

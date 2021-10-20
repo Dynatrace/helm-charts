@@ -10,14 +10,13 @@ tests:
       classicFullStack.enabled: false
     asserts:
       - isNull:
-          path: spec.oneAgent.classicFullStack
+          path: spec.oneAgent
 
   - it: should exist if enabled
     set:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
       classicFullStack.enabled: true
     asserts:
       - isNotNull:
@@ -28,7 +27,6 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
       classicFullStack.enabled: true
       classicFullStack.image: "test"
     asserts:
@@ -43,7 +41,6 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
       classicFullStack.enabled: true
       classicFullStack.version: "v.1.2"
     asserts:
@@ -58,7 +55,6 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
       classicFullStack.enabled: true
       classicFullStack.autoUpdate: false
     asserts:
@@ -73,7 +69,6 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
       classicFullStack:
         enabled: true
         nodeSelector:
@@ -90,7 +85,6 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
       classicFullStack:
         enabled: true
         tolerations:
@@ -113,7 +107,6 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
       classicFullStack:
         enabled: true
         oneAgentResources:
@@ -165,7 +158,6 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
       classicFullStack:
         enabled: true
         env:
@@ -182,7 +174,6 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
       classicFullStack:
         enabled: true
         priorityClassName: test-priority-class
@@ -196,7 +187,6 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
       classicFullStack:
         enabled: true
         dnsPolicy: test-dns-policy
@@ -210,7 +200,6 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
       classicFullStack:
         enabled: true
         labels:

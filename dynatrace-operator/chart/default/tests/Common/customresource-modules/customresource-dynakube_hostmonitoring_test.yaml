@@ -17,7 +17,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring.enabled: true
     asserts:
       - isNotNull:
@@ -29,7 +29,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring.enabled: true
       hostMonitoring.image: "test"
     asserts:
@@ -44,7 +44,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring.enabled: true
       hostMonitoring.version: "v.1.2"
     asserts:
@@ -59,7 +59,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring.enabled: true
       hostMonitoring.autoUpdate: false
     asserts:
@@ -74,7 +74,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         nodeSelector:
@@ -91,7 +91,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         tolerations:
@@ -114,7 +114,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         oneAgentResources:
@@ -149,7 +149,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         args:
@@ -166,7 +166,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         env:
@@ -183,7 +183,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         priorityClassName: test-priority-class
@@ -197,7 +197,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         dnsPolicy: test-dns-policy
@@ -211,7 +211,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       hostMonitoring:
         enabled: true
         labels:

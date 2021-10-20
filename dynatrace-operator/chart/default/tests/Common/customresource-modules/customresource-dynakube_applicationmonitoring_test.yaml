@@ -17,7 +17,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       applicationMonitoring.enabled: true
     asserts:
       - isNotNull:
@@ -28,7 +28,7 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       applicationMonitoring:
         enabled: true
         initResources:
@@ -63,7 +63,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       applicationMonitoring.enabled: true
       applicationMonitoring.image: "test"
     asserts:
@@ -78,7 +78,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       applicationMonitoring.enabled: true
       applicationMonitoring.version: "v.1.2"
     asserts:
@@ -93,7 +93,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       applicationMonitoring.enabled: true
       applicationMonitoring.useCSIDriver: true
     asserts:
@@ -108,7 +108,7 @@ tests:
       apiUrl: test-url
       apiToken: test-token
       paasToken: test-token
-      cloudNativeFullStack.enabled: false
+      classicFullStack.enabled: false
       applicationMonitoring:
         enabled: true
         namespaceSelector:

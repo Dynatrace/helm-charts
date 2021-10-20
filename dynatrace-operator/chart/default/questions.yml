@@ -108,17 +108,17 @@ questions:
 
   - variable: cloudNativeFullStack.enabled
     label: "Enable cloud native fullstack monitoring"
-    description: "Enables cloud native fullstack monitoring and rolls out the OneAgent"
+    description: "Enables cloud native fullstack monitoring (beta feature) and rolls out the OneAgent on nodes and injects into pods"
     default: false
     type: boolean
-    group: "Cloud Native Fullstack"
+    group: "Cloud Native Fullstack (Beta)"
     show_if: "crdApplied=yes && classicFullStack.enabled=false && applicationMonitoring.enabled=false && hostMonitoring.enabled=false"
     show_subquestion_if: true
     subquestions:
       - variable: cloudNativeFullStack.image
         label: "Set custom image for the OneAgent"
         description: |
-          Optional: Optional: set a custom image for the OneAgent.
+          Optional: set a custom image for the OneAgent.
         default: ""
         type: string
         show_if: "crdApplied=yes"
@@ -206,6 +206,85 @@ questions:
           - If not set all none-system namespace will be injected into.
         type: string
         show_if: "crdApplied=yes"
+
+  #################### ClassicFullStack (OPTIONAL) ####################
+
+  - variable: classicFullStack.enabled
+    label: "Enable classic fullstack monitoring"
+    description: "Enables classic fullstack monitoring and rolls out the OneAgent"
+    default: false
+    type: boolean
+    group: "Classic FullStack"
+    show_if: "crdApplied=yes && hostMonitoring.enabled=false && applicationMonitoring.enabled=false && cloudNativeFullStack.enabled=false"
+    show_subquestion_if: true
+    subquestions:
+      - variable: classicFullStack.image
+        label: "Set custom image for the OneAgent"
+        description: |
+          Optional: Optional: set a custom image for the OneAgent.
+        default: ""
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.version
+        label: "Set version for the OneAgent"
+        description: "Optional: set a version for the OneAgent"
+        default: ""
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.autoUpdate
+        label: "Auto update the OneAgent "
+        description: "Optional: when enabled, the OneAgent will be auto updated."
+        default: true
+        type: boolean
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.nodeSelector
+        label: "Node selector to control the selection of nodes"
+        description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out - Please edit as Yaml for the best experience"
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.tolerations
+        label: "Custom tolerations for the OneAgent"
+        description: "Defines custom tolerations to the OneAgent - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
+        default: ""
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.args
+        label: "Arguments to OneAgent installer"
+        description: "Defines additional arguments which get passed to the OneAgent installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
+        default: ""
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.env
+        label: "Environment variables for OneAgent"
+        description: "Defines additional environment variables which get passed to the OneAgent - Please edit as Yaml for the best experience"
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.priorityClassName
+        label: "Assign priority class to OneAgent pods"
+        description: "Priority class to assign to OneAgent pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
+        default: ""
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.dnsPolicy
+        label: "Set custom DNS Policy"
+        description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
+        default: ""
+        type: string
+        show_if: "crdApplied=yes"
+      - variable: classicFullStack.labels
+        label: "Custom labels for the OneAgent pods"
+        description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
+        type: multiline
+        show_if: "crdApplied=yes"
+      - variable: hostMonitoring.oneAgentResources
+        label: "resource settings for host monitoring pods"
+        description: |
+          Optional: resource settings for OneAgent container.
+          Consumption of the OneAgent heavily depends on the workload to monitor - adjust values accordingly.
+          - Please edit as Yaml for the best experience
+        type: string
+        show_if: "crdApplied=yes"
+
 
   #################### Application Monitoring (OPTIONAL) ####################
 
@@ -331,84 +410,6 @@ questions:
         label: "Custom labels for the OneAgent pods"
         description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
         type: multiline
-        show_if: "crdApplied=yes"
-
-  #################### ClassicFullStack (OPTIONAL) ####################
-
-  - variable: classicFullStack.enabled
-    label: "Enable classic fullstack monitoring"
-    description: "Enables classic fullstack monitoring and rolls out the OneAgent"
-    default: false
-    type: boolean
-    group: "Classic FullStack"
-    show_if: "crdApplied=yes && hostMonitoring.enabled=false && applicationMonitoring.enabled=false && cloudNativeFullStack.enabled=false"
-    show_subquestion_if: true
-    subquestions:
-      - variable: classicFullStack.image
-        label: "Set custom image for the OneAgent"
-        description: |
-          Optional: Optional: set a custom image for the OneAgent.
-        default: ""
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.version
-        label: "Set version for the OneAgent"
-        description: "Optional: set a version for the OneAgent"
-        default: ""
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.autoUpdate
-        label: "Auto update the OneAgent "
-        description: "Optional: when enabled, the OneAgent will be auto updated."
-        default: true
-        type: boolean
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.nodeSelector
-        label: "Node selector to control the selection of nodes"
-        description: "Defines a NodeSelector to customize to which nodes the OneAgent will be rolled out - Please edit as Yaml for the best experience"
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.tolerations
-        label: "Custom tolerations for the OneAgent"
-        description: "Defines custom tolerations to the OneAgent - Please edit as Yaml for the best experience - see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/"
-        default: ""
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.args
-        label: "Arguments to OneAgent installer"
-        description: "Defines additional arguments which get passed to the OneAgent installer - Please edit as Yaml for the best experience. The expected format is YAML and not a string"
-        default: ""
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.env
-        label: "Environment variables for OneAgent"
-        description: "Defines additional environment variables which get passed to the OneAgent - Please edit as Yaml for the best experience"
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.priorityClassName
-        label: "Assign priority class to OneAgent pods"
-        description: "Priority class to assign to OneAgent pods, more at https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/"
-        default: ""
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.dnsPolicy
-        label: "Set custom DNS Policy"
-        description: "DNS Policy for OneAgent pods. Empty for default (ClusterFirst), more at https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy"
-        default: ""
-        type: string
-        show_if: "crdApplied=yes"
-      - variable: classicFullStack.labels
-        label: "Custom labels for the OneAgent pods"
-        description: "Defines labels for OneAgent pods to structure workloads as desired - Please edit as Yaml for the best experience"
-        type: multiline
-        show_if: "crdApplied=yes"
-      - variable: hostMonitoring.oneAgentResources
-        label: "resource settings for host monitoring pods"
-        description: |
-          Optional: resource settings for OneAgent container.
-          Consumption of the OneAgent heavily depends on the workload to monitor - adjust values accordingly.
-          - Please edit as Yaml for the best experience
-        type: string
         show_if: "crdApplied=yes"
 
   #################### ActiveGate (OPTIONAL) ####################
