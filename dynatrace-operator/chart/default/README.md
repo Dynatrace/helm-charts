@@ -32,7 +32,7 @@ To install the Dynatrace Operator via Helm run the following command:
 
 ### Adding Dynatrace Helm repository
 ```
-$ helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/helm-charts/master/repos/stable
+helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/helm-charts/master/repos/stable
 ```
 
 ### Prepare tokens
@@ -46,24 +46,24 @@ https://www.dynatrace.com/support/help/reference/dynatrace-concepts/why-do-i-nee
 To install the Dynatrace Operator first create the dynatrace namespace, apply the latest CRD from [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases/latest) and replace the APIUrl, the API token and the PaaS token in command and execute it
 
 #### Kubernetes
-```
-$ kubectl create namespace dynatrace
-$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
-$ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
+```console
+kubectl create namespace dynatrace
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
+helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 #### OpenShift
-```
-$ oc adm new-project --node-selector="" dynatrace
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
-$ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
+```console
+oc adm new-project --node-selector="" dynatrace
+oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
+helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 #### OpenShift 3.11
-```
-$ oc adm new-project --node-selector="" dynatrace
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
-$ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift-3-11",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
+```console
+oc adm new-project --node-selector="" dynatrace
+oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
+helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift-3-11",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 This will automatically install the Dynatrace Operator and create a containerized ActiveGate.
@@ -72,35 +72,67 @@ This will automatically install the Dynatrace Operator and create a containerize
 
 To update simply update your helm repositories and check the latest version
 
-```
-$ helm repo update
+```console
+helm repo update
 ```
 
 You can then check for the latest version by searching your Helm repositories for the Dynatrace Operator
 
-```
-$ helm search repo dynatrace-operator
+```console
+helm search repo dynatrace-operator
 ```
 
 To update to the latest version apply the latest version of the CRD attached to [the latest release](https://github.com/Dynatrace/dynatrace-operator/releases/latest) and run this command.
-Do not forget to add the `reuse-values` flag to keep your configuration
+
+### Update between 0.2.3 and 0.3.0
+In version 0.3.0 the CRD changed significantly, so the values.yaml changed to remain consistent with it.
+You can use the `--reuse-values` flag in conjunction with `-f override.yaml` where the fields in the `override.yaml` will overwrite/append the fields that changed.
+
+Here is an example `override.yaml` with all the changes: (several new sections were added, however we don't have to worry about those during the upgrade)
+```yaml
+# override.yaml
+
+classicFullStack:
+
+  # moved from oneAgent.version
+  version: <some-version>
+
+  # moved from oneAgent.image
+  image: <some-image>
+
+  # moved from oneAgent.autoUpdate
+  autoUpdate: <true/false>
+
+  # renamed from classicFullStack.resources
+  oneAgentResources: <some-resources>
+
+kubernetesMonitoring:
+
+  # moved from activeGate.image
+  image: <some-image>
+
+routing:
+
+  # moved from activeGate.image
+  image: <some-image>
+```
 
 ##### Kubernetes
-```
-$ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
-$ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
+```console
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
+helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
 ```
 
 ##### OpenShift
-```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
-$ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
+```console
+oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
+helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
 ```
 
 ##### OpenShift 3.11
-```
-$ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
-$ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
+```console
+oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
+helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --reuse-values
 ```
 
 
@@ -108,8 +140,8 @@ $ helm upgrade dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --re
 Remove DynaKube custom resources and clean-up all remaining Dynatrace Operator specific objects:
 
 
-```sh
-$ helm uninstall dynatrace-operator -n dynatrace
+```console
+helm uninstall dynatrace-operator -n dynatrace
 ```
 
 ## License
