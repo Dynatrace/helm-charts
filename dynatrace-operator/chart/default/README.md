@@ -66,7 +66,7 @@ oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/down
 helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift-3-11",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
-This will automatically install the Dynatrace Operator and create a containerized ActiveGate.
+This will automatically install the Dynatrace Operator, create a containerized ActiveGate and deploy classicFullStack OneAgents.
 
 ## Update procedure
 
