@@ -58,6 +58,7 @@ spec:
   {{- end }}
 
   {{- if .Values.activeGate }}
+  {{- if .Values.activeGate.capabilities }}
   {{- if ge (len .Values.activeGate.capabilities) 1 }}
   activeGate:
 
@@ -108,6 +109,7 @@ spec:
       valueFrom: {{ .Values.activeGate.customProperties.valueFrom }}
       {{- end }}
     {{- end }}
+  {{- end }}
   {{- end }}
   {{- end }}
 

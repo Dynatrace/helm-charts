@@ -77,8 +77,10 @@ Check if default image is used
 {{- define "dynatrace-operator.activeGateModeSet" -}}
     {{- $enabled := dict -}}
 	{{- if .Values.activeGate }}
+	{{- if .Values.activeGate.capabilities }}
 	{{- if ge (len .Values.activeGate.capabilities) 1 }}
 		{{- $_ := set $enabled "new" "true" -}}
+	{{- end -}}
 	{{- end -}}
 	{{- end -}}
 	{{- if or .Values.kubernetesMonitoring.enabled .Values.routing.enabled }}
