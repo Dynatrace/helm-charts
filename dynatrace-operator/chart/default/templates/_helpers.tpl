@@ -60,11 +60,13 @@ Check if default image is used
 {{- end -}}
 
 {{- define "dynatrace-operator.modeSet" -}}
-	{{- $modes := list .Values.cloudNativeFullStack.enabled .Values.classicFullStack.enabled .Values.hostMonitoring.enabled .Values.applicationMonitoring.enabled -}}
+	{{- $modes := list .Values.cloudNativeFullStack .Values.classicFullStack .Values.hostMonitoring .Values.applicationMonitoring -}}
 	{{- $enabled := dict -}}
 		{{- range $index, $mode := $modes -}}
 			{{- if $mode -}}
+			{{- if $mode.enabled -}}
 				{{- $_ := set $enabled ($index|toString) ($mode|toString) -}}
+			{{- end -}}
 			{{- end -}}
 		{{- end -}}
 		{{- if (lt (len (keys $enabled)) 2 ) -}}
@@ -73,9 +75,18 @@ Check if default image is used
 {{- end -}}
 
 {{- define "dynatrace-operator.activeGateModeSet" -}}
-	{{- if not (and (ge (len .Values.activeGate.capabilities) (1)) (or .Values.kubernetesMonitoring.enabled .Values.routing.enabled)) }}
-		{{- "set" -}}
+    {{- $enabled := dict -}}
+	{{- if .Values.activeGate }}
+	{{- if ge (len .Values.activeGate.capabilities) 1 }}
+		{{- $_ := set $enabled "new" "true" -}}
 	{{- end -}}
+	{{- end -}}
+	{{- if or .Values.kubernetesMonitoring.enabled .Values.routing.enabled }}
+		{{- $_ := set $enabled "old" "true" -}}
+	{{- end -}}
+	{{- if (lt (len (keys $enabled)) 2 ) -}}
+			{{- "set" -}}
+		{{- end -}}
 {{- end -}}
 
 
