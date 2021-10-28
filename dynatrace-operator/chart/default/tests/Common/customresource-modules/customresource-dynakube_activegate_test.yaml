@@ -1,68 +1,43 @@
-suite: test dynakube customresource with routing
+suite: test dynakube customresource
 templates:
   - Common/customresource-dynakube.yaml
 tests:
-  - it: shoud not exist if disabled
+  - it: should set capabilities
     set:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: false
-    asserts:
-      - isNull:
-          path: spec.routing
-
-  - it: should add routing if set
-    set:
-      apiUrl: test-api-url
-      apiToken: test-api-token
-      paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
     asserts:
       - isNotNull:
-          path: spec.routing
-      - isNotNull:
-          path: spec.routing.enabled
+          path: spec.activeGate
       - equal:
-          path: spec.routing.enabled
-          value: true
-      - isNotNull:
-          path: spec.routing.replicas
-      - equal:
-          path: spec.routing.replicas
-          value: 1
-      - isNull:
-          path: spec.routing.image
-      - isNull:
-          path: spec.routing.resources
-      - isNull:
-          path: spec.routing.labels
-      - isNull:
-          path: spec.routing.args
-      - isNull:
-          path: spec.routing.env
-      - isNull:
-          path: spec.routing.group
-      - isNull:
-          path: spec.routing.customProperties
+          path: spec.activeGate.capabilities
+          value:
+            - kubernetes-monitoring
+            - routing
+            - data-ingest
 
   - it: should set image if set
     set:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         image: test-image
     asserts:
       - isNotNull:
-          path: spec.routing
-      - isNotNull:
-          path: spec.routing.image
+          path: spec.activeGate.image
       - equal:
-          path: spec.routing.image
+          path: spec.activeGate.image
           value: test-image
 
   - it: should manipulate routing replicas if set and enabled
@@ -70,14 +45,17 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         replicas: 3
     asserts:
       - isNotNull:
-          path: spec.routing.replicas
+          path: spec.activeGate.replicas
       - equal:
-          path: spec.routing.replicas
+          path: spec.activeGate.replicas
           value: 3
 
   - it: "should add routing group if set and enabled"
@@ -85,14 +63,17 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         group: test-group
     asserts:
       - isNotNull:
-          path: spec.routing.group
+          path: spec.activeGate.group
       - equal:
-          path: spec.routing.group
+          path: spec.activeGate.group
           value: test-group
 
   - it: "should add routing customProperties value if set and enabled"
@@ -100,17 +81,20 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         customProperties:
           value: test-value
     asserts:
       - isNotNull:
-          path: spec.routing.customProperties
+          path: spec.activeGate.customProperties
       - isNull:
-          path: spec.routing.customProperties.valueFrom
+          path: spec.activeGate.customProperties.valueFrom
       - equal:
-          path: spec.routing.customProperties.value
+          path: spec.activeGate.customProperties.value
           value: test-value
 
   - it: "should add routing customProperties valueFrom if set and enabled"
@@ -118,17 +102,20 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         customProperties:
           valueFrom: test-value
     asserts:
       - isNotNull:
-          path: spec.routing.customProperties
+          path: spec.activeGate.customProperties
       - isNull:
-          path: spec.routing.customProperties.value
+          path: spec.activeGate.customProperties.value
       - equal:
-          path: spec.routing.customProperties.valueFrom
+          path: spec.activeGate.customProperties.valueFrom
           value: test-value
 
   - it: "should add routing routing value if value and valueFrom are set"
@@ -136,18 +123,21 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         customProperties:
           value: test-value
           valueFrom: test-value-from
     asserts:
       - isNotNull:
-          path: spec.routing.customProperties
+          path: spec.activeGate.customProperties
       - isNull:
-          path: spec.routing.customProperties.valueFrom
+          path: spec.activeGate.customProperties.valueFrom
       - equal:
-          path: spec.routing.customProperties.value
+          path: spec.activeGate.customProperties.value
           value: test-value
 
   - it: "should add routing resource if set and enabled"
@@ -155,8 +145,11 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         resources:
           requests:
             cpu: 100m
@@ -166,22 +159,22 @@ tests:
             memory: 1Gi
     asserts:
       - isNotNull:
-          path: spec.routing.resources
+          path: spec.activeGate.resources
       - isNotNull:
-          path: spec.routing.resources.requests
+          path: spec.activeGate.resources.requests
       - isNotNull:
-          path: spec.routing.resources.limits
+          path: spec.activeGate.resources.limits
       - equal:
-          path: spec.routing.resources.requests.cpu
+          path: spec.activeGate.resources.requests.cpu
           value: 100m
       - equal:
-          path: spec.routing.resources.requests.memory
+          path: spec.activeGate.resources.requests.memory
           value: 512Mi
       - equal:
-          path: spec.routing.resources.limits.cpu
+          path: spec.activeGate.resources.limits.cpu
           value: 150m
       - equal:
-          path: spec.routing.resources.limits.memory
+          path: spec.activeGate.resources.limits.memory
           value: 1Gi
 
   - it: "should add routing nodeSelector if set and enabled"
@@ -189,15 +182,18 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         nodeSelector:
           disktype: ssd
     asserts:
       - isNotNull:
-          path: spec.routing.nodeSelector
+          path: spec.activeGate.nodeSelector
       - equal:
-          path: spec.routing.nodeSelector.disktype
+          path: spec.activeGate.nodeSelector.disktype
           value: ssd
 
   - it: "should add routing tolerations if set and enabled"
@@ -205,17 +201,20 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         tolerations:
           - effect: NoSchedule
             key: node-role.kubernetes.io/master
             operator: Exists
     asserts:
       - isNotNull:
-          path: spec.routing.tolerations
+          path: spec.activeGate.tolerations
       - contains:
-          path: spec.routing.tolerations
+          path: spec.activeGate.tolerations
           content:
             effect: NoSchedule
             key: node-role.kubernetes.io/master
@@ -227,15 +226,18 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         labels:
           test-label: test-value
     asserts:
       - isNotNull:
-          path: spec.routing.labels
+          path: spec.activeGate.labels
       - equal:
-          path: spec.routing.labels.test-label
+          path: spec.activeGate.labels.test-label
           value: test-value
 
   - it: "should add routing env if set and enabled"
@@ -243,14 +245,17 @@ tests:
       apiUrl: test-api-url
       apiToken: test-api-token
       paasToken: test-paas-token
-      routing:
-        enabled: true
+      activeGate:
+        capabilities:
+          - kubernetes-monitoring
+          - routing
+          - data-ingest
         env:
           test-env: test-value
     asserts:
       - isNotNull:
-          path: spec.routing.env
+          path: spec.activeGate.env
       - equal:
-          path: spec.routing.env.test-env
+          path: spec.activeGate.env.test-env
           value: test-value
 

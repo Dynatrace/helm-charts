@@ -83,11 +83,11 @@ spec:
               path: /healthz
               port: server-port
               scheme: HTTPS
-            initialDelaySeconds: 60
-            periodSeconds: 10
           ports:
             - name: metrics
               containerPort: 8383
+            - name: validation
+              containerPort: 8384
             - name: server-port
               containerPort: 8443
           resources:

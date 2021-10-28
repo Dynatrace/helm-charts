@@ -13,13 +13,15 @@
 # limitations under the License.
 
 {{- $platformIsSet := printf "%s" (required "Platform needs to be set to kubernetes, openshift, google, or openshift-3-11" (include "dynatrace-operator.platformSet" .))}}
+{{- $modeSet := printf "%s" (required "Only one onagent mode can be used per dynakube." (include "dynatrace-operator.modeSet" .))}}
+{{- $activeGateModeSet := printf "%s" (required "Deprecated activeGate mode and the new activaGate mode can't be used at the same time." (include "dynatrace-operator.activeGateModeSet" .))}}
 {{- if .Values.apiUrl }}
-apiVersion: dynatrace.com/v1alpha1
+apiVersion: dynatrace.com/v1beta1
 kind: DynaKube
 metadata:
   annotations:
     {{- if ne .Values.platform "google"}}
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install,post-upgrade
     {{ end }}
   name: {{ .Values.name }}
   namespace: {{ .Release.Namespace }}
@@ -55,169 +57,255 @@ spec:
   enableIstio: {{ .Values.enableIstio }}
   {{- end }}
 
-  {{- if .Values.activeGate.image}}
+  {{- if .Values.activeGate }}
+  {{- if .Values.activeGate.capabilities }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+  {{- if ge (len .Values.activeGate.capabilities) 1 }}
   activeGate:
-    {{- if .Values.activeGate.image}}
-    image: {{ .Values.activeGate.image }}
-    {{- end}}
-  {{- end}}
+
+    capabilities: {{ .Values.activeGate.capabilities | toYaml | nindent 8 }}
+
+    {{- if .Values.activeGate.image }}
+    image: {{.Values.activeGate.image}}
+    {{- end }}
+
+    {{- if .Values.activeGate.tlsSecretName }}
+    tlsSecretName: {{.Values.activeGate.tlsSecretName}}
+    {{- end }}
+
+    {{- if .Values.activeGate.replicas }}
+    replicas: {{ .Values.activeGate.replicas }}
+    {{- end }}
+
+    {{- if .Values.activeGate.tolerations }}
+    tolerations: {{ .Values.activeGate.tolerations | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.activeGate.nodeSelector }}
+    nodeSelector: {{ .Values.activeGate.nodeSelector | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.activeGate.resources }}
+    resources: {{ .Values.activeGate.resources | toYaml | nindent 8}}
+    {{- end }}
+
+    {{- if .Values.activeGate.labels }}
+    labels: {{ .Values.activeGate.labels | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if and (.Values.activeGate.env) (ge (len .Values.activeGate.env) (1))}}
+    env: {{ .Values.activeGate.env | toYaml | nindent 8 }}
+    {{- end }}
+
+    {{- if .Values.activeGate.group }}
+    group: {{ .Values.activeGate.group }}
+    {{- end }}
+
+    {{- if .Values.activeGate.customProperties }}
+      {{- if .Values.activeGate.customProperties.value }}
+    customProperties:
+      value: {{ .Values.activeGate.customProperties.value }}
+      {{- else if .Values.activeGate.customProperties.valueFrom }}
+    customProperties:
+      valueFrom: {{ .Values.activeGate.customProperties.valueFrom }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
 
   oneAgent:
-    {{- if .Values.oneAgent.image }}
-    image: {{ .Values.oneAgent.image }}
-    {{- end }}
-    autoUpdate: {{ .Values.oneAgent.autoUpdate }}
-    {{- if .Values.oneAgent.version }}
-    version: {{ .Values.oneAgent.version }}
-    {{- end }}
-
-  {{- if .Values.codeModules.enabled }}
-  codeModules:
-    enabled: true
-
-    {{- if .Values.codeModules.resources }}
-    resources: {{ .Values.codeModules.resources | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if .Values.codeModules.volume }}
-    volume: {{ .Values.codeModules.volume | toYaml | nindent 8 }}
-    {{- end }}
-  {{- end }}
-
-  {{- if .Values.infraMonitoring.enabled }}
-  infraMonitoring:
-    enabled: true
-
-    {{- if .Values.infraMonitoring.nodeSelector }}
-    nodeSelector: {{ .Values.infraMonitoring.nodeSelector | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if .Values.infraMonitoring.tolerations }}
-    tolerations: {{ .Values.infraMonitoring.tolerations | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if .Values.infraMonitoring.resources }}
-    resources: {{ .Values.infraMonitoring.resources | toYaml | nindent 8}}
-    {{- end }}
-
-    {{- if and (.Values.infraMonitoring.args) (ge (len .Values.infraMonitoring.args) (1))}}
-    args: {{ .Values.infraMonitoring.args | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if and (.Values.infraMonitoring.env) (ge (len .Values.infraMonitoring.env) (1))}}
-    env: {{ .Values.infraMonitoring.env | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if .Values.infraMonitoring.priorityClassName }}
-    priorityClassName: {{ .Values.infraMonitoring.priorityClassName }}
-    {{- end }}
-
-    {{- if .Values.infraMonitoring.dnsPolicy }}
-    dnsPolicy: {{ .Values.infraMonitoring.dnsPolicy }}
-    {{- end }}
-
-    {{- if .Values.infraMonitoring.serviceAccountName }}
-    serviceAccountName: {{ .Values.infraMonitoring.serviceAccountName }}
-    {{- end }}
-
-    {{- if .Values.infraMonitoring.labels }}
-    labels: {{ .Values.infraMonitoring.labels | toYaml | nindent 8 }}
-    {{- end }}
-
-    useUnprivilegedMode: {{ .Values.infraMonitoring.useUnprivilegedMode }}
-
-    useImmutableImage: {{ .Values.infraMonitoring.useImmutableImage }}
-
-    {{- if .Values.infraMonitoring.readOnly.enabled }}
-    readOnly:
-      enabled: true
-
-      {{- if .Values.readOnly.installationVolume }}
-      installationVolume: {{ .Values.readOnly.installationVolume | toYaml | nindent 8 }}
+    {{- if .Values.cloudNativeFullStack }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+    {{- if.Values.cloudNativeFullStack.enabled }}
+    cloudNativeFullStack:
+      {{- if .Values.cloudNativeFullStack.version }}
+      version: {{.Values.cloudNativeFullStack.version}}
       {{- end }}
 
-      {{- if .Values.readOnly.userId }}
-      userId: {{ .Values.readOnly.userId }}
+      {{- if .Values.cloudNativeFullStack.nodeSelector }}
+      nodeSelector: {{ .Values.cloudNativeFullStack.nodeSelector | toYaml | nindent 10 }}
       {{- end }}
 
-      {{- if .Values.readOnly.groupId }}
-      groupId: {{ .Values.readOnly.groupId }}
+      {{- if .Values.cloudNativeFullStack.tolerations }}
+      tolerations: {{ .Values.cloudNativeFullStack.tolerations | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.cloudNativeFullStack.oneAgentResources }}
+      oneAgentResources: {{ .Values.cloudNativeFullStack.oneAgentResources | toYaml | nindent 10}}
+      {{- end }}
+
+      {{- if and (.Values.cloudNativeFullStack.args) (ge (len .Values.cloudNativeFullStack.args) (1))}}
+      args: {{ .Values.cloudNativeFullStack.args | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if and (.Values.cloudNativeFullStack.env) (ge (len .Values.cloudNativeFullStack.env) (1))}}
+      env: {{ .Values.cloudNativeFullStack.env | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.cloudNativeFullStack.priorityClassName }}
+      priorityClassName: {{ .Values.cloudNativeFullStack.priorityClassName }}
+      {{- end }}
+
+      autoUpdate: {{.Values.cloudNativeFullStack.autoUpdate}}
+
+      {{- if .Values.cloudNativeFullStack.dnsPolicy }}
+      dnsPolicy: {{ .Values.cloudNativeFullStack.dnsPolicy }}
+      {{- end }}
+
+      {{- if .Values.cloudNativeFullStack.labels }}
+      labels: {{ .Values.cloudNativeFullStack.labels | toYaml | nindent 8 }}
+      {{- end }}
+
+      {{- if .Values.cloudNativeFullStack.initResources }}
+      initResources: {{ .Values.cloudNativeFullStack.initResources | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.cloudNativeFullStack.namespaceSelector }}
+      namespaceSelector: {{ .Values.cloudNativeFullStack.namespaceSelector | toYaml | nindent 10 }}
       {{- end }}
     {{- end }}
-  {{- end }}
+    {{- end }}
+
+    {{- if .Values.applicationMonitoring }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+    {{- if .Values.applicationMonitoring.enabled }}
+    applicationMonitoring:
+      {{- if .Values.applicationMonitoring.image }}
+      image: {{.Values.applicationMonitoring.image}}
+      {{- end }}
+
+      {{- if .Values.applicationMonitoring.version }}
+      version: {{.Values.applicationMonitoring.version}}
+      {{- end }}
+
+      useCSIDriver: {{.Values.applicationMonitoring.useCSIDriver}}
+
+      {{- if .Values.applicationMonitoring.initResources }}
+      initResources: {{ .Values.applicationMonitoring.initResources | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.applicationMonitoring.namespaceSelector }}
+      namespaceSelector: {{ .Values.applicationMonitoring.namespaceSelector | toYaml | nindent 10 }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
+
+    {{- if .Values.hostMonitoring }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+    {{- if .Values.hostMonitoring.enabled }}
+    hostMonitoring:
+      {{- if .Values.hostMonitoring.image }}
+      image: {{.Values.hostMonitoring.image}}
+      {{- end }}
+
+      {{- if .Values.hostMonitoring.version }}
+      version: {{.Values.hostMonitoring.version}}
+      {{- end }}
+
+      {{- if .Values.hostMonitoring.nodeSelector }}
+      nodeSelector: {{ .Values.hostMonitoring.nodeSelector | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.hostMonitoring.tolerations }}
+      tolerations: {{ .Values.hostMonitoring.tolerations | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.hostMonitoring.oneAgentResources }}
+      oneAgentResources: {{ .Values.hostMonitoring.oneAgentResources | toYaml | nindent 10}}
+      {{- end }}
+
+      {{- if and (.Values.hostMonitoring.args) (ge (len .Values.hostMonitoring.args) (1))}}
+      args: {{ .Values.hostMonitoring.args | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if and (.Values.hostMonitoring.env) (ge (len .Values.hostMonitoring.env) (1))}}
+      env: {{ .Values.hostMonitoring.env | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.hostMonitoring.priorityClassName }}
+      priorityClassName: {{ .Values.hostMonitoring.priorityClassName }}
+      {{- end }}
+
+      autoUpdate: {{.Values.hostMonitoring.autoUpdate}}
+
+      {{- if .Values.hostMonitoring.dnsPolicy }}
+      dnsPolicy: {{ .Values.hostMonitoring.dnsPolicy }}
+      {{- end }}
+
+      {{- if .Values.hostMonitoring.labels }}
+      labels: {{ .Values.hostMonitoring.labels | toYaml | nindent 8 }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
 
   {{- if .Values.classicFullStack.enabled }}
-  classicFullStack:
-    enabled: true
+    classicFullStack:
 
-    {{- if .Values.classicFullStack.nodeSelector }}
-    nodeSelector: {{ .Values.classicFullStack.nodeSelector | toYaml | nindent 8 }}
-    {{- end }}
+      {{ if .Values.oneAgent }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+      image: {{.Values.oneAgent.image | default "" | quote}}
+      {{ else if .Values.classicFullStack.image }}
+      image: {{.Values.classicFullStack.image}}
+      {{ end }}
 
-    {{- if .Values.classicFullStack.tolerations }}
-    tolerations: {{ .Values.classicFullStack.tolerations | toYaml | nindent 8 }}
-    {{- end }}
+      {{ if .Values.oneAgent}} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+      version: {{.Values.oneAgent.version | default "" | quote}}
+      {{ else if .Values.classicFullStack.version }}
+      version: {{.Values.classicFullStack.version}}
+      {{ end }}
 
-    {{- if .Values.classicFullStack.resources }}
-    resources: {{ .Values.classicFullStack.resources | toYaml | nindent 8}}
-    {{- end }}
-
-    {{- if and (.Values.classicFullStack.args) (ge (len .Values.classicFullStack.args) (1))}}
-    args: {{ .Values.classicFullStack.args | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if and (.Values.classicFullStack.env) (ge (len .Values.classicFullStack.env) (1))}}
-    env: {{ .Values.classicFullStack.env | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if .Values.classicFullStack.priorityClassName }}
-    priorityClassName: {{ .Values.classicFullStack.priorityClassName }}
-    {{- end }}
-
-    {{- if .Values.classicFullStack.dnsPolicy }}
-    dnsPolicy: {{ .Values.classicFullStack.dnsPolicy }}
-    {{- end }}
-
-    {{- if .Values.classicFullStack.serviceAccountName }}
-    serviceAccountName: {{ .Values.classicFullStack.serviceAccountName }}
-    {{- end }}
-
-    {{- if .Values.classicFullStack.labels }}
-    labels: {{ .Values.classicFullStack.labels | toYaml | nindent 8 }}
-    {{- end }}
-
-    useUnprivilegedMode: {{ .Values.classicFullStack.useUnprivilegedMode }}
-
-    useImmutableImage: {{ .Values.classicFullStack.useImmutableImage }}
-
-    {{- if .Values.classicFullStack.readOnly.enabled }}
-    readOnly:
-      enabled: true
-
-      {{- if .Values.readOnly.installationVolume }}
-      installationVolume: {{ .Values.readOnly.installationVolume | toYaml | nindent 8 }}
+      {{- if .Values.classicFullStack.nodeSelector }}
+      nodeSelector: {{ .Values.classicFullStack.nodeSelector | toYaml | nindent 10 }}
       {{- end }}
 
-      {{- if .Values.readOnly.userId }}
-      userId: {{ .Values.readOnly.userId }}
+      {{- if .Values.classicFullStack.tolerations }}
+      tolerations: {{ .Values.classicFullStack.tolerations | toYaml | nindent 10 }}
       {{- end }}
 
-      {{- if .Values.readOnly.groupId }}
-      groupId: {{ .Values.readOnly.groupId }}
+      {{ if .Values.classicFullStack.resources }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+      oneAgentResources: {{.Values.classicFullStack.resources | toYaml | nindent 10 }}
+      {{- else if .Values.classicFullStack.oneAgentResources }}
+      oneAgentResources: {{ .Values.classicFullStack.oneAgentResources | toYaml | nindent 10}}
+      {{- end }}
+
+      {{- if and (.Values.classicFullStack.args) (ge (len .Values.classicFullStack.args) (1))}}
+      args: {{ .Values.classicFullStack.args | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if and (.Values.classicFullStack.env) (ge (len .Values.classicFullStack.env) (1))}}
+      env: {{ .Values.classicFullStack.env | toYaml | nindent 10 }}
+      {{- end }}
+
+      {{- if .Values.classicFullStack.priorityClassName }}
+      priorityClassName: {{ .Values.classicFullStack.priorityClassName }}
+      {{- end }}
+
+      {{ if .Values.oneAgent }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+      autoUpdate: {{.Values.oneAgent.autoUpdate}}
+      {{ else if .Values.classicFullStack.autoUpdate }}
+      autoUpdate: {{.Values.classicFullStack.autoUpdate}}
+      {{ else }}
+      autoUpdate: false
+      {{ end }}
+
+      {{- if .Values.classicFullStack.dnsPolicy }}
+      dnsPolicy: {{ .Values.classicFullStack.dnsPolicy }}
+      {{- end }}
+
+      {{- if .Values.classicFullStack.labels }}
+      labels: {{ .Values.classicFullStack.labels | toYaml | nindent 8 }}
       {{- end }}
     {{- end }}
-  {{- end }}
+
 
   {{- if .Values.kubernetesMonitoring.enabled }}
   kubernetesMonitoring:
     enabled: {{ .Values.kubernetesMonitoring.enabled }}
 
+    {{ if .Values.activeGate.image }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+    image: {{.Values.activeGate.image | default "" }}
+    {{ else if .Values.kubernetesMonitoring.image }}
+    image: {{.Values.kubernetesMonitoring.image}}
+    {{ end }}
+
     {{- if .Values.kubernetesMonitoring.replicas }}
     replicas: {{ .Values.kubernetesMonitoring.replicas }}
-    {{- end }}
-
-    {{- if .Values.kubernetesMonitoring.serviceAccountName}}
-    serviceAccountName: {{ .Values.kubernetesMonitoring.serviceAccountName }}
     {{- end }}
 
     {{- if .Values.kubernetesMonitoring.tolerations }}
@@ -234,10 +322,6 @@ spec:
 
     {{- if .Values.kubernetesMonitoring.labels }}
     labels: {{ .Values.kubernetesMonitoring.labels | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if and (.Values.kubernetesMonitoring.args) (ge (len .Values.kubernetesMonitoring.args) (1))}}
-    args: {{ .Values.kubernetesMonitoring.args | toYaml | nindent 8 }}
     {{- end }}
 
     {{- if and (.Values.kubernetesMonitoring.env) (ge (len .Values.kubernetesMonitoring.env) (1))}}
@@ -263,12 +347,14 @@ spec:
   routing:
     enabled: {{ .Values.routing.enabled }}
 
+    {{ if .Values.activeGate.image }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
+    image: {{.Values.activeGate.image | default "" }}
+    {{ else if .Values.routing.image }}
+    image: {{.Values.routing.image}}
+    {{ end }}
+
     {{- if .Values.routing.replicas }}
     replicas: {{ .Values.routing.replicas }}
-    {{- end }}
-
-    {{- if .Values.routing.serviceAccountName}}
-    serviceAccountName: {{ .Values.routing.serviceAccountName }}
     {{- end }}
 
     {{- if .Values.routing.tolerations }}
@@ -285,10 +371,6 @@ spec:
 
     {{- if .Values.routing.labels }}
     labels: {{ .Values.routing.labels | toYaml | nindent 8 }}
-    {{- end }}
-
-    {{- if and (.Values.routing.args) (ge (len .Values.routing.args) (1))}}
-    args: {{ .Values.routing.args | toYaml | nindent 8 }}
     {{- end }}
 
     {{- if and (.Values.routing.env) (ge (len .Values.routing.env) (1))}}
