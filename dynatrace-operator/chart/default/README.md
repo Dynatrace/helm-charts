@@ -86,7 +86,7 @@ To update to the latest version apply the latest version of the CRD attached to 
 
 ### Update between 0.2.3 and 0.3.0
 In version 0.3.0 the CRD changed significantly, so the values.yaml changed to remain consistent with it.
-You can use the `--reuse-values` flag in conjunction with `-f override.yaml` where the fields in the `override.yaml` will overwrite/append the fields that changed.
+You can still use the `--reuse-values` flag and everything will work, however its recommended to either do `-f override.yaml` where the fields in the `override.yaml` will overwrite/append the fields that changed or update your values file.
 
 Here is an example `override.yaml` with all the changes: (several new sections were added, however we don't have to worry about those during the upgrade)
 ```yaml
