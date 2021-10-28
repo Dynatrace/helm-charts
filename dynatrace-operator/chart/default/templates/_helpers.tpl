@@ -59,6 +59,9 @@ Check if default image is used
 {{- end -}}
 {{- end -}}
 
+{{/*
+Check if only 1 oneagent mode is used.
+*/}}
 {{- define "dynatrace-operator.modeSet" -}}
 	{{- $modes := list .Values.cloudNativeFullStack .Values.classicFullStack .Values.hostMonitoring .Values.applicationMonitoring -}}
 	{{- $enabled := dict -}}
@@ -74,6 +77,10 @@ Check if default image is used
 		{{- end -}}
 {{- end -}}
 
+
+{{/*
+Check if the old and new activeGate sections are used at the same time.
+*/}}
 {{- define "dynatrace-operator.activeGateModeSet" -}}
     {{- $enabled := dict -}}
 	{{- if .Values.activeGate }}
