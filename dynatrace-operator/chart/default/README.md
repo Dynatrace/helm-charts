@@ -12,6 +12,12 @@ With v0.2.0 we added the classicFullStack functionality which allows rolling out
 cluster. Furthermore, the Dynatrace Operator is now capable of rolling out a containerized ActiveGate for routing the
 OneAgent traffic.
 
+With v0.3.0 the CRD structure has been changed to provide an easier and more understandable way to deploy Dynatrace in your environment.
+- **routing** and **kubernetesMonitoring** within the Dynakube spec are deprecated now and moved to the **activeGate** section.
+- added **applicationMonitoring** mode, a webhook based injection mechanism for automatic-app-only injection
+- added **hostMonitoring** for only monitoring the host in the cluster without app-only injection
+- (BETA) added **cloudNativeFullStack** mode, which combines **hostMonitoring**, with the webhook based **applicationMonitoring**
+
 This Helm Chart requires Helm 3.
 
 ### Platforms
@@ -19,9 +25,9 @@ Depending on the version of the Dynatrace Operator, it supports the following pl
 
 | Dynatrace Operator Helm Chart version | Kubernetes | OpenShift Container Platform |
 | ------------------------------------- | ---------- | ---------------------------- |
+| v0.3.0                                | 1.20+      | 3.11.188+, 4.7+              |
 | v0.2.2                                | 1.18+      | 3.11.188+, 4.5+              |
 | v0.1.0                                | 1.18+      | 3.11.188+, 4.4+              |
-
 
 ## Quick Start
 
