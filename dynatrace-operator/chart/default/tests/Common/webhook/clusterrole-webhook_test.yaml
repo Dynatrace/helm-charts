@@ -24,6 +24,7 @@ tests:
               - get
               - list
               - watch
+              - update
       - contains:
           path: rules
           content:
@@ -34,3 +35,26 @@ tests:
             verbs:
               - create
               - patch
+      - contains:
+          path: rules
+          content:
+            apiGroups:
+              - ""
+            resources:
+              - secrets
+            verbs:
+              - create
+      - contains:
+          path: rules
+          content:
+            apiGroups:
+              - ""
+            resourceNames:
+              - dynatrace-dynakube-config
+            resources:
+              - secrets
+            verbs:
+              - get
+              - list
+              - watch
+              - update

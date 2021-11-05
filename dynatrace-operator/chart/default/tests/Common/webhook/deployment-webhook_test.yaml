@@ -30,7 +30,7 @@ tests:
                 internal.dynatrace.com/component: webhook
                 internal.dynatrace.com/app: webhook
             strategy:
-              type: Recreate
+              type: RollingUpdate
             template:
               metadata:
                 annotations:
@@ -44,16 +44,6 @@ tests:
                   nodeAffinity:
                     requiredDuringSchedulingIgnoredDuringExecution:
                       nodeSelectorTerms:
-                        - matchExpressions:
-                            - key: beta.kubernetes.io/arch
-                              operator: In
-                              values:
-                                - amd64
-                                - arm64
-                            - key: beta.kubernetes.io/os
-                              operator: In
-                              values:
-                                - linux
                         - matchExpressions:
                             - key: kubernetes.io/arch
                               operator: In
@@ -96,8 +86,8 @@ tests:
                         cpu: 300m
                         memory: 128Mi
                       limits:
-                        cpu: 600m
-                        memory: 256Mi
+                        cpu: 300m
+                        memory: 128Mi
                 serviceAccountName: dynatrace-webhook
 
   - it: should have imagePullSecrets defined in spec
