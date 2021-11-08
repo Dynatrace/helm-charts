@@ -99,3 +99,25 @@ tests:
       - equal:
           path: spec.customPullSecret
           value: test-custom-pull-secret
+
+  - it: should set namespaceSelector
+    set:
+      apiUrl: test-url
+      apiToken: test-token
+      paasToken: test-token
+      namespaceSelector:
+        matchLabels:
+          "key": "value"
+        matchExpression:
+          - {key: test, operator: In, values: [test]}
+    asserts:
+      - isNotNull:
+          path: spec.namespaceSelector
+      - equal:
+          path: spec.namespaceSelector.matchLabels
+          value:
+            "key": "value"
+      - equal:
+          path: spec.namespaceSelector.matchExpression
+          value:
+            - {key: test, operator: In, values: [test]}
