@@ -57,6 +57,10 @@ spec:
   enableIstio: {{ .Values.enableIstio }}
   {{- end }}
 
+  {{- if .Values.namespaceSelector }}
+  namespaceSelector: {{ .Values.namespaceSelector | toYaml | nindent 4 }}
+  {{- end }}
+
   {{- if .Values.activeGate }}
   {{- if .Values.activeGate.capabilities }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
   {{- if ge (len .Values.activeGate.capabilities) 1 }}
@@ -158,10 +162,6 @@ spec:
       {{- if .Values.cloudNativeFullStack.initResources }}
       initResources: {{ .Values.cloudNativeFullStack.initResources | toYaml | nindent 10 }}
       {{- end }}
-
-      {{- if .Values.cloudNativeFullStack.namespaceSelector }}
-      namespaceSelector: {{ .Values.cloudNativeFullStack.namespaceSelector | toYaml | nindent 10 }}
-      {{- end }}
     {{- end }}
     {{- end }}
 
@@ -180,10 +180,6 @@ spec:
 
       {{- if .Values.applicationMonitoring.initResources }}
       initResources: {{ .Values.applicationMonitoring.initResources | toYaml | nindent 10 }}
-      {{- end }}
-
-      {{- if .Values.applicationMonitoring.namespaceSelector }}
-      namespaceSelector: {{ .Values.applicationMonitoring.namespaceSelector | toYaml | nindent 10 }}
       {{- end }}
     {{- end }}
     {{- end }}
