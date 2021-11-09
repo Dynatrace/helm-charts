@@ -207,32 +207,6 @@ tests:
           path: spec.oneAgent.cloudNativeFullStack.labels.test-label
           value: test-value
 
-  - it: should set namespaceSelector
-    set:
-      apiUrl: test-url
-      apiToken: test-token
-      paasToken: test-token
-      classicFullStack.enabled: false
-      cloudNativeFullStack:
-        enabled: true
-        namespaceSelector:
-          matchLabels:
-            "key": "value"
-          matchExpression:
-            - {key: test, operator: In, values: [test]}
-    asserts:
-      - isNotNull:
-          path: spec.oneAgent.cloudNativeFullStack
-      - isNotNull:
-          path: spec.oneAgent.cloudNativeFullStack.namespaceSelector
-      - equal:
-          path: spec.oneAgent.cloudNativeFullStack.namespaceSelector.matchLabels
-          value:
-            "key": "value"
-      - equal:
-          path: spec.oneAgent.cloudNativeFullStack.namespaceSelector.matchExpression
-          value:
-            - {key: test, operator: In, values: [test]}
   - it: should set initResources
     set:
       apiUrl: test-api-url

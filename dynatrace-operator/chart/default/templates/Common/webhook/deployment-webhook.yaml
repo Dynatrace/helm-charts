@@ -1,4 +1,4 @@
-# Copyright 2020 Dynatrace LLC
+# Copyright 2021 Dynatrace LLC
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ spec:
       internal.dynatrace.com/component: webhook
       internal.dynatrace.com/app: webhook
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       annotations:
@@ -43,16 +43,6 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-              - matchExpressions:
-                  - key: beta.kubernetes.io/arch
-                    operator: In
-                    values:
-                      - amd64
-                      - arm64
-                  - key: beta.kubernetes.io/os
-                    operator: In
-                    values:
-                      - linux
               - matchExpressions:
                   - key: kubernetes.io/arch
                     operator: In
@@ -95,8 +85,8 @@ spec:
               cpu: 300m
               memory: 128Mi
             limits:
-              cpu: 600m
-              memory: 256Mi
+              cpu: 300m
+              memory: 128Mi
       serviceAccountName: dynatrace-webhook
       {{- if .Values.operator.customPullSecret }}
       imagePullSecrets:
