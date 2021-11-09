@@ -31,6 +31,7 @@ spec:
       annotations:
         kubectl.kubernetes.io/default-logs-container: driver
       labels:
+        {{- include "dynatrace-operator.labels" . | nindent 8 }}
         internal.oneagent.dynatrace.com/app: csi-driver
         internal.oneagent.dynatrace.com/component: csi-driver
     spec:
