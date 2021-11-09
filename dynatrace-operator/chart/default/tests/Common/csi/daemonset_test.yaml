@@ -2,6 +2,10 @@ suite: test deployment for csi DaemonSet
 templates:
   - Common/csi/daemonset.yaml
 tests:
+  - it: should not exist by default
+    asserts:
+      - hasDocuments:
+          count: 0
 
   - it: should exist in case of cloudNativeFullStack mode
     set:
