@@ -19,10 +19,6 @@
 apiVersion: dynatrace.com/v1beta1
 kind: DynaKube
 metadata:
-  annotations:
-    {{- if ne .Values.platform "google"}}
-    "helm.sh/hook": post-install,post-upgrade
-    {{ end }}
   name: {{ .Values.name }}
   namespace: {{ .Release.Namespace }}
   labels:
