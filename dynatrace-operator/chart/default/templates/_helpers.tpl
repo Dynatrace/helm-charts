@@ -79,6 +79,23 @@ Check if only 1 oneagent mode is used.
 
 
 {{/*
+Check if we need the csi driver.
+*/}}
+{{- define "dynatrace-operator.needCSI" -}}
+	{{- if .Values.cloudNativeFullStack -}}
+	  {{- if .Values.cloudNativeFullStack.enabled -}}
+		{{- printf "true" -}}
+	  {{- end -}}
+	{{- end -}}
+	{{- if .Values.applicationMonitoring -}}
+	  {{- if and .Values.applicationMonitoring.enabled .Values.applicationMonitoring.useCSIDriver -}}
+		{{- printf "true" -}}
+	  {{- end -}}
+	{{- end -}}
+{{- end -}}
+
+
+{{/*
 Check if the old and new activeGate sections are used at the same time.
 */}}
 {{- define "dynatrace-operator.activeGateModeSet" -}}
