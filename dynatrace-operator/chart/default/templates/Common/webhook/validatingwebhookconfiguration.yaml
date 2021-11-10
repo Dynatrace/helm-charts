@@ -31,7 +31,6 @@ webhooks:
         path: /validate
     rules:
       - operations:
-          - CREATE
           - UPDATE
         apiGroups:
           - dynatrace.com
