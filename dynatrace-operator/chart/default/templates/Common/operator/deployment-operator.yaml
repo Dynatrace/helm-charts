@@ -94,7 +94,6 @@ spec:
                     operator: In
                     values:
                       - linux
-            {{ end }}
       serviceAccountName: {{ .Release.Name }}
       {{- if .Values.operator.customPullSecret }}
       imagePullSecrets:
