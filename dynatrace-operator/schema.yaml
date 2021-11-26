@@ -15,17 +15,15 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "0.2.1"
+  publishedVersion: "0.3.0"
   publishedVersionMetadata:
     releaseNote: >-
-      v0.2.1
+      v0.3.0
 
       Features
-      * classicFullStack - The Dynatrace Operator now supports rolling out a fullstack agent
-      * routing - The Dynatrace Operator now supports rolling out a containerized ActiveGate to route the agent traffic
-
-      Bug fixes
-      * Fixed a bug where setting resource limits for routing did not work
+      * applicationMonitoring - The Dynatrace Operator now supports a webhook based injection mechanism for automatic-app-only injection
+      * hostMonitoring - The Dynatrace Operator now supports only monitoring the host in the cluster without app-only injection
+      * cloudNativeFullStack - combination of applicationMonitoring and hostMonitoring
     releaseTypes:
       - Feature
     recommended: true

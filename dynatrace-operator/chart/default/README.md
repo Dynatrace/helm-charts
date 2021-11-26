@@ -19,6 +19,7 @@ Depending on the version of the Dynatrace Operator, it supports the following pl
 
 | Dynatrace Operator Helm Chart version | Kubernetes | OpenShift Container Platform |
 | ------------------------------------- | ---------- | ---------------------------- |
+| v0.3.0                                | 1.20+      | 4.7+                         |
 | v0.2.2                                | 1.18+      | 3.11.188+, 4.5+              |
 | v0.1.0                                | 1.18+      | 3.11.188+, 4.4+              |
 
@@ -57,13 +58,6 @@ helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set 
 oc adm new-project --node-selector="" dynatrace
 oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
-```
-
-#### OpenShift 3.11
-```console
-oc adm new-project --node-selector="" dynatrace
-oc apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes-v1beta1.yaml
-helm install dynatrace-operator dynatrace/dynatrace-operator -n dynatrace --set platform="openshift-3-11",apiUrl="https://ENVIRONMENTID.live.dynatrace.com/api",apiToken="DYNATRACE_API_TOKEN",paasToken="PLATFORM_AS_A_SERVICE_TOKEN"
 ```
 
 This will automatically install the Dynatrace Operator, create a containerized ActiveGate and deploy classicFullStack OneAgents.

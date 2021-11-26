@@ -26,7 +26,7 @@ metadata:
 spec:
   descriptor:
     type: "Dynatrace Operator"
-    version: "0.2.1"
+    version: "0.3.0"
     maintainers:
       - name: Dynatrace LLC
         url: https://www.dynatrace.com/
