@@ -270,11 +270,9 @@ spec:
 
       {{ if .Values.oneAgent }} {{/* For compatibility between 0.2.3 and 0.3.0 */}}
       autoUpdate: {{.Values.oneAgent.autoUpdate}}
-      {{ else if .Values.classicFullStack.autoUpdate }}
-      autoUpdate: {{.Values.classicFullStack.autoUpdate}}
       {{ else }}
-      autoUpdate: false
-      {{ end }}
+      autoUpdate: {{.Values.classicFullStack.autoUpdate}}
+      {{- end }}
 
       {{- if .Values.classicFullStack.dnsPolicy }}
       dnsPolicy: {{ .Values.classicFullStack.dnsPolicy }}
