@@ -47,7 +47,7 @@ classicFullStack:
   enabled: true
   image: ""
   version: ""
-  nodeSelector: ""
+  nodeSelector: {}
   tolerations: [ ]
   oneAgentResources: { }
   args: []
@@ -61,7 +61,7 @@ cloudNativeFullStack:
   enabled: false
   version: ""
   initResources: {}
-  nodeSelector: ""
+  nodeSelector: {}
   tolerations: [ ]
   oneAgentResources: { }
   args: []
@@ -82,7 +82,7 @@ hostMonitoring:
   enabled: false
   image: ""
   version: ""
-  nodeSelector: ""
+  nodeSelector: {}
   tolerations: [ ]
   oneAgentResources: { }
   args: []
@@ -102,7 +102,7 @@ activeGate:
     value: ""
     valueFrom: ""
   resources: { }
-  nodeSelector: ""
+  nodeSelector: {}
   tolerations: [ ]
   labels: ""
   env: [ ]
@@ -118,7 +118,7 @@ kubernetesMonitoring:
     value: ""
     valueFrom: ""
   resources: { }
-  nodeSelector: ""
+  nodeSelector: {}
   tolerations: []
   labels: ""
   env: []
@@ -133,7 +133,7 @@ routing:
     value: ""
     valueFrom: ""
   resources: { }
-  nodeSelector: ""
+  nodeSelector: {}
   tolerations: [ ]
   labels: ""
   env: [ ]
