@@ -37,7 +37,7 @@ operator:
   image: ""
   customPullSecret: ""
   nodeSelector: {}
-  tolerations: {}
+  tolerations: []
 
 createSecurityContextConstraints: true # Only applicable for Openshift
 
@@ -48,8 +48,8 @@ classicFullStack:
   image: ""
   version: ""
   nodeSelector: {}
-  tolerations: [ ]
-  oneAgentResources: { }
+  tolerations: []
+  oneAgentResources: {}
   args: []
   env: []
   autoUpdate: true
@@ -62,8 +62,8 @@ cloudNativeFullStack:
   version: ""
   initResources: {}
   nodeSelector: {}
-  tolerations: [ ]
-  oneAgentResources: { }
+  tolerations: []
+  oneAgentResources: {}
   args: []
   env: []
   autoUpdate: true
@@ -83,8 +83,8 @@ hostMonitoring:
   image: ""
   version: ""
   nodeSelector: {}
-  tolerations: [ ]
-  oneAgentResources: { }
+  tolerations: []
+  oneAgentResources: {}
   args: []
   env: []
   autoUpdate: true
@@ -101,11 +101,11 @@ activeGate:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
+  resources: {}
   nodeSelector: {}
-  tolerations: [ ]
+  tolerations: []
   labels: ""
-  env: [ ]
+  env: []
   tlsSecretName: ""
 
 # deprecated
@@ -117,7 +117,7 @@ kubernetesMonitoring:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
+  resources: {}
   nodeSelector: {}
   tolerations: []
   labels: ""
@@ -132,8 +132,8 @@ routing:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
+  resources: {}
   nodeSelector: {}
-  tolerations: [ ]
+  tolerations: []
   labels: ""
-  env: [ ]
+  env: []
