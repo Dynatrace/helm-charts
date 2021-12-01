@@ -63,3 +63,11 @@ rules:
       - get
       - update
       - create
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+    verbs:
+      - list
+      - watch
+{{end}}

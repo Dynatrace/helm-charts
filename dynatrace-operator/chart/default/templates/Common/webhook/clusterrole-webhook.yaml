@@ -42,13 +42,45 @@ rules:
     verbs:
       - create
   - apiGroups:
-    - ""
+      - ""
     resources:
       - secrets
     resourceNames:
       - dynatrace-dynakube-config
+      - dynatrace-data-ingest-endpoint
     verbs:
       - get
       - list
       - watch
       - update
+  # data-ingest workload owner lookup
+  - apiGroups:
+      - ""
+    resources:
+      - replicationcontrollers
+    verbs:
+      - get
+  - apiGroups:
+      - apps
+    resources:
+      - replicasets
+      - statefulsets
+      - daemonsets
+      - deployments
+    verbs:
+      - get
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - get
+  - apiGroups:
+      - apps.openshift.io
+    resources:
+      - deploymentconfigs
+    verbs:
+      - get
+
+{{end}}
