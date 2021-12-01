@@ -20,7 +20,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "dynatrace-operator.commonlabelswebhook" . | nindent 4 }}
-    dynatrace.com/operator: dynakube
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -33,7 +32,7 @@ spec:
   template:
     metadata:
       annotations:
-        kubectl.kubernetes.io/default-logs-container: webhook
+        kubectl.kubernetes.io/default-container: webhook
       labels:
         dynatrace.com/operator: oneagent
         internal.dynatrace.com/component: webhook
