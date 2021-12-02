@@ -62,6 +62,13 @@ tests:
                 - get
                 - update
                 - create
+            - apiGroups:
+                - apps
+              resources:
+                - daemonsets
+              verbs:
+                - list
+                - watch
   - it: should exist on openshift
     set:
       platform: openshift
@@ -122,3 +129,10 @@ tests:
                 - get
                 - update
                 - create
+            - apiGroups:
+                - apps
+              resources:
+                - daemonsets
+              verbs:
+                - list
+                - watch

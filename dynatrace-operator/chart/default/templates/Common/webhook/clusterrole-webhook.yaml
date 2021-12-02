@@ -82,5 +82,3 @@ rules:
       - deploymentconfigs
     verbs:
       - get
-
-{{end}}
