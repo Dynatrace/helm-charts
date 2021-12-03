@@ -20,7 +20,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "dynatrace-operator.commonlabelswebhook" . | nindent 4 }}
-    dynatrace.com/operator: dynakube
 spec:
   replicas: 1
   revisionHistoryLimit: 1
