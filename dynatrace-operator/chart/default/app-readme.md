@@ -12,4 +12,4 @@ Please make sure the CRD is applied before using this chart!
 kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/dynatrace.com_dynakubes.yaml
 ```
 
-To apply the CRD for Openshift or Openshift 3.11 follow the instructions in the [Github Repository](https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-operator/chart/default#chart-installation).
+To apply the CRD for Openshift follow the instructions in the [Github Repository](https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-operator/chart/default#chart-installation).
