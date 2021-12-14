@@ -34,6 +34,17 @@ spec:
         name: {{ .Release.Name }}
         {{- include "dynatrace-operator.labels" . | nindent 8 }}
     spec:
+      securityContext:
+        # run container under uid 1000 (user id) and gid 1000 (group id)
+        # file access group for uid 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        supplementalGroups: [1000]
+        # enforce containers not to run as root
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: {{ .Release.Name }}
           args:
@@ -41,6 +52,15 @@ spec:
           # Replace this with the built image name
           image: {{- include "dynatrace-operator.image" . | nindent 12 }}
           imagePullPolicy: Always
+          securityContext:
+            # run container with readonly root filesystem (volumes are not affected)
+            readOnlyRootFilesystem: false
+            # enforce container not to run as root
+            runAsNonRoot: true
+            # don't allow suid/sgid binaries/calls (default: false)
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
           env:
             - name: POD_NAMESPACE
               valueFrom:
