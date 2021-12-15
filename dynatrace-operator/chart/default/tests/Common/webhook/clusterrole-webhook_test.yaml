@@ -51,6 +51,7 @@ tests:
               - ""
             resourceNames:
               - dynatrace-dynakube-config
+              - dynatrace-data-ingest-endpoint
             resources:
               - secrets
             verbs:
@@ -58,3 +59,43 @@ tests:
               - list
               - watch
               - update
+      - contains:
+          path: rules
+          content:
+            apiGroups:
+              - ""
+            resources:
+              - replicationcontrollers
+            verbs:
+              - get
+      - contains:
+          path: rules
+          content:
+            apiGroups:
+              - apps
+            resources:
+              - replicasets
+              - statefulsets
+              - daemonsets
+              - deployments
+            verbs:
+              - get
+      - contains:
+          path: rules
+          content:
+            apiGroups:
+              - batch
+            resources:
+              - jobs
+              - cronjobs
+            verbs:
+              - get
+      - contains:
+          path: rules
+          content:
+            apiGroups:
+              - apps.openshift.io
+            resources:
+              - deploymentconfigs
+            verbs:
+              - get
