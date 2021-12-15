@@ -37,7 +37,7 @@ operator:
   image: ""
   customPullSecret: ""
   nodeSelector: {}
-  tolerations: {}
+  tolerations: []
 
 createSecurityContextConstraints: true # Only applicable for Openshift
 
@@ -47,29 +47,29 @@ classicFullStack:
   enabled: true
   image: ""
   version: ""
-  nodeSelector: ""
-  tolerations: [ ]
-  oneAgentResources: { }
+  nodeSelector: {}
+  tolerations: []
+  oneAgentResources: {}
   args: []
   env: []
   autoUpdate: true
   priorityClassName: ""
   dnsPolicy: ""
-  labels: ""
+  labels: {}
 
 cloudNativeFullStack:
   enabled: false
   version: ""
   initResources: {}
-  nodeSelector: ""
-  tolerations: [ ]
-  oneAgentResources: { }
+  nodeSelector: {}
+  tolerations: []
+  oneAgentResources: {}
   args: []
   env: []
   autoUpdate: true
   priorityClassName: ""
   dnsPolicy: ""
-  labels: ""
+  labels: {}
 
 applicationMonitoring:
   enabled: false
@@ -83,14 +83,14 @@ hostMonitoring:
   image: ""
   version: ""
   nodeSelector: ""
-  tolerations: [ ]
-  oneAgentResources: { }
+  tolerations: []
+  oneAgentResources: {}
   args: []
   env: []
   autoUpdate: true
   priorityClassName: ""
   dnsPolicy: ""
-  labels: ""
+  labels: {}
 
 
 activeGate:
@@ -101,11 +101,11 @@ activeGate:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
-  nodeSelector: ""
-  tolerations: [ ]
-  labels: ""
-  env: [ ]
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  labels: {}
+  env: []
   tlsSecretName: ""
 
 # deprecated
@@ -117,10 +117,10 @@ kubernetesMonitoring:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
-  nodeSelector: ""
+  resources: {}
+  nodeSelector: {}
   tolerations: []
-  labels: ""
+  labels: {}
   env: []
 
 # deprecated
@@ -132,8 +132,8 @@ routing:
   customProperties:
     value: ""
     valueFrom: ""
-  resources: { }
-  nodeSelector: ""
-  tolerations: [ ]
-  labels: ""
-  env: [ ]
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  labels: {}
+  env: []
