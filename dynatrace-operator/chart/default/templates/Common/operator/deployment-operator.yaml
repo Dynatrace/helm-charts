@@ -82,10 +82,10 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 64Mi
+              memory: {{ .Values.operator.memory.requests }}
             limits:
               cpu: 100m
-              memory: 128Mi
+              memory: {{ .Values.operator.memory.limits }}
           readinessProbe:
             httpGet:
               path: /healthz

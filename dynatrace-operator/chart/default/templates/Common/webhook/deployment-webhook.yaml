@@ -102,10 +102,10 @@ spec:
           resources:
             requests:
               cpu: 300m
-              memory: 128Mi
+              memory: {{ .Values.operator.memory.requests }}
             limits:
               cpu: 300m
-              memory: 128Mi
+              memory: {{ .Values.operator.memory.limits }}
       serviceAccountName: dynatrace-webhook
       {{- if .Values.operator.customPullSecret }}
       imagePullSecrets:

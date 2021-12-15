@@ -38,6 +38,9 @@ operator:
   customPullSecret: ""
   nodeSelector: {}
   tolerations: {}
+  memory:
+    requests: 128Mi
+    limits: 128Mi
 
 createSecurityContextConstraints: true # Only applicable for Openshift
 
