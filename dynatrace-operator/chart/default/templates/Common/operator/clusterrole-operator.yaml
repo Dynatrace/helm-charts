@@ -42,6 +42,7 @@ rules:
       - secrets
     verbs:
       - create
+      - delete
   - apiGroups:
       - ""
     resources:
