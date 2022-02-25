@@ -3,10 +3,20 @@
 Here you will find helm charts for installing Dynatrace components on Kubernetes. For generic information about Helm Charts refer to [the Helm GitHub repository](https://github.com/helm/charts).
 
 ## dynatrace-operator chart
-The Helm chart for the dynatrace-operator lives [here](https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-operator/chart/default).
+> This repository is updated for backwards compatibility, the new helm repository is located in the [dynatrace-operator](https://github.com/Dynatrace/dynatrace-operator) repository.
+
+The Helm chart for the dynatrace-operator is located in the [dynatrace-operator repository](https://github.com/Dynatrace/dynatrace-operator/tree/master/config/helm/chart/default).
+
+You can move to the new helm repository with the following commands:
+1. Update the repo url
+```
+helm repo remove dynatrace
+helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/helm/repos/stable
+```
+2. Install a new version or upgrade from an existing version by following the instructions on the [dynatrace-operator Release page](https://github.com/Dynatrace/dynatrace-operator/releases)
 
 #### GKE
-The GKE chart for the dynatrace-operator lives [here](https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-operator/).
+The GKE chart for the dynatrace-operator is located in the [dynatrace-operator repository](https://github.com/Dynatrace/dynatrace-operator/tree/master/config/helm).
 
 ## dynatrace-oneagent-operator chart
 
@@ -17,4 +27,4 @@ The GKE chart for the dynatrace-operator lives [here](https://github.com/Dynatra
 The Helm chart for the dynatrace-oneagent-operator lives [here](https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-oneagent-operator/chart/default).
 
 #### GKE
-The GKE chart for the dynatrace-operator lives [here](https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-oneagent-operator/).
+The GKE chart for the dynatrace-oneagent-operator lives [here](https://github.com/Dynatrace/helm-charts/tree/master/dynatrace-oneagent-operator/).
