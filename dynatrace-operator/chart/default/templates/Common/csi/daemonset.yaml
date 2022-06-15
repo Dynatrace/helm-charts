@@ -160,6 +160,10 @@ spec:
       securityContext: {}
       serviceAccount: dynatrace-oneagent-csi-driver
       serviceAccountName: dynatrace-oneagent-csi-driver
+      {{- if .Values.operator.customPullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.operator.customPullSecret }}
+      {{- end }}
       terminationGracePeriodSeconds: 30
       volumes:
       - hostPath:
