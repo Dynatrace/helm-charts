@@ -20,6 +20,7 @@ apiVersion: dynatrace.com/v1beta1
 kind: DynaKube
 metadata:
   annotations:
+    "feature.dynatrace.com/automatic-kubernetes-api-monitoring": true
     {{- if ne .Values.platform "google"}}
     "helm.sh/hook": post-install,post-upgrade
     {{ end }}
