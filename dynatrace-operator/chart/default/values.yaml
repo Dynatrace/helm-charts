@@ -46,6 +46,7 @@ operator:
     memory: 128Mi
 
 webhook:
+  tolerations: []
   requests:
     cpu: 300m
     memory: 128Mi

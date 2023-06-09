@@ -90,3 +90,6 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.operator.customPullSecret }}
       {{- end }}
+      {{- if .Values.operator.tolerations }}
+      tolerations: {{- toYaml .Values.webhook.tolerations | nindent 8 }}
+      {{- end -}}
