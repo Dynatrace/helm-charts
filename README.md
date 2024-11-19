@@ -5,7 +5,7 @@ Here you will find helm charts for installing Dynatrace components on Kubernetes
 ## dynatrace-operator chart
 > This repository is updated for backwards compatibility, the new helm repository is located in the [dynatrace-operator](https://github.com/Dynatrace/dynatrace-operator) repository.
 
-The Helm chart for the dynatrace-operator is located in the [dynatrace-operator repository](https://github.com/Dynatrace/dynatrace-operator/tree/master/config/helm/chart/default).
+The Helm chart for the dynatrace-operator is located in the [dynatrace-operator repository](https://github.com/Dynatrace/dynatrace-operator/tree/main/config/helm/chart/default).
 
 You can move to the new helm repository with the following commands:
 1. Update the repo url
@@ -16,7 +16,7 @@ helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-op
 2. Install a new version or upgrade from an existing version by following the instructions on the [dynatrace-operator Release page](https://github.com/Dynatrace/dynatrace-operator/releases)
 
 #### GKE
-The GKE chart for the dynatrace-operator is located in the [dynatrace-operator repository](https://github.com/Dynatrace/dynatrace-operator/tree/master/config/helm).
+The GKE chart for the dynatrace-operator is located in the [dynatrace-operator repository](https://github.com/Dynatrace/dynatrace-operator/tree/main/config/helm).
 
 ## dynatrace-oneagent-operator chart
 
