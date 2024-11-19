@@ -11,7 +11,7 @@ You can move to the new helm repository with the following commands:
 1. Update the repo url
 ```
 helm repo remove dynatrace
-helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/helm/repos/stable
+helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/main/config/helm/repos/stable
 ```
 2. Install a new version or upgrade from an existing version by following the instructions on the [dynatrace-operator Release page](https://github.com/Dynatrace/dynatrace-operator/releases)
 
