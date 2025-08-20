@@ -15,6 +15,11 @@
 # may be set to "kubernetes", "openshift", "google"
 platform: "kubernetes"
 
+serviceAccounts: 
+  dynatraceKubernetesMonitoring:
+    annotations: {} # optionally add annotations for SA - useful for setting AWS IAM roles
+      # eks.amazonaws.com/role-arn: arn:aws:iam::<accntid>:role/<roleName>
+
 ### base properties
 
 name: "dynakube"
