@@ -1,6 +1,6 @@
 # helm-charts
 
-Here you will find helm charts for installing Dynatrace components on Kubernetes. For generic information about Helm Charts refer to [the Helm GitHub repository](https://github.com/helm/charts).
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Dynatrace/helm-charts/badge)](https://scorecard.dev/viewer/?uri=github.com/Dynatrace/helm-charts)
 
 ## dynatrace-operator chart
 > This repository is updated for backwards compatibility, the new helm repository is located in the [dynatrace-operator](https://github.com/Dynatrace/dynatrace-operator) repository.
