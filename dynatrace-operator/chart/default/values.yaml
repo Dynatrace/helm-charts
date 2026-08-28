@@ -33,6 +33,8 @@ autoCreateSecret: true
 apiToken: ""
 paasToken: ""
 
+### Token can be used to if autoCreateSecret: false and you want to create secret manually without revealing token in values.yaml or you want to use sealedsecrets.
+tokens: 
 operator:
   image: ""
   customPullSecret: ""
